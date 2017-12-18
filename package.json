@@ -1,0 +1,19 @@
+{
+  "name": "finndiff",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karl-run/finndiff.git"
+  },
+  "author": "Karl J. Overå",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/karl-run/finndiff/issues"
+  },
+  "homepage": "https://github.com/karl-run/finndiff#readme"
+}
