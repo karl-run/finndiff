@@ -1,18 +1,20 @@
-var express = require('express');
-var graphqlHTTP = require('express-graphql');
-var { buildSchema } = require('graphql');
+const express = require('express');
+const graphqlHTTP = require('express-graphql');
+const { buildSchema } = require('graphql');
+
+const { version } = require('../../package.json')
 
 // Construct a schema, using GraphQL schema language
-var schema = buildSchema(`
+const schema = buildSchema(`
   type Query {
-    hello: String
+    version: String
   }
 `);
 
 // The root provides a resolver function for each API endpoint
-var root = {
-    hello: () => {
-        return 'Hello world!';
+const root = {
+    version: () => {
+        return version;
     },
 };
 
