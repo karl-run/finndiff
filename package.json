@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "now-start": "cd web && npm run build && cd .. && cd api && npm run start",    
+    "postinstall": "cd web && npm i && mkdir build && cd ../api && npm i",
+    "now-build": "cd web && npm run build",
+    "now-start": "cd api && npm run start",
+    "dev-web": "cd web && npm run start",
+    "dev-api": "cd api && npm run dev",
+    "dev": "run-p dev-api dev-web",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/karl-run/finndiff/issues"
   },
-  "homepage": "https://github.com/karl-run/finndiff#readme"
+  "homepage": "https://github.com/karl-run/finndiff#readme",
+  "devDependencies": {
+    "npm-run-all": "^4.1.2"
+  }
 }

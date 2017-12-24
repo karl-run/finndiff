@@ -20,5 +20,6 @@
     "@types/node": "^8.5.2",
     "@types/react": "^16.0.31",
     "@types/react-dom": "^16.0.3"
-  }
+  },
+  "proxy": "http://localhost:4000"
 }
