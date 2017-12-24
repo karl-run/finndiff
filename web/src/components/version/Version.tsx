@@ -3,6 +3,8 @@ import { graphql } from 'react-apollo';
 
 import { versionQuery } from '../../apollo/queries';
 
+import './Version.css';
+
 interface Props {
   data: {
     version: string,
@@ -14,7 +16,7 @@ class Version extends React.PureComponent<Props> {
     const { data } = this.props;
 
     return (
-      <div>Version: {data.version}</div>
+      <div className="version">Version: {data.version}</div>
     );
   }
 }
