@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "cd web && npm i && mkdir build && cd ../api && npm i",
+    "postinstall": "cd web && npm i && cd ../api && npm i",
     "now-build": "cd web && npm run build",
     "now-start": "cd api && npm run start",
     "dev-web": "cd web && npm run start",
