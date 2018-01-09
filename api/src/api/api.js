@@ -36,8 +36,12 @@ module.exports = {
   init,
 }
 
-// Execute test query:
+// TODO: For debugging only
 graphql(schema, '{ singleAd } ', root).then((response) => {
+  if (response.errors) {
+    log.error(response.errors);
+  }
+
   log.debug(response.data);
 }).catch((err) => {
   log.error(err);

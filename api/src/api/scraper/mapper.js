@@ -1,11 +1,16 @@
 const mapSingleToResponse = (window) => {
-  log.debug("in map single", window.document.body.children);
+  const elemenst = window.document.querySelector('body > div.container.bg-ice.pbs > div > div.line > div.unit.r-size2of3 > div > div > div').children;
+  log.warn(elemenst);
+  for(let i = 0; i < elemenst.length; i++) {
+    log.debug(elemenst[i].textContent)
+  }
+
   return 'single';
 }
 
 const mapErrorToResponse = (response) => {
-  console.log('we error now');
-  console.log(response)
+  // TODO map error
+  log.error(response);
   return 'error';
 }
 
