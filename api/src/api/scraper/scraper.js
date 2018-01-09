@@ -4,12 +4,16 @@ const { JSDOM } = jsdom;
 
 const { mapSingleToResponse, mapErrorToResponse } = require('./mapper');
 
+const virtualConsole = new jsdom.VirtualConsole();
 const root_url = 'https://www.finn.no/realestate/homes/ad.html?finnkode=';
 
 const singleAd = (finnCode) => {
-  return request(root_url + finnCode)
+  const url = root_url + finnCode;
+  log.info(`Requesting ${url}`);
+  return request(url)
     .then((response) => {
-      return new JSDOM(response).window;
+      const dom = new JSDOM(response, { runScripts: "dangerously", virtualConsole });
+      return dom.window;
     })
     .then(mapSingleToResponse)
     .catch(mapErrorToResponse)

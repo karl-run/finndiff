@@ -1,6 +1,7 @@
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const { buildSchema } = require('graphql');
+const { graphql } = require('graphql');
 
 const scraper = require('./scraper/scraper');
 const { version } = require('../../package.json')
@@ -34,3 +35,10 @@ const init = app => {
 module.exports = {
   init,
 }
+
+// Execute test query:
+graphql(schema, '{ singleAd } ', root).then((response) => {
+  log.debug(response.data);
+}).catch((err) => {
+  log.error(err);
+});

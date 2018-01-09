@@ -1,5 +1,5 @@
 const mapSingleToResponse = (window) => {
-  console.log(window.document.body);
+  log.debug("in map single", window.document.body.children);
   return 'single';
 }
 
