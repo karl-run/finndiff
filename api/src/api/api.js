@@ -20,6 +20,7 @@ const root = {
     return version;
   },
   singleAd: () => {
+    scraper.singleAd('112115083');
     return scraper.singleAd('103975107');
   },
   adHistory: () => {
@@ -38,13 +39,13 @@ const init = app => {
   );
 
   // TODO: For debugging only
-  graphql(schema, '{ adHistory } ', root)
+  graphql(schema, '{ singleAd } ', root)
     .then(response => {
       if (response.errors) {
         log.error(response.errors);
       }
 
-      log.debug(response.data);
+      //log.debug(response.data);
     })
     .catch(err => {
       log.error(err);
