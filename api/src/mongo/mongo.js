@@ -5,6 +5,10 @@ const { logError } = require('./mongoError');
 const dbName = 'finndiff';
 const url = process.env.MONGO_URL;
 
+if (!url) {
+  throw Error("No MONGO_URL provided");
+}
+
 let db;
 let ads;
 
