@@ -8,10 +8,19 @@ const scraper = require('../scraper/scraper');
 const { version } = require('../../package.json');
 
 const schema = buildSchema(`
+  type Ad {
+    tittel: String
+    adresse: String
+    pris: Int
+    omkostninger: String
+    matrikkelinf: String
+  }
+
   type Query {
     version: String
     singleAd: String
     adHistory: String
+    rawAd(id: String!): Ad!
   }
 `);
 
@@ -25,6 +34,9 @@ const root = {
   },
   adHistory: () => {
     return findAdData();
+  },
+  rawAd: ({ id }) => {
+    return scraper.singleAd(id);
   }
 };
 

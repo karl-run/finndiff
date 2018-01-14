@@ -16,16 +16,13 @@ const jsdomOptions = {
 
 const singleAd = finnCode => {
   const url = root_url + finnCode;
+
   log.info(`Requesting ${url}`);
+
   return JSDOM.fromURL(url)
     .then(dom => dom.window)
     .then(mapSingleToResponse)
     .catch(mapErrorToResponse);
-
-  return request(url).then(response => {
-    const dom = new JSDOM(response, jsdomOptions);
-    return dom.window;
-  });
 };
 
 module.exports = {

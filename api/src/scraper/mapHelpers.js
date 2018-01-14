@@ -35,7 +35,11 @@ const keyifyHeader = text => {
   if (text == null) return null;
   return text
     .trim()
-    .replace(/\s|'|"/g, '-')
+    .replace(/\s/g, '-')
+    .replace(/'|"/g, '')
+    .replace(/æ/g, 'ae')
+    .replace(/ø/g, 'oe')
+    .replace(/å/g, 'aa')
     .toLowerCase();
 };
 
@@ -51,7 +55,7 @@ const mapDescriptiveListToMap = ddList => {
   const map = {};
 
   for (let i = 0; i < ddList.length; i += 2) {
-    map[cleanCostString(ddList[i].textContent)] = numberIfNotString(ddList[i + 1].textContent);
+    map[keyifyHeader(cleanCostString(ddList[i].textContent))] = numberIfNotString(ddList[i + 1].textContent);
   }
 
   return map;

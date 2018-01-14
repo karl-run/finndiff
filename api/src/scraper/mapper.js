@@ -20,21 +20,28 @@ const mapSingleToResponse = window => {
     tittel: selectValue(infoSection, 'h1'),
     adresse: selectValue(infoSection, 'p:nth-of-type(1)'),
     pris: selectValue(infoSection, 'dl:nth-of-type(1) dd', [cleanNumber]),
-    ...mapDescriptiveListToMap(selectSection(infoSection, 'dl:nth-of-type(2)').children),
-    ...mapDescriptiveListToMap(selectSection(infoSection, 'dl:nth-of-type(3)').children),
-    ...pullOutAndMapGenericSections(selectAll(infoSection, 'div.object-description')),
+    prisDetaljer: mapDescriptiveListToMap(selectSection(infoSection, 'dl:nth-of-type(2)').children),
+    leilighetsDetaljer: mapDescriptiveListToMap(selectSection(infoSection, 'dl:nth-of-type(3)').children),
+    generelleSeksjoner: pullOutAndMapGenericSections(selectAll(infoSection, 'div.object-description')),
     omkostninger: selectValue(infoSection, '#omkostninger'),
-    matrikkelinfo: selectValue(infoSection, '#matrikkelinfo'),
+    matrikkelinformasjon: selectValue(infoSection, '#matrikkelinfo')
   };
 
-  //log.info('\n', util.inspect(adContent, false, null));
+  log.info('\n', util.inspect(adContent, false, null));
 
-  // TODO don't stringify
-  return JSON.stringify(adContent);
+  console.log('----');
+  Object.keys(adContent).forEach(console.log);
+
+  return adContent;
 };
 
 const mapErrorToResponse = error => {
-  log.error(error.message);
+  log.error('An error occured');
+  log.error(`Error code ${error.statusCode}`);
+  if (error.response && typeof error.response.body === 'string') {
+    log.error(error.response.body);
+  }
+
   return 'An error occured';
 };
 
