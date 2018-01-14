@@ -1,16 +1,16 @@
-const request = require("request-promise");
-const jsdom = require("jsdom");
+const request = require('request-promise');
+const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
-const { mapSingleToResponse, mapErrorToResponse } = require("./mapper");
+const { mapSingleToResponse, mapErrorToResponse } = require('./mapper');
 
-const root_url = "https://www.finn.no/realestate/homes/ad.html?finnkode=";
+const root_url = 'https://www.finn.no/realestate/homes/ad.html?finnkode=';
 const virtualConsole = new jsdom.VirtualConsole();
 const jsdomOptions = {
-  contentType: "text/html",
-  userAgent: "Mozilla/5.0 (Windows NT 6.1) PlsÅpneAPIetForAlle (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
+  contentType: 'text/html',
+  userAgent: 'Mozilla/5.0 (Windows NT 6.1) PlsÅpneAPIetForAlle (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
   includeNodeLocations: true,
-  runScripts: "dangerously",
+  runScripts: 'dangerously',
   virtualConsole
 };
 

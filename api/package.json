@@ -15,11 +15,12 @@
     "express-graphql": "^0.6.11",
     "graphql": "^0.12.3",
     "jsdom": "^11.5.1",
+    "mongodb": "^3.0.1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "winston": "^2.4.0"
   },
   "devDependencies": {
-    "nodemon": "^1.14.3"
+    "nodemon": "^1.14.11"
   }
 }
