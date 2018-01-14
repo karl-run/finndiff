@@ -21,6 +21,7 @@ mongo
 
     log.info('Started server on port ' + (process.env.PORT || DEFAULT_PORT));
   })
-  .catch(() => {
+  .catch((error) => {
     log.error('Unable to connect to mongodb, exiting application.');
+    console.log(error);
   });

@@ -27,10 +27,9 @@ const mapSingleToResponse = window => {
     matrikkelinformasjon: selectValue(infoSection, '#matrikkelinfo')
   };
 
-  log.info('\n', util.inspect(adContent, false, null));
-
-  console.log('----');
-  Object.keys(adContent).forEach(console.log);
+  //log.info('\n', util.inspect(adContent, false, null));
+  //console.log('----');
+  //Object.keys(adContent).forEach(console.log);
 
   return adContent;
 };
