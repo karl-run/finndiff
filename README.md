@@ -1,4 +1,4 @@
-# finndiff
+# finndiff [![Build Status](https://travis-ci.org/karl-run/finndiff.svg?branch=master)](https://travis-ci.org/karl-run/finndiff)
 
 ## Development
 
