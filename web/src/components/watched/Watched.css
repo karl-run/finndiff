@@ -1,0 +1,13 @@
+.watched-root {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  padding: 8px;
+  background-color: lightblue;
+  height: 100%;
+  width: 10%;
+}
+
+.watched-root li {
+  list-style: none;
+}

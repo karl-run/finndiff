@@ -1,11 +1,13 @@
-import * as React from 'react';
+// @flow
+
+import React from 'react';
 import { graphql } from 'react-apollo';
 
 import { versionQuery } from '../../apollo/queries';
 
 import './Version.css';
 
-interface Props {
+type Props = {
   data: {
     version: string,
   };
@@ -21,10 +23,6 @@ class Version extends React.PureComponent<Props> {
   }
 }
 
-interface Response {
-  version: string;
-}
-
-const withVersion = graphql<Response, {}, Props>(versionQuery);
+const withVersion = graphql(versionQuery);
 
 export default withVersion(Version);

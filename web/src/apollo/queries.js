@@ -5,3 +5,9 @@ export const versionQuery = gql`
     version
   }
 `;
+
+export const watchedQuery = gql`
+  query Watched {
+    watched
+  }
+`;
