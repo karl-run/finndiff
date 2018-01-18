@@ -10,7 +10,7 @@
     "dev-web": "cd web && npm run start",
     "dev-api": "cd api && npm run dev",
     "dev": "run-p dev-api dev-web",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd web && npm run build"
   },
   "repository": {
     "type": "git",
