@@ -41,7 +41,7 @@ const mapErrorToResponse = error => {
     log.error(error.response.body);
   }
 
-  return 'An error occured';
+  return { error: { statusCode: error.statusCode }};
 };
 
 module.exports = {

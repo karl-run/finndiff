@@ -3,10 +3,9 @@ const assert = require('assert');
 const { logError } = require('./mongoError');
 
 const url = process.env.MONGO_URL;
-const dbName = "finndiff";
 
 if (!url) {
-  throw Error("No MONGO_URL environment variable set");
+  throw Error('No MONGO_URL environment variable set');
 }
 
 let db;
@@ -24,8 +23,8 @@ const initialize = () => {
       log.info('Connected successfully to mongo database');
 
       let connected = true;
-      db = client.db(dbName);
-      ads = db.collection('what');
+      db = client.db('finndiff');
+      ads = db.collection('ads');
       watched = db.collection('watched');
       return resolve();
     });
@@ -33,17 +32,59 @@ const initialize = () => {
 };
 
 const addWatchedAd = finnCode => {
+  if (!finnCode) return Promise.reject("Finn code can't be nothing");
+
   return new Promise((resolve, reject) => {
-    const result = watched.insert({ [finnCode]: true });
+    return watched
+      .insert({ finnCode: finnCode, active: true, added: new Date().toISOString() })
+      .then(result => {
+        if (result.writeError) {
+          reject(result.writeError);
+        }
 
-    if (result.writeError) {
-      reject(result.writeError);
-    }
-
-    resolve({ inserted: result.nInserted });
+        resolve({ inserted: result.nInserted });
+      })
+      .catch(err => {
+        log.error(err);
+        reject(err);
+      });
   });
 };
 
+const watchedExists = id => {
+  return new Promise((resolve, reject) => {
+    const result = watched
+      .find({ finnCode: id })
+      .toArray()
+      .then(result => {
+        log.debug(`Does ad with id ${id} exist? ${result.length > 0}`);
+        resolve(result.length > 0);
+      })
+      .catch(err => {
+        log.debug(`Unable to add with id ${id}.`);
+        log.error(err);
+        reject(false);
+      });
+  });
+};
+
+const getAllWatched = () => {
+  return new Promise((resolve, reject) => {
+    const result = watched
+      .find({})
+      .toArray()
+      .then(result => {
+        const mapped = (result || []).map(item => item.finnCode);
+
+        resolve(mapped);
+      })
+      .catch(err => {
+        log.debug(`Unable to find all watched ads.`);
+        log.error(err);
+        reject(false);
+      });
+  });
+};
 
 const insertAdData = ad => {
   return new Promise((resolve, reject) => {
@@ -90,5 +131,8 @@ module.exports = {
   initialize,
   insertAdData,
   findAdData,
-  findAllAds
+  findAllAds,
+  addWatchedAd,
+  watchedExists,
+  getAllWatched
 };
