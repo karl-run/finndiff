@@ -5,20 +5,22 @@ import { graphql } from 'react-apollo';
 
 import { versionQuery } from '../../apollo/queries';
 
-import './Version.css';
+import style from './Version.css';
 
 type Props = {
   data: {
-    version: string,
-  };
-}
+    version: string
+  }
+};
 
 class Version extends React.PureComponent<Props> {
   render() {
     const { data } = this.props;
 
     return (
-      <div className="version">Version: {data.version}</div>
+      <div className={style.version}>
+        Version: {data.version} ({process.env.NODE_ENV})
+      </div>
     );
   }
 }

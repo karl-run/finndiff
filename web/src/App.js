@@ -5,8 +5,6 @@ import apolloClient from './apollo/apollo';
 import Version from './components/version/Version';
 import Watched from './components/watched/Watched';
 
-import './style/_reset.css';
-import './style/_base.css';
 import './App.css';
 
 class App extends React.Component {

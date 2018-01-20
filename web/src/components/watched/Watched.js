@@ -6,7 +6,7 @@ import { graphql } from 'react-apollo';
 
 import { watchedQuery } from '../../apollo/queries';
 
-import './Watched.css';
+import style from './Watched.css';
 
 type Props = {
   data: {
@@ -21,14 +21,14 @@ class Version extends React.PureComponent<Props> {
 
     if (loading)
       return (
-        <div className="watched-root">
+        <div className={style.watched}>
           <h5>Overvåkte annonser</h5>
           <Spinner />
         </div>
       );
 
     return (
-      <div className="watched-root">
+      <div className={style.watched}>
         <ul>
           <h5>Overvåkte annonser</h5>
           {watched &&

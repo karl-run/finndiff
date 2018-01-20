@@ -1,4 +1,4 @@
-.watched-root {
+:local(.watched) {
   position: absolute;
   top: 0px;
   left: 0px;
@@ -6,8 +6,8 @@
   background-color: lightblue;
   height: 100%;
   width: 10%;
-}
 
-.watched-root li {
-  list-style: none;
+  li {
+    list-style: none;
+  }
 }
