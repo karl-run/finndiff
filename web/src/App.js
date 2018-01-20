@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { ApolloProvider } from 'react-apollo';
+import { BrowserRouter as Router } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import apolloClient from './apollo/apollo';
@@ -14,11 +15,13 @@ class App extends Component {
     return (
       <ApolloProvider client={apolloClient}>
         <MuiThemeProvider>
-          <Fragment>
-            <Watched />
-            <Content />
-            <Version />
-          </Fragment>
+          <Router>
+            <Fragment>
+              <Watched />
+              <Content />
+              <Version />
+            </Fragment>
+          </Router>
         </MuiThemeProvider>
       </ApolloProvider>
     );

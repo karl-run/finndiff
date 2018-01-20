@@ -1,6 +1,7 @@
 // @flow
 
-import React from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Spinner from 'react-nano-spinner';
 import { graphql } from 'react-apollo';
 import Drawer from 'material-ui/Drawer';
@@ -14,7 +15,7 @@ import logo from '../../img/logo.svg';
 import style from './Watched.css';
 
 const LogoHeader = () => (
-  <IconButton href="/" className={style.logoHeader}>
+  <IconButton containerElement={<Link to={`/`} />} className={style.logoHeader}>
     <img alt="finndiff logo" src={logo} />
   </IconButton>
 );
@@ -26,7 +27,7 @@ type Props = {
   }
 };
 
-class Version extends React.PureComponent<Props> {
+class Version extends Component<Props> {
   render() {
     const { data: { loading, watched } } = this.props;
 
@@ -43,11 +44,11 @@ class Version extends React.PureComponent<Props> {
           {!loading &&
             watched &&
             watched.map(id => (
-              <ListItem key={id}>
-                <a href="/">{id}</a>
+              <ListItem containerElement={<Link to={`/diff/${id}`} />} key={id}>
+                {id}
               </ListItem>
             ))}
-          {!loading && !watched && <ListItem>Fant ingen annonser</ListItem>}
+          {!loading && !watched && <ListItem disabled>Fant ingen annonser</ListItem>}
         </List>
       </Drawer>
     );
