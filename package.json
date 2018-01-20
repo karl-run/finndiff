@@ -7,7 +7,7 @@
     "postinstall": "cd web && npm i && cd ../api && npm i",
     "build": "cd web && npm run build",
     "start": "cd api && NODE_ENV=production npm run start",
-    "dev-web": "cd web && npm run start",
+    "dev-web": "cd web && npm run dev",
     "dev-api": "cd api && npm run dev",
     "dev": "run-p dev-api dev-web",
     "test": "cd web && npm run build"
