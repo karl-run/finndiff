@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { ApolloProvider } from 'react-apollo';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -9,14 +9,16 @@ import Content from './components/content/Content';
 
 import './App.css';
 
-class App extends React.Component {
+class App extends Component {
   render() {
     return (
       <ApolloProvider client={apolloClient}>
         <MuiThemeProvider>
-          <Watched />
-          <Content />
-          <Version />
+          <Fragment>
+            <Watched />
+            <Content />
+            <Version />
+          </Fragment>
         </MuiThemeProvider>
       </ApolloProvider>
     );

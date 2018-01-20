@@ -1,7 +1,7 @@
 :local(.root) {
   padding: 16px;
   height: 100%;
-  width: 100%;
+  width: calc(100% - 256px);
   box-sizing: border-box;
 
   @media screen and (min-width: 960px) {

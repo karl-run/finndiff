@@ -15,7 +15,7 @@ import style from './Watched.css';
 
 const LogoHeader = () => (
   <IconButton href="/" className={style.logoHeader}>
-    <img src={logo} />
+    <img alt="finndiff logo" src={logo} />
   </IconButton>
 );
 
@@ -30,27 +30,24 @@ class Version extends React.PureComponent<Props> {
   render() {
     const { data: { loading, watched } } = this.props;
 
-    if (loading) {
-      return (
-        <div className={style.watched}>
-          <h5>Overvåkte annonser</h5>
-          <Spinner />
-        </div>
-      );
-    }
-
     return (
       <Drawer docked className={style.watched}>
         <LogoHeader />
         <Subheader>Overvåkte annonser</Subheader>
         <List>
-          {watched &&
+          {loading && (
+            <ListItem disabled>
+              <Spinner />
+            </ListItem>
+          )}
+          {!loading &&
+            watched &&
             watched.map(id => (
               <ListItem key={id}>
                 <a href="/">{id}</a>
               </ListItem>
             ))}
-          {!watched && <ListItem>Fant ingen annonser</ListItem>}
+          {!loading && !watched && <ListItem>Fant ingen annonser</ListItem>}
         </List>
       </Drawer>
     );
