@@ -110,10 +110,6 @@ const getAdData = finnCode => {
         resolve(null);
       }
 
-      docs.forEach(doc => {
-        log.debug(doc.test);
-      });
-
       resolve(docs);
     });
   });

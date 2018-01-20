@@ -8,6 +8,7 @@ import Drawer from 'material-ui/Drawer';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import IconButton from 'material-ui/IconButton';
+import Logo from '../animatedlogo/AnimatedLogoLoading';
 
 import { watchedQuery } from '../../apollo/queries';
 
@@ -16,7 +17,7 @@ import style from './Watched.css';
 
 const LogoHeader = () => (
   <IconButton containerElement={<Link to={`/`} />} className={style.logoHeader}>
-    <img alt="finndiff logo" src={logo} />
+    <Logo alt="finndiff logo" src={logo} />
   </IconButton>
 );
 
