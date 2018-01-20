@@ -18,6 +18,7 @@ const mapSingleToResponse = (window, finnCode) => {
 
   const adContent = {
     finnkode: finnCode,
+    pulled: new Date(Date.now()).toISOString(),
     tittel: selectValue(infoSection, 'h1'),
     adresse: selectValue(infoSection, 'p:nth-of-type(1)'),
     pris: selectValue(infoSection, 'dl:nth-of-type(1) dd', [cleanNumber]),
