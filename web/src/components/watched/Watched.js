@@ -10,7 +10,7 @@ import IconButton from 'material-ui/IconButton';
 
 import { watchedQuery } from '../../apollo/queries';
 
-import logo from '../../svg/logo.svg';
+import logo from '../../img/logo.svg';
 import style from './Watched.css';
 
 const LogoHeader = () => (
