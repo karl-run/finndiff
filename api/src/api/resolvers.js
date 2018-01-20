@@ -1,43 +1,48 @@
 const { version } = require('../../package.json');
 const scraper = require('../scraper/scraper');
-const { findAdData, insertAdData, watchedExists, addWatchedAd, getAllWatched } = require('../mongo/mongo');
+const { scrapeDiffAndStore } = require('../scraper/polling');
+const { insertAdData, watchedExists, addWatchedAd, getAllWatched } = require('../mongo/mongo');
 
 const rootQueryResolver = {
   Query: {
     version: () => {
       return version;
     },
-    singleAd: () => {
-      scraper.singleAd('112115083');
-      return scraper.singleAd('103975107');
-    },
-    adHistory: () => {
-      return findAdData();
+    adHistory: ({ id }) => {
+      // TODO
+      return []; //findAdData();
     },
     rawAd: (_, { id }) => {
       return scraper.singleAd(id);
     },
     watched: () => {
-      return getAllWatched();;
-    }
+      return getAllWatched();
+    },
   },
   Mutation: {
-    addWatched: (_, { id }) => {
-      return scraper.singleAd(id).then(result => {
-        if (result.error) {
-          log.warn(`Unable to add ad '${id}' to watched list, status code ${result.error.statusCode}`);
-          return false;
-        }
+    addWatched: async (_, { id }) => {
+      const result = await scraper.singleAd(id);
 
-        return watchedExists(id).then(exists => {
-          if (exists) return false;
-          return addWatchedAd(id)
-            .then(() => true)
-            .catch(() => false);
-        });
-      });
+      if (result.error) {
+        log.warn(`Unable to add ad '${id}' to watched list, status code ${result.error.statusCode}`);
+        return false;
+      }
+
+      const exists = await watchedExists(id);
+
+      if (exists) return false;
+
+      const added = await addWatchedAd(id)
+        .then(() => true)
+        .catch(() => false);
+
+      if (added) {
+        scrapeDiffAndStore(id);
+      }
+
+      return added;
     },
-  }
+  },
 };
 
 module.exports = rootQueryResolver;

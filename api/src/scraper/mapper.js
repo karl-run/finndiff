@@ -11,12 +11,13 @@ const {
 
 const util = require('util');
 
-const mapSingleToResponse = window => {
+const mapSingleToResponse = (window, finnCode) => {
   const infoSection = window.document.querySelector(
     'body > div.container.bg-ice.pbs > div > div.line > div.unit.r-size2of3 > div > div > div'
   );
 
   const adContent = {
+    finnkode: finnCode,
     tittel: selectValue(infoSection, 'h1'),
     adresse: selectValue(infoSection, 'p:nth-of-type(1)'),
     pris: selectValue(infoSection, 'dl:nth-of-type(1) dd', [cleanNumber]),
@@ -26,10 +27,6 @@ const mapSingleToResponse = window => {
     omkostninger: selectValue(infoSection, '#omkostninger'),
     matrikkelinformasjon: selectValue(infoSection, '#matrikkelinfo')
   };
-
-  //log.info('\n', util.inspect(adContent, false, null));
-  //console.log('----');
-  //Object.keys(adContent).forEach(console.log);
 
   return adContent;
 };

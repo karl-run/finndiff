@@ -68,7 +68,7 @@ const watchedExists = id => {
   });
 };
 
-const getAllWatched = () => {
+const getAllWatched = async () => {
   return new Promise((resolve, reject) => {
     const result = watched
       .find({})
@@ -87,16 +87,20 @@ const getAllWatched = () => {
 };
 
 const insertAdData = ad => {
+  if (!ad || !ad.finnkode) {
+    return Promise.reject("The ad is not good enough.");
+  }
+
   return new Promise((resolve, reject) => {
-    ads.insert({ test: 'one two three four' });
-    log.warn('Inserted test doc');
+    ads.insert(ad);
+    log.debug(`Inserted ad ${ad.finnkode} successfully.`)
     resolve();
   });
 };
 
-const findAdData = id => {
+const getAdData = finnCode => {
   return new Promise((resolve, reject) => {
-    ads.find({}).toArray((err, docs) => {
+    ads.find({ finnkode: finnCode }).toArray((err, docs) => {
       if (err != null) {
         reject(err);
       }
@@ -110,7 +114,7 @@ const findAdData = id => {
         log.debug(doc.test);
       });
 
-      resolve(JSON.stringify(docs.map(doc => ({ value: doc.test }))));
+      resolve(docs);
     });
   });
 };
@@ -130,9 +134,9 @@ const findAllAds = () => {
 module.exports = {
   initialize,
   insertAdData,
-  findAdData,
+  getAllWatched,
+  getAdData,
   findAllAds,
   addWatchedAd,
   watchedExists,
-  getAllWatched
 };

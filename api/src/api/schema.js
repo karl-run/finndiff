@@ -13,8 +13,7 @@ const typeDefs = `
 
   type Query {
     version: String
-    singleAd: String
-    adHistory: String
+    adHistory(id: String!): [Ad]!
     rawAd(id: String!): Ad!
     watched: [String]!
   }

@@ -21,7 +21,7 @@ const singleAd = finnCode => {
 
   return JSDOM.fromURL(url)
     .then(dom => dom.window)
-    .then(mapSingleToResponse)
+    .then(window => mapSingleToResponse(window, finnCode))
     .catch(mapErrorToResponse);
 };
 
