@@ -19,17 +19,25 @@ class Version extends React.PureComponent<Props> {
   render() {
     const { data: { loading, watched } } = this.props;
 
-    if (loading) return <div className="watched-root"><Spinner /></div>;
+    if (loading)
+      return (
+        <div className="watched-root">
+          <h5>Overvåkte annonser</h5>
+          <Spinner />
+        </div>
+      );
 
     return (
       <div className="watched-root">
-      <h5>Overvåkte annonser</h5>
         <ul>
-          {watched.map(id => (
-            <li key={id}>
-              <a href="/">{id}</a>
-            </li>
-          ))}
+          <h5>Overvåkte annonser</h5>
+          {watched &&
+            watched.map(id => (
+              <li key={id}>
+                <a href="/">{id}</a>
+              </li>
+            ))}
+          {!watched && <div>Fant ingen annonser</div>}
         </ul>
       </div>
     );
