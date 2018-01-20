@@ -1,5 +1,7 @@
 # finndiff [![Build Status](https://travis-ci.org/karl-run/finndiff.svg?branch=master)](https://travis-ci.org/karl-run/finndiff)
 
+<img src="web/src/svg/logo.svg" alt="alt text" width="100px" height="100px">
+
 ## Development
 
 This project has two modules, `api` and `web`, with backend and frontend respectively. For development you can run them both at the same time from the root folder.
