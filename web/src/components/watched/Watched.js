@@ -3,10 +3,21 @@
 import React from 'react';
 import Spinner from 'react-nano-spinner';
 import { graphql } from 'react-apollo';
+import Drawer from 'material-ui/Drawer';
+import { List, ListItem } from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import IconButton from 'material-ui/IconButton';
 
 import { watchedQuery } from '../../apollo/queries';
 
+import logo from '../../svg/logo.svg';
 import style from './Watched.css';
+
+const LogoHeader = () => (
+  <IconButton href="/" className={style.logoHeader}>
+    <img src={logo} />
+  </IconButton>
+);
 
 type Props = {
   data: {
@@ -19,27 +30,29 @@ class Version extends React.PureComponent<Props> {
   render() {
     const { data: { loading, watched } } = this.props;
 
-    if (loading)
+    if (loading) {
       return (
         <div className={style.watched}>
           <h5>Overvåkte annonser</h5>
           <Spinner />
         </div>
       );
+    }
 
     return (
-      <div className={style.watched}>
-        <ul>
-          <h5>Overvåkte annonser</h5>
+      <Drawer docked className={style.watched}>
+        <LogoHeader />
+        <Subheader>Overvåkte annonser</Subheader>
+        <List>
           {watched &&
             watched.map(id => (
-              <li key={id}>
+              <ListItem key={id}>
                 <a href="/">{id}</a>
-              </li>
+              </ListItem>
             ))}
-          {!watched && <div>Fant ingen annonser</div>}
-        </ul>
-      </div>
+          {!watched && <ListItem>Fant ingen annonser</ListItem>}
+        </List>
+      </Drawer>
     );
   }
 }

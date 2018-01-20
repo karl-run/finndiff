@@ -1,13 +1,8 @@
 :local(.watched) {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  padding: 8px;
-  background-color: lightblue;
-  height: 100%;
-  width: 10%;
+  top: 84px;
+}
 
-  li {
-    list-style: none;
-  }
+:local(.logoHeader) {
+  height: 96px !important;
+  width: 96px !important;
 }

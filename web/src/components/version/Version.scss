@@ -1,4 +1,7 @@
 :local(.version) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   right: 16px;
   bottom: 16px;

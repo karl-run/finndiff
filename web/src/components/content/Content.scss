@@ -1,0 +1,11 @@
+:local(.root) {
+  padding: 16px;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+
+  @media screen and (min-width: 960px) {
+    position: relative;
+    left: 256px;
+  }
+}

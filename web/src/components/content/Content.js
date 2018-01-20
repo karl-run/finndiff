@@ -6,7 +6,7 @@ import IconButton from 'material-ui/IconButton';
 
 import { versionQuery } from '../../apollo/queries';
 
-import style from './Version.css';
+import style from './Content.css';
 
 type Props = {
   data: {
@@ -19,13 +19,13 @@ class Version extends React.PureComponent<Props> {
     const { data } = this.props;
 
     return (
-      <div className={style.version}>
+      <div className={style.root}>
+        <h2>finndiff</h2>
+        <p>TODO</p>
+        hello I am content
         <IconButton href="https://github.com/karl-run/finndiff" iconClassName="material-icons">
           code
         </IconButton>
-        <span>
-          {data.version} ({process.env.NODE_ENV})
-        </span>
       </div>
     );
   }
