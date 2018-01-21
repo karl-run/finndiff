@@ -41,7 +41,7 @@ const startPolling = () => {
   );
 
   const interval = async () => {
-    const watched = await getAllWatched();
+    const watched = (await getAllWatched()).map(ad => ad.finnCode);
 
     log.info(`Will update ${watched.length} different ads.`);
 

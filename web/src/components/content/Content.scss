@@ -9,3 +9,51 @@
     left: 256px;
   }
 }
+
+@keyframes slowpoint {
+  0% {
+    left: -0.2rem;
+  }
+  50% {
+    left: 0.2rem;
+  }
+  100% {
+    left: -0.2rem;
+  }
+}
+
+:local(.infoPoint) {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 8px;
+  padding: 8px;
+  padding-right: 16px;
+
+  i {
+    animation: slowpoint 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    margin-right: 1.5rem;
+    font-size: 2rem;
+  }
+}
+
+:local(.getStarted) {
+  .pun-finn {
+    color: #ffb2ba;
+  }
+
+  .pun-diff {
+    color: #99ef92;
+  }
+
+  .new-code {
+    top: 126px;
+  }
+
+  .existing-ad {
+    top: 270px;
+  }
+}

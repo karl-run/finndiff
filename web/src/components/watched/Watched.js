@@ -9,6 +9,7 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import IconButton from 'material-ui/IconButton';
 import Logo from '../animatedlogo/AnimatedLogoLoading';
+import AddWatched from './addwatched/AddWatched'
 
 import { watchedQuery } from '../../apollo/queries';
 
@@ -30,11 +31,12 @@ type Props = {
 
 class Version extends Component<Props> {
   render() {
-    const { data: { loading, watched }, location, ...rest } = this.props;
-    console.log(rest);
+    const { data: { loading, watched }, location } = this.props;
+
     return (
       <Drawer docked className={style.watched}>
         <LogoHeader />
+        <AddWatched />
         <Subheader>Overvåkte annonser</Subheader>
         <List>
           {loading && (

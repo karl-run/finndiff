@@ -2,7 +2,9 @@
 
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import IconButton from 'material-ui/IconButton';
+import classNames from 'classnames';
+import RaisedButton from 'material-ui/RaisedButton';
+import Paper from 'material-ui/Paper';
 
 import style from './Content.css';
 
@@ -15,11 +17,23 @@ const Details = props => {
   );
 };
 
+const InfoPoint = ({ className, text }) => (
+  <Paper className={classNames(style.infoPoint, className)} zDepth={1}>
+    <i className="material-icons">arrow_back</i>
+    <span>{text}</span>
+  </Paper>
+);
+
 const GetStarted = props => {
   return (
-    <div>
-      <h2>Get started</h2>
-      Pls do something
+    <div className={style.getStarted}>
+      <h2>Kom i gang med finndiff</h2>
+      <p>
+        Finndiff er et verktøy som lar deg <span className="pun-finn">finn</span>e <span className="pun-diff">diff</span>eranser
+        i annonser etter hvert som de ligger ute.
+      </p>
+      <InfoPoint className="new-code" text="Legg til en ny annonse" />
+      <InfoPoint className="existing-ad" text="Eller se detaljer om en allerede overvåket annonse" />
     </div>
   );
 };
@@ -36,10 +50,6 @@ class Version extends React.Component {
           <Route exact path="/diff/:finnCode" component={Details} />
           <Route component={NowFound} />
         </Switch>
-        <p>TODO</p>
-        <IconButton href="https://github.com/karl-run/finndiff" iconClassName="material-icons">
-          code
-        </IconButton>
       </div>
     );
   }

@@ -25,16 +25,16 @@ const rootQueryResolver = {
 
       if (result.error) {
         log.warn(`Unable to add ad '${id}' to watched list, status code ${result.error.statusCode}`);
-        return false;
+        return new Error(`Kunne ikke legge til ${id} akkurat nå.`);
       }
 
       const exists = await watchedExists(id);
 
-      if (exists) return false;
+      if (exists) return new Error(`${id} er allerede lagt til.`);
 
       const added = await addWatchedAd(id, result.tittel)
         .then(() => true)
-        .catch(() => false);
+        .catch(() => new Error(`Det skjedde en uforvented feil i tileggingen av ${id}.`));
 
       if (added) {
         scrapeDiffAndStore(id);
