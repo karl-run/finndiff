@@ -55,7 +55,10 @@ const mapDescriptiveListToMap = ddList => {
   const map = {};
 
   for (let i = 0; i < ddList.length; i += 2) {
-    map[keyifyHeader(cleanCostString(ddList[i].textContent))] = numberIfNotString(ddList[i + 1].textContent);
+    map[keyifyHeader(cleanCostString(ddList[i].textContent))] = {
+      beskrivelse: ddList[i].textContent,
+      verdi: numberIfNotString(ddList[i + 1].textContent),
+    };
   }
 
   return map;
@@ -65,7 +68,11 @@ const pullOutAndMapGenericSections = sections => {
   const map = {};
 
   for (let i = 0; i < sections.length; i += 2) {
-    map[keyifyHeader(selectSection(sections[i], 'h2').textContent)] = selectSection(sections[i], 'p').textContent;
+    const title = selectSection(sections[i], 'h2').textContent;
+    map[keyifyHeader(title)] = {
+      beskrivelse: title,
+      verdi: selectSection(sections[i], 'p').textContent,
+    };
   }
 
   return map;
@@ -78,5 +85,5 @@ module.exports = {
   cleanNumber,
   cleanCostString,
   mapDescriptiveListToMap,
-  pullOutAndMapGenericSections
+  pullOutAndMapGenericSections,
 };
