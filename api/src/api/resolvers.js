@@ -1,16 +1,15 @@
 const { version } = require('../../package.json');
 const scraper = require('../scraper/scraper');
 const { scrapeDiffAndStore } = require('../scraper/polling');
-const { insertAdData, watchedExists, addWatchedAd, getAllWatched } = require('../mongo/mongo');
+const { insertAdData, watchedExists, addWatchedAd, getAllWatched, getAdData } = require('../mongo/mongo');
 
 const rootQueryResolver = {
   Query: {
     version: () => {
       return version;
     },
-    adHistory: ({ id }) => {
-      // TODO
-      return []; //findAdData();
+    adHistory: (_, { id }) => {
+      return getAdData(id);
     },
     rawAd: (_, { id }) => {
       return scraper.singleAd(id);

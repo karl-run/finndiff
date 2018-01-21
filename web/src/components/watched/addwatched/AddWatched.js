@@ -38,7 +38,6 @@ class AddWatched extends Component<Props> {
       this.props
         .mutate({ variables: { finnCode: value } })
         .then(wath => {
-          console.log('wat', wath);
           this.setState({ loading: false });
           this.setState({ value: '' });
         })

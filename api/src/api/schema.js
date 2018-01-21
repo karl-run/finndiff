@@ -4,6 +4,7 @@ const { makeExecutableSchema } = require('graphql-tools');
 
 const typeDefs = `
   type Ad {
+    pulled: String!
     tittel: String
     adresse: String
     pris: Int

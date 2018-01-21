@@ -14,3 +14,16 @@ export const watchedQuery = gql`
     }
   }
 `;
+
+export const getSpecificAdQuery = gql`
+  query getSpecificAd($finnCode: String!) {
+    adHistory(id: $finnCode) {
+      pulled
+      tittel
+      adresse
+      pris
+      omkostninger
+      matrikkelinformasjon
+    }
+  }
+`;

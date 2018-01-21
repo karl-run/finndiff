@@ -9,13 +9,17 @@ body .nano-spinner-bounce {
   margin-left: 8px;
 }
 
+p {
+  white-space: pre-line;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-weight: bold;
+  font-weight: 500;
   margin: 8px;
   margin-bottom: 16px;
 }
@@ -46,6 +50,7 @@ h5 {
 }
 
 h6 {
+  color: rgba(0, 0, 0, 0.54);
   font-size: 1rem;
 }
 

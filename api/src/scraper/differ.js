@@ -20,7 +20,6 @@ const mapDiffToValues = (diff, finnCode) => {
   };
 
   diff.forEach(edit => {
-    console.log(edit);
     setValue(newValues, edit.path, edit.lhs);
   });
 

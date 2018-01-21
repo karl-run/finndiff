@@ -5,16 +5,9 @@ import { Switch, Route } from 'react-router-dom';
 import classNames from 'classnames';
 import Paper from 'material-ui/Paper';
 
-import style from './Content.css';
+import Details from './details/Details';
 
-const Details = props => {
-  return (
-    <div>
-      <h2>Details</h2>
-      I am detail for {props.match.params.finnCode}
-    </div>
-  );
-};
+import style from './Content.css';
 
 const InfoPoint = ({ className, text }) => (
   <Paper className={classNames(style.infoPoint, className)} zDepth={1}>
