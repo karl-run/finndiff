@@ -15,6 +15,8 @@ const scrapeDiffAndStore = (finnCode, i = 0) => {
         return reject(error);
       });
 
+      console.log('sold?', freshAd.solgt);
+
       if (!newestExisting.length) {
         log.info(`${finnCode} does not exist, inserting into db.`);
         insertAdData(freshAd);
@@ -24,7 +26,7 @@ const scrapeDiffAndStore = (finnCode, i = 0) => {
       log.info(`${finnCode} already exist, let's diff it`);
 
       //const diff = differ(freshAd, newestExisting);
-      //console.log(diff);
+      //console.log(diff);  
 
       resolve();
     }, i * feedRate + Math.random() * (feedRate / 2));

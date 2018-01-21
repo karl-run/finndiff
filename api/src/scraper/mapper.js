@@ -6,18 +6,19 @@ const {
   cleanNumber,
   cleanCostString,
   mapDescriptiveListToMap,
-  pullOutAndMapGenericSections
+  pullOutAndMapGenericSections,
 } = require('./mapHelpers');
 
 const util = require('util');
 
 const mapSingleToResponse = (window, finnCode) => {
   const infoSection = window.document.querySelector(
-    'body > div.container.bg-ice.pbs > div > div.line > div.unit.r-size2of3 > div > div > div'
+    'body > div.container.bg-ice.pbs > div > div.line > div.unit.r-size2of3 > div > div > div',
   );
 
   const adContent = {
     finnkode: finnCode,
+    solgt: selectValue(infoSection, '.objectstatus.sold') !== null,
     pulled: new Date(Date.now()).toISOString(),
     tittel: selectValue(infoSection, 'h1'),
     adresse: selectValue(infoSection, 'p:nth-of-type(1)'),
@@ -26,7 +27,7 @@ const mapSingleToResponse = (window, finnCode) => {
     leilighetsDetaljer: mapDescriptiveListToMap(selectSection(infoSection, 'dl:nth-of-type(3)').children),
     generelleSeksjoner: pullOutAndMapGenericSections(selectAll(infoSection, 'div.object-description')),
     omkostninger: selectValue(infoSection, '#omkostninger'),
-    matrikkelinformasjon: selectValue(infoSection, '#matrikkelinfo')
+    matrikkelinformasjon: selectValue(infoSection, '#matrikkelinfo'),
   };
 
   return adContent;
@@ -39,10 +40,10 @@ const mapErrorToResponse = error => {
     log.error(error.response.body);
   }
 
-  return { error: { statusCode: error.statusCode }};
+  return { error: { statusCode: error.statusCode } };
 };
 
 module.exports = {
   mapSingleToResponse,
-  mapErrorToResponse
+  mapErrorToResponse,
 };

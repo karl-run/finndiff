@@ -8,6 +8,9 @@ export const versionQuery = gql`
 
 export const watchedQuery = gql`
   query Watched {
-    watched
+    watched {
+      finnCode
+      description
+    }
   }
 `;

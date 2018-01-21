@@ -11,11 +11,16 @@ const typeDefs = `
     matrikkelinformasjon: String
   }
 
+  type WatchedAd {
+    finnCode: String!
+    description: String
+  }
+
   type Query {
     version: String
+    watched: [WatchedAd]!
     adHistory(id: String!): [Ad]!
     rawAd(id: String!): Ad!
-    watched: [String]!
   }
 
   type Mutation {
@@ -26,4 +31,4 @@ const typeDefs = `
 module.exports = makeExecutableSchema({
   typeDefs,
   resolvers,
-});;
+});

@@ -1,5 +1,18 @@
 :local(.watched) {
   top: 84px;
+
+  .watched-ad-item {
+    .finnCode {
+      font-weight: 700;
+    }
+
+    .description {
+      font-size: 0.8rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 }
 
 :local(.logoHeader) {

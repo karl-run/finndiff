@@ -32,7 +32,7 @@ const rootQueryResolver = {
 
       if (exists) return false;
 
-      const added = await addWatchedAd(id)
+      const added = await addWatchedAd(id, result.tittel)
         .then(() => true)
         .catch(() => false);
 

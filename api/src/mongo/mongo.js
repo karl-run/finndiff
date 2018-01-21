@@ -31,12 +31,12 @@ const initialize = () => {
   });
 };
 
-const addWatchedAd = finnCode => {
+const addWatchedAd = (finnCode, originalDescription) => {
   if (!finnCode) return Promise.reject("Finn code can't be nothing");
 
   return new Promise((resolve, reject) => {
     return watched
-      .insert({ finnCode: finnCode, active: true, added: new Date().toISOString() })
+      .insert({ finnCode: finnCode, description: originalDescription, active: true, added: new Date().toISOString() })
       .then(result => {
         if (result.writeError) {
           reject(result.writeError);
@@ -74,7 +74,7 @@ const getAllWatched = async () => {
       .find({})
       .toArray()
       .then(result => {
-        const mapped = (result || []).map(item => item.finnCode);
+        const mapped = (result || []).map(item => ({ finnCode: item.finnCode, description: item.description }));
 
         resolve(mapped);
       })
@@ -88,12 +88,12 @@ const getAllWatched = async () => {
 
 const insertAdData = ad => {
   if (!ad || !ad.finnkode) {
-    return Promise.reject("The ad is not good enough.");
+    return Promise.reject('The ad is not good enough.');
   }
 
   return new Promise((resolve, reject) => {
     ads.insert(ad);
-    log.debug(`Inserted ad ${ad.finnkode} successfully.`)
+    log.debug(`Inserted ad ${ad.finnkode} successfully.`);
     resolve();
   });
 };

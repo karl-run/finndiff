@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Spinner from 'react-nano-spinner';
 import { graphql } from 'react-apollo';
 import Drawer from 'material-ui/Drawer';
@@ -24,14 +24,14 @@ const LogoHeader = () => (
 type Props = {
   data: {
     loading: boolean,
-    watched: Array<string>
-  }
+    watched: Array<string>,
+  },
 };
 
 class Version extends Component<Props> {
   render() {
-    const { data: { loading, watched } } = this.props;
-
+    const { data: { loading, watched }, location, ...rest } = this.props;
+    console.log(rest);
     return (
       <Drawer docked className={style.watched}>
         <LogoHeader />
@@ -44,10 +44,18 @@ class Version extends Component<Props> {
           )}
           {!loading &&
             watched &&
-            watched.map(id => (
-              <ListItem containerElement={<Link to={`/diff/${id}`} />} key={id}>
-                {id}
-              </ListItem>
+            watched.map(ad => (
+              <ListItem
+                className="watched-ad-item"
+                containerElement={<Link to={`/diff/${ad.finnCode}`} />}
+                key={ad.finnCode}
+                primaryText={ad.finnCode}
+                secondaryText={ad.description}
+                title={ad.description}
+                rightIcon={
+                  location.pathname.indexOf(ad.finnCode) > 0 ? <i className="material-icons">play_arrow</i> : null
+                }
+              />
             ))}
           {!loading && !watched && <ListItem disabled>Fant ingen annonser</ListItem>}
         </List>
@@ -58,4 +66,4 @@ class Version extends Component<Props> {
 
 const withVersion = graphql(watchedQuery);
 
-export default withVersion(Version);
+export default withVersion(withRouter(Version));
