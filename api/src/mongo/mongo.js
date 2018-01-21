@@ -100,18 +100,21 @@ const insertAdData = ad => {
 
 const getAdData = finnCode => {
   return new Promise((resolve, reject) => {
-    ads.find({ finnkode: finnCode }).toArray((err, docs) => {
-      if (err != null) {
-        reject(err);
-      }
+    ads
+      .find({ finnkode: finnCode })
+      .sort({ pulled: 1 })
+      .toArray((err, docs) => {
+        if (err != null) {
+          reject(err);
+        }
 
-      if (docs == null) {
-        log.warn('Found no documents');
-        resolve(null);
-      }
+        if (docs == null) {
+          log.warn('Found no documents');
+          resolve(null);
+        }
 
-      resolve(docs);
-    });
+        resolve(docs);
+      });
   });
 };
 

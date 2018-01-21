@@ -25,7 +25,7 @@ const rootQueryResolver = {
 
       if (result.error) {
         log.warn(`Unable to add ad '${id}' to watched list, status code ${result.error.statusCode}`);
-        return new Error(`Kunne ikke legge til ${id} akkurat nå.`);
+        return new Error(`Det ser ikke ut som '${id}' er en gyldig annonse`);
       }
 
       const exists = await watchedExists(id);

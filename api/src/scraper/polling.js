@@ -1,3 +1,5 @@
+var merge = require('deepmerge');
+
 const { getAllWatched, getAdData, insertAdData } = require('../mongo/mongo');
 const { singleAd } = require('./scraper');
 const differ = require('./differ');
@@ -15,18 +17,35 @@ const scrapeDiffAndStore = (finnCode, i = 0) => {
         return reject(error);
       });
 
-      console.log('sold?', freshAd.solgt);
-
       if (!newestExisting.length) {
         log.info(`${finnCode} does not exist, inserting into db.`);
         insertAdData(freshAd);
         return resolve();
       }
 
-      log.info(`${finnCode} already exist, let's diff it`);
+      let diffWith;
+      if (newestExisting.length >= 2) {
+        const [first, ...diffs] = newestExisting;
 
-      //const diff = differ(freshAd, newestExisting);
-      //console.log(diff);  
+        let truth = first;
+
+        diffs.forEach((diff, into) => {
+          truth = merge(truth, diff);
+        });
+
+        diffWith = truth;
+      } else {
+        diffWith = newestExisting[0];
+      }
+
+      const cleanDiff = differ(freshAd, diffWith);
+
+      if (!cleanDiff) { 
+        log.info(`${finnCode} has not changed.`);
+      } else {
+        log.info(`${finnCode} has changed, saving the new values.`);
+        insertAdData(cleanDiff);
+      }
 
       resolve();
     }, i * feedRate + Math.random() * (feedRate / 2));
