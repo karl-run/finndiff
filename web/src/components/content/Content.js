@@ -3,7 +3,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import classNames from 'classnames';
-import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 
 import style from './Content.css';

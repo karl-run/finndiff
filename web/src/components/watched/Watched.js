@@ -9,7 +9,7 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import IconButton from 'material-ui/IconButton';
 import Logo from '../animatedlogo/AnimatedLogoLoading';
-import AddWatched from './addwatched/AddWatched'
+import AddWatched from './addwatched/AddWatched';
 
 import { watchedQuery } from '../../apollo/queries';
 
@@ -29,6 +29,11 @@ type Props = {
   },
 };
 
+const listItemStyle = {
+  paddingTop: '10px',
+  paddingBottom: '10px',
+};
+
 class Version extends Component<Props> {
   render() {
     const { data: { loading, watched }, location } = this.props;
@@ -37,6 +42,8 @@ class Version extends Component<Props> {
       <Drawer docked className={style.watched}>
         <LogoHeader />
         <AddWatched />
+        <Subheader>Favoritt-annonser</Subheader>
+        <ListItem disabled>Du har ingen favoritter.</ListItem>
         <Subheader>Overvåkte annonser</Subheader>
         <List>
           {loading && (
@@ -49,6 +56,7 @@ class Version extends Component<Props> {
             watched.map(ad => (
               <ListItem
                 className="watched-ad-item"
+                innerDivStyle={listItemStyle}
                 containerElement={<Link to={`/diff/${ad.finnCode}`} />}
                 key={ad.finnCode}
                 primaryText={ad.finnCode}

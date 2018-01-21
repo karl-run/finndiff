@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import TextField from 'material-ui/TextField';
 import { ListItem } from 'material-ui/List';
@@ -26,10 +26,15 @@ class AddWatched extends Component<Props> {
   handleTextChange = event => {
     const value = event.target.value;
 
+    if (!value) {
+      this.setState({ value: '', error: false, loading: false });
+      return;
+    }
+
     this.setState({ value });
 
     if (value.length >= 9) {
-      this.setState({ loading: true });
+      this.setState({ loading: true, error: false });
       this.props
         .mutate({ variables: { finnCode: value } })
         .then(wath => {
@@ -46,12 +51,8 @@ class AddWatched extends Component<Props> {
   };
 
   render() {
-    const { data } = this.props;
-
-    console.log('Props', this.props);
-
     return (
-      <ListItem className={style.root} disabled className={style.root}>
+      <ListItem className={style.root} disabled>
         <TextField
           value={this.state.value}
           onChange={this.handleTextChange}
