@@ -1,9 +1,15 @@
+const unBRifiedTextContent = node => {
+  node.innerHTML = node.innerHTML.replace(/<br>/g, '\n');
+
+  return node.textContent;
+};
+
 const selectValue = (node, selector, functions = []) => {
   const result = node.querySelector(selector);
 
   if (result == null) return null;
 
-  let cleaned = result.textContent.trim();
+  let cleaned = unBRifiedTextContent(result).trim();
 
   functions.forEach(func => {
     cleaned = func(cleaned);
@@ -33,14 +39,15 @@ const numberIfNotString = text => {
 
 const keyifyHeader = text => {
   if (text == null) return null;
-  return text
+  const cleaned = text
     .trim()
-    .replace(/\s/g, '-')
-    .replace(/'|"/g, '')
+    .replace(/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]|\s|\/|,|(|)|'|"|\u00AD/g, '')
     .replace(/æ/g, 'ae')
     .replace(/ø/g, 'oe')
     .replace(/å/g, 'aa')
     .toLowerCase();
+
+  return cleaned;
 };
 
 const cleanCostString = text => {
@@ -69,9 +76,10 @@ const pullOutAndMapGenericSections = sections => {
 
   for (let i = 0; i < sections.length; i += 2) {
     const title = selectSection(sections[i], 'h2').textContent;
+
     map[keyifyHeader(title)] = {
       beskrivelse: title,
-      verdi: selectSection(sections[i], 'p').textContent,
+      verdi: unBRifiedTextContent(selectSection(sections[i], 'p')),
     };
   }
 

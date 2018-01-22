@@ -23,8 +23,8 @@ const mapSingleToResponse = (window, finnCode) => {
     tittel: selectValue(infoSection, 'h1'),
     adresse: selectValue(infoSection, 'p:nth-of-type(1)'),
     pris: selectValue(infoSection, 'dl:nth-of-type(1) dd', [cleanNumber]),
-    prisDetaljer: mapDescriptiveListToMap(selectSection(infoSection, 'dl:nth-of-type(2)').children),
-    leilighetsDetaljer: mapDescriptiveListToMap(selectSection(infoSection, 'dl:nth-of-type(3)').children),
+    prisDetaljer: mapDescriptiveListToMap(selectSection(infoSection, 'dl:nth-of-type(2)').children, 'prisDetaljer'),
+    leilighetsDetaljer: mapDescriptiveListToMap(selectSection(infoSection, 'dl:nth-of-type(3)').children, 'leilighetsDetaljer'),
     generelleSeksjoner: pullOutAndMapGenericSections(selectAll(infoSection, 'div.object-description')),
     omkostninger: selectValue(infoSection, '#omkostninger'),
     matrikkelinformasjon: selectValue(infoSection, '#matrikkelinfo'),
@@ -39,7 +39,9 @@ const mapErrorToResponse = error => {
   if (error.response && typeof error.response.body === 'string') {
     log.error(error.response.body);
   }
-
+  if (!error.statusCode) {
+    console.log(error);
+  }
   return { error: { statusCode: error.statusCode } };
 };
 
