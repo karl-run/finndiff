@@ -22,18 +22,20 @@ const typeDefs = `
   }
 
   type ApartmentDetails {
-    primaerrom: DetailStringPair
-    bruksareal: DetailStringPair
-    soverom: DetailStringPair
-    bruttoareal: DetailStringPair
-    rom: DetailStringPair
-    etasje: DetailStringPair
+    primaerrom: DetailNumberPair
+    bruksareal: DetailNumberPair
+    soverom: DetailNumberPair
+    bruttoareal: DetailNumberPair
+    rom: DetailNumberPair
+    etasje: DetailNumberPair
     boligtype: DetailStringPair
     eieform: DetailStringPair
     tomteareal: DetailStringPair
-    byggeaar: DetailStringPair
+    byggeaar: DetailNumberPair
     forkjoepsrett: DetailStringPair
     eierskifteforsikring: DetailStringPair
+    festeavgift: DetailNumberPair
+    energimerking: DetailStringPair
   }
 
   type GeneralSections {
@@ -53,7 +55,27 @@ const typeDefs = `
     boligkjoeperforsikring: DetailStringPair
     solgtsomdener: DetailStringPair
     byggemaate: DetailStringPair
+    oppvarming: DetailStringPair
+    tinglysterettigheterogforpliktelser: DetailStringPair
+    ligningsverdi: DetailStringPair
+    beskrivelseavborettslaget: DetailStringPair
     fasteloependekostnader: DetailStringPair
+    finansiering: DetailStringPair
+    spesifikasjonavlaan: DetailStringPair
+    adgangtilutleieboligformaal: DetailStringPair
+    overtagelse: DetailStringPair
+    forkjoepsrettformedlemmerstyregodkjennelse: DetailStringPair
+    ansvarligmegler: DetailStringPair
+    standard: DetailStringPair
+    regulering: DetailStringPair
+    sentralelover: DetailStringPair
+    vedlikeholdtilstand: DetailStringPair
+    parkering: DetailStringPair
+    utstyr: DetailStringPair
+    servitutterrettigheter: DetailStringPair
+    ferdigattestellermidlbrukstillatelse: DetailStringPair
+    reguleringsforhold: DetailStringPair
+    budgiving: DetailStringPair
   }
 
   type Ad {
