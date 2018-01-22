@@ -4,13 +4,13 @@ const { makeExecutableSchema } = require('graphql-tools');
 
 const typeDefs = `
   type DetailStringPair {
-    beskrivelse: String!
-    verdi: String!
+    beskrivelse: String
+    verdi: String
   }
 
   type DetailNumberPair {
-    beskrivelse: String!
-    verdi: Int!
+    beskrivelse: String
+    verdi: Int
   }
 
   type PriceDetails {
@@ -80,7 +80,7 @@ const typeDefs = `
 
   type Ad {
     pulled: String!
-    solgt: Boolean!
+    solgt: Boolean
     tittel: String
     adresse: String
     pris: Int
@@ -93,7 +93,7 @@ const typeDefs = `
 
   type WatchedAd {
     finnCode: String!
-    description: String
+    description: String!
   }
 
   type Query {

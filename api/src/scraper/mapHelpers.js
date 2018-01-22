@@ -1,15 +1,11 @@
-const unBRifiedTextContent = node => {
-  node.innerHTML = node.innerHTML.replace(/<br>/g, '\n');
-
-  return node.textContent;
-};
+const { unbreakTextNode, selectSection, selectAll } = require('./domExtensions');
 
 const selectValue = (node, selector, functions = []) => {
   const result = node.querySelector(selector);
 
   if (result == null) return null;
 
-  let cleaned = unBRifiedTextContent(result).trim();
+  let cleaned = unbreakTextNode(result).trim();
 
   functions.forEach(func => {
     cleaned = func(cleaned);
@@ -17,10 +13,6 @@ const selectValue = (node, selector, functions = []) => {
 
   return cleaned;
 };
-
-const selectSection = (node, selector) => node.querySelector(selector);
-
-const selectAll = (node, selector) => node.querySelectorAll(selector);
 
 const cleanNumber = text => {
   if (text == null) return null;
@@ -79,7 +71,7 @@ const pullOutAndMapGenericSections = sections => {
 
     map[keyifyHeader(title)] = {
       beskrivelse: title,
-      verdi: unBRifiedTextContent(selectSection(sections[i], 'p')),
+      verdi: unbreakTextNode(selectSection(sections[i], 'p')),
     };
   }
 

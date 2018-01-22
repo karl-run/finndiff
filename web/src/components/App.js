@@ -3,11 +3,10 @@ import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter as Router } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import { customTheme } from './theme/normal';
-import apolloClient from './apollo/apollo';
-import Version from './components/version/Version';
-import Watched from './components/watched/Watched';
-import Content from './components/content/Content';
+import { customTheme } from '../theme/normal';
+import apolloClient from '../apollo/apollo';
+import Watched from './watched/Watched';
+import Content from './content/Content';
 
 import './App.css';
 
@@ -20,7 +19,6 @@ class App extends Component {
             <Fragment>
               <Watched />
               <Content />
-              <Version />
             </Fragment>
           </Router>
         </MuiThemeProvider>

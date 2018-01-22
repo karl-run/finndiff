@@ -9,6 +9,7 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import IconButton from 'material-ui/IconButton';
 import Logo from '../animatedlogo/AnimatedLogoLoading';
+import Version from '../version/Version';
 import AddWatched from './addwatched/AddWatched';
 
 import { watchedQuery } from '../../apollo/queries';
@@ -22,6 +23,31 @@ const LogoHeader = () => (
   </IconButton>
 );
 
+const WatchedList = withRouter(({ loading, watched, location }) => (
+  <List>
+    {loading && (
+      <ListItem disabled>
+        <Spinner />
+      </ListItem>
+    )}
+    {!loading &&
+      watched &&
+      watched.map(ad => (
+        <ListItem
+          className="watched-ad-item"
+          innerDivStyle={listItemStyle}
+          containerElement={<Link to={`/diff/${ad.finnCode}`} />}
+          key={ad.finnCode}
+          primaryText={ad.finnCode}
+          secondaryText={ad.description}
+          title={ad.description}
+          rightIcon={location.pathname.indexOf(ad.finnCode) > 0 ? <i className="material-icons">play_arrow</i> : null}
+        />
+      ))}
+    {!loading && !watched && <ListItem disabled>Fant ingen annonser</ListItem>}
+  </List>
+));
+
 type Props = {
   data: {
     loading: boolean,
@@ -34,9 +60,9 @@ const listItemStyle = {
   paddingBottom: '10px',
 };
 
-class Version extends Component<Props> {
+class Watched extends Component<Props> {
   render() {
-    const { data: { loading, watched }, location } = this.props;
+    const { data: { loading, watched } } = this.props;
 
     return (
       <Drawer docked className={style.watched}>
@@ -45,35 +71,13 @@ class Version extends Component<Props> {
         <Subheader>Favoritt-annonser</Subheader>
         <ListItem disabled>Du har ingen favoritter.</ListItem>
         <Subheader>Overvåkte annonser</Subheader>
-        <List>
-          {loading && (
-            <ListItem disabled>
-              <Spinner />
-            </ListItem>
-          )}
-          {!loading &&
-            watched &&
-            watched.map(ad => (
-              <ListItem
-                className="watched-ad-item"
-                innerDivStyle={listItemStyle}
-                containerElement={<Link to={`/diff/${ad.finnCode}`} />}
-                key={ad.finnCode}
-                primaryText={ad.finnCode}
-                secondaryText={ad.description}
-                title={ad.description}
-                rightIcon={
-                  location.pathname.indexOf(ad.finnCode) > 0 ? <i className="material-icons">play_arrow</i> : null
-                }
-              />
-            ))}
-          {!loading && !watched && <ListItem disabled>Fant ingen annonser</ListItem>}
-        </List>
+        <WatchedList loading={loading} watched={watched} />
+        <Version />
       </Drawer>
     );
   }
 }
 
-const withVersion = graphql(watchedQuery);
+const withApollo = graphql(watchedQuery);
 
-export default withVersion(withRouter(Version));
+export default withApollo(Watched);
