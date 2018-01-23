@@ -1,6 +1,11 @@
 :local(.watched) {
   top: 84px;
 
+  > div {
+    display: flex;
+    flex-direction: column;
+  }
+
   .watched-ad-item {
     .finnCode {
       font-weight: 700;
@@ -17,6 +22,10 @@
       top: 4px !important;
     }
   }
+}
+
+:local(.watchedList) {
+  flex: 1 0 auto;
 }
 
 :local(.logoHeader) {

@@ -4,6 +4,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import Spinner from 'react-nano-spinner';
 import IconButton from 'material-ui/IconButton';
+import Paper from 'material-ui/Paper';
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover';
 
 import { getSpecificAdQuery } from '../../../apollo/queries';
@@ -71,7 +72,9 @@ class History extends React.Component<HistoryProps, HistoryState> {
           animation={PopoverAnimationVertical}
           className="popover"
         >
-          {history.slice(1).map(value => React.createElement(type, { ...props, key: value.value }, value.value))}
+          <Paper>
+            {history.slice(1).map(value => React.createElement(type, { ...props, key: value.value }, value.value))}
+          </Paper>
         </Popover>
       </div>
     );

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import Spinner from 'react-nano-spinner';
 import { graphql } from 'react-apollo';
@@ -27,7 +27,7 @@ const LogoHeader = () => (
 
 const WatchedList = withRouter(({ toggleDrawer, loading, watched, location }) => {
   return (
-    <List>
+    <List className={style.watchedList}>
       {loading && (
         <ListItem disabled>
           <Spinner />
@@ -87,15 +87,17 @@ class Watched extends Component<Props> {
     }
 
     return (
-      <Drawer {...drawerProps} className={style.watched}>
-        <LogoHeader />
-        <AddWatched />
-        <Subheader>Favoritt-annonser</Subheader>
-        <ListItem disabled>Du har ingen favoritter.</ListItem>
-        <Subheader>Overvåkte annonser</Subheader>
-        <WatchedList toggleDrawer={toggleDrawer} loading={loading} watched={watched} />
-        <Version />
-      </Drawer>
+      <Fragment>
+        <Drawer {...drawerProps} className={style.watched}>
+          <LogoHeader />
+          <AddWatched />
+          <Subheader>Favoritt-annonser</Subheader>
+          <ListItem disabled>Du har ingen favoritter.</ListItem>
+          <Subheader>Overvåkte annonser</Subheader>
+          <WatchedList toggleDrawer={toggleDrawer} loading={loading} watched={watched} />
+          <Version />
+        </Drawer>
+      </Fragment>
     );
   }
 }
