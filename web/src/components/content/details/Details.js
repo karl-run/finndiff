@@ -148,6 +148,8 @@ class Details extends React.Component<Props> {
       content = (
         <div>
           <IntroSection adHistory={data.adHistory} />
+          <h6>Pris</h6>
+          <History type="div" history={pullOutHistory(['pris'], data.adHistory)} />
           <h6>Prisdetaljer</h6>
           <PriceSection adHistory={data.adHistory} />
           <h6>Boligdetaljer</h6>
