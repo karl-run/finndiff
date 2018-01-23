@@ -18,8 +18,8 @@ import logoTop from '../../img/logo_top.svg';
 import logoBottom from '../../img/logo_bottom.svg';
 import style from './Watched.css';
 
-const LogoHeader = () => (
-  <IconButton containerElement={<Link to={`/`} />} className={style.logoHeader}>
+const LogoHeader = ({ toggleDrawer }) => (
+  <IconButton onClick={toggleDrawer} containerElement={<Link to={`/`} />} className={style.logoHeader}>
     <Logo alt="finndiff logo" delay={10} src={logoTop} />
     <Logo alt="finndiff logo" delay={150} src={logoBottom} />
   </IconButton>
@@ -89,7 +89,7 @@ class Watched extends Component<Props> {
     return (
       <Fragment>
         <Drawer {...drawerProps} className={style.watched}>
-          <LogoHeader />
+          <LogoHeader toggleDrawer={toggleDrawer}/>
           <AddWatched />
           <Subheader>Favoritt-annonser</Subheader>
           <ListItem disabled>Du har ingen favoritter.</ListItem>
