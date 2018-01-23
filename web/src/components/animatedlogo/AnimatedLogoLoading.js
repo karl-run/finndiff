@@ -8,6 +8,7 @@ import style from './AnimatedLogoLoading.css';
 type Props = {
   src: string,
   alt: string,
+  delay: number,
   className?: ?string,
 };
 
@@ -27,7 +28,9 @@ class ImageWithStatusText extends React.PureComponent<Props, State> {
   };
 
   handleImageLoaded = () => {
-    this.setState({ loaded: true });
+    setTimeout(() => {
+      this.setState({ loaded: true });
+    }, this.props.delay);
   };
 
   handleImageErrored = () => {
@@ -51,4 +54,5 @@ class ImageWithStatusText extends React.PureComponent<Props, State> {
     );
   }
 }
+
 export default ImageWithStatusText;

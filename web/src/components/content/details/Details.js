@@ -106,10 +106,10 @@ class Details extends React.Component<Props> {
     if (data.loading) {
       content = <Spinner />;
     } else {
-      const test = pullOutHistory(['pris'], data.adHistory);
-      const test2 = pullOutHistory(['prisDetaljer', 'fellesgjeld'], data.adHistory);
-      console.log(test);
-      console.log(test2);
+      //const test = pullOutHistory(['pris'], data.adHistory);
+      //const test2 = pullOutHistory(['prisDetaljer', 'fellesgjeld'], data.adHistory);
+      //console.log(test);
+      //console.log(test2);
       content = (
         <div>
           <TopSection ad={data.adHistory[0]} />
@@ -128,7 +128,7 @@ class Details extends React.Component<Props> {
             target="_blank"
             iconClassName="material-icons"
             tooltip="Gå til originalannonse"
-            tooltipPosition="bottom-center"
+            tooltipPosition="bottom-left"
             iconStyle={{
               width: 24,
               height: 24,

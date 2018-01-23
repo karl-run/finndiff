@@ -14,28 +14,32 @@ import AddWatched from './addwatched/AddWatched';
 
 import { watchedQuery } from '../../apollo/queries';
 
-import logo from '../../img/logo.svg';
+import logoTop from '../../img/logo_top.svg';
+import logoBottom from '../../img/logo_bottom.svg';
 import style from './Watched.css';
 
 const LogoHeader = () => (
   <IconButton containerElement={<Link to={`/`} />} className={style.logoHeader}>
-    <Logo alt="finndiff logo" src={logo} />
+    <Logo alt="finndiff logo" delay={10} src={logoTop} />
+    <Logo alt="finndiff logo" delay={150} src={logoBottom} />
   </IconButton>
 );
 
-const WatchedList = withRouter(({ loading, watched, location }) => (
-  <List>
-    {loading && (
-      <ListItem disabled>
-        <Spinner />
-      </ListItem>
-    )}
-    {!loading &&
+const WatchedList = withRouter(({ toggleDrawer, loading, watched, location }) => {
+  return (
+    <List>
+      {loading && (
+        <ListItem disabled>
+          <Spinner />
+        </ListItem>
+      )}
+      {!loading &&
       watched &&
       watched.map(ad => (
         <ListItem
           className="watched-ad-item"
           innerDivStyle={listItemStyle}
+          onClick={toggleDrawer}
           containerElement={<Link to={`/diff/${ad.finnCode}`} />}
           key={ad.finnCode}
           primaryText={ad.finnCode}
@@ -44,15 +48,20 @@ const WatchedList = withRouter(({ loading, watched, location }) => (
           rightIcon={location.pathname.indexOf(ad.finnCode) > 0 ? <i className="material-icons">play_arrow</i> : null}
         />
       ))}
-    {!loading && !watched && <ListItem disabled>Fant ingen annonser</ListItem>}
-  </List>
-));
+      {!loading && !watched && <ListItem disabled>Fant ingen annonser</ListItem>}
+    </List>
+  );
+});
 
 type Props = {
   data: {
     loading: boolean,
     watched: Array<string>,
   },
+  open: boolean,
+  isMobile: boolean,
+  handleRequestChange: (open: boolean) => void,
+  toggleDrawer: () => void,
 };
 
 const listItemStyle = {
@@ -62,16 +71,29 @@ const listItemStyle = {
 
 class Watched extends Component<Props> {
   render() {
-    const { data: { loading, watched } } = this.props;
+    const { isMobile, open, handleRequestChange, toggleDrawer, data: { loading, watched } } = this.props;
+
+    let drawerProps;
+    if (isMobile) {
+      drawerProps = {
+        open,
+        docked: false,
+        onRequestChange: handleRequestChange,
+      }
+    } else {
+      drawerProps = {
+        docked: true,
+      }
+    }
 
     return (
-      <Drawer docked className={style.watched}>
+      <Drawer {...drawerProps} className={style.watched}>
         <LogoHeader />
         <AddWatched />
         <Subheader>Favoritt-annonser</Subheader>
         <ListItem disabled>Du har ingen favoritter.</ListItem>
         <Subheader>Overvåkte annonser</Subheader>
-        <WatchedList loading={loading} watched={watched} />
+        <WatchedList toggleDrawer={toggleDrawer} loading={loading} watched={watched} />
         <Version />
       </Drawer>
     );

@@ -1,7 +1,12 @@
 body {
   font-family: 'Lato', sans-serif;
+  color: rgba(0, 0, 0, 0.87);
   margin: 0;
   padding: 0;
+
+  @media screen and (max-width: 960px) {
+    overflow-x: hidden;
+  }
 }
 
 body .nano-spinner-bounce {
@@ -55,5 +60,5 @@ h6 {
 }
 
 .material-icons {
-  color: rgba(0, 0, 0, 0.54);
+  color: rgba(0, 0, 0, 0.54) !important;
 }

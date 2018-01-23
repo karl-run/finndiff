@@ -20,6 +20,15 @@
 }
 
 :local(.logoHeader) {
+  position: relative;
   height: 96px !important;
   width: 96px !important;
+
+  > div {
+    > div {
+      position: absolute;
+      height: 72px;
+      width: 72px;
+    }
+  }
 }

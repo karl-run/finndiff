@@ -1,12 +1,12 @@
 :local(.root) {
   padding: 16px;
   height: 100%;
-  width: calc(100% - 256px);
   box-sizing: border-box;
 
   @media screen and (min-width: 960px) {
-    position: relative;
+    width: calc(100% - 256px);
     left: 256px;
+    position: relative;
   }
 }
 
@@ -23,14 +23,16 @@
 }
 
 :local(.infoPoint) {
-  position: absolute;
-  z-index: 2;
+  @media screen and (min-width: 960px) {
+    position: absolute;
+    z-index: 2;
+  }
+
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   margin: 8px;
-  padding: 8px;
-  padding-right: 16px;
+  padding: 8px 16px 8px 8px;
 
   i {
     animation: slowpoint 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
@@ -42,18 +44,22 @@
 
 :local(.getStarted) {
   .pun-finn {
-    color: #ffb2ba;
+    font-weight: 700;
+    color: #2B3D54;
   }
 
   .pun-diff {
-    color: #99ef92;
+    font-weight: 700;
+    color: #60A65F;
   }
 
-  .new-code {
-    top: 126px;
-  }
+  @media screen and (min-width: 960px) {
+    .new-code {
+      top: 126px;
+    }
 
-  .existing-ad {
-    top: 347px;
+    .existing-ad {
+      top: 347px;
+    }
   }
 }

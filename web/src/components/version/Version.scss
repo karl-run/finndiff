@@ -1,8 +1,10 @@
 :local(.version) {
+  background: linear-gradient(rgba(255, 255, 255, 0), white);
+  color: rgba(0, 0, 0, 0.54);
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: sticky;
   left: 0;
   bottom: 0;
 }
