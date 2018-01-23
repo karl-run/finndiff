@@ -2,6 +2,8 @@
 
 <img src="web/src/img/logo.png" alt="alt text" width="100px" height="100px">
 
+Unofficial, not affiliated with Finn.no, Schibsted or Polaris Media.
+
 ## Development
 
 This project has two modules, `api` and `web`, with backend and frontend respectively. For development you can run them both at the same time from the root folder.
