@@ -29,7 +29,7 @@ class MobileNav extends React.Component<Props> {
     if (!this.props.isMobile) return null;
 
     let navigatorProps = {};
-    if (navigator.share || true) {
+    if (navigator.share) {
       navigatorProps = {
         iconElementRight: <IconButton iconClassName="material-icons">share</IconButton>,
         onRightIconButtonClick: this.share,
