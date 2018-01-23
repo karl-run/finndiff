@@ -10,12 +10,49 @@
   }
 }
 
+:local(.descriptiveList) {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 16px;
+
+  dt {
+    display: flex;
+    align-items: center;
+    flex: 0 0 170px;
+  }
+
+  > div {
+    display: flex;
+    align-items: center;
+    flex: 1 0 calc(100% - 170px);
+  }
+}
+
 :local(.history) {
   display: flex;
-  align-items: flex-end;
-  white-space: pre;
+  align-items: center;
+  min-height: 32px;
 
   .material-icons {
-    font-size: 16px !important;
+    font-size: 24px !important;
+  }
+}
+
+:local(.popover) {
+  .inner-display {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    > div {
+      margin-left: 8px;
+      display: flex;
+      align-content: center;
+
+      .weak-text {
+        margin-left: 4px;
+      }
+    }
   }
 }

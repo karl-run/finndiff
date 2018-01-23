@@ -1,3 +1,10 @@
+const options = {
+  year: 'numeric', month: 'numeric', day: 'numeric',
+  hour: 'numeric', minute: 'numeric', hour12: false,
+};
+
+export const formatter = new Intl.DateTimeFormat('no', options);
+
 const deepFind = (obj, path) => {
   let current = obj;
 
@@ -9,7 +16,7 @@ const deepFind = (obj, path) => {
     }
   }
 
-  return { value: current, date: obj.pulled };
+  return { value: current, date: formatter.format(new Date(obj.pulled)) };
 };
 
 export const pullOutHistory = (path, ads) => {
@@ -23,5 +30,5 @@ export const pullOutHistory = (path, ads) => {
     }
   }
 
-  return values;
+  return values.reverse();
 };

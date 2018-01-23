@@ -1,14 +1,16 @@
 // @flow
 
+import type { Node } from 'react';
+
 import React from 'react';
 import { graphql } from 'react-apollo';
 import Spinner from 'react-nano-spinner';
 import IconButton from 'material-ui/IconButton';
-import Paper from 'material-ui/Paper';
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
 
 import { getSpecificAdQuery } from '../../../apollo/queries';
-import { pullOutHistory } from '../../../utils/historyStructure';
+import { pullOutHistory, formatter } from '../../../utils/historyStructure';
 
 import style from './Details.css';
 
@@ -39,30 +41,29 @@ class History extends React.Component<HistoryProps, HistoryState> {
   };
 
   render() {
-    const { type, children, history, ...props } = this.props;
+    const { type, history, children, ...props } = this.props;
 
     return (
       <div className={style.history}>
+        {children}{children && '\u00A0'}
+        {history.length > 0 && React.createElement(type, { ...props }, history[0].value)}
         {history.length > 1 && (
           <IconButton
             onClick={this.toggleShow}
             iconClassName="material-icons"
-            tooltip="Vis historikk"
-            tooltipPosition="bottom-right"
             iconStyle={{
-              width: 16,
-              height: 16,
+              width: 24,
+              height: 24,
             }}
             style={{
               width: 32,
               height: 32,
-              padding: 8,
+              padding: 2,
             }}
           >
-            info_outline
+            history
           </IconButton>
         )}
-        {history.length > 0 && React.createElement(type, { ...props }, history[0].value)}
         <Popover
           open={this.state.show}
           anchorEl={this.state.item}
@@ -70,23 +71,58 @@ class History extends React.Component<HistoryProps, HistoryState> {
           targetOrigin={{ horizontal: 'left', vertical: 'top' }}
           onRequestClose={this.closeShow}
           animation={PopoverAnimationVertical}
-          className="popover"
+          className={style.popover}
         >
-          <Paper>
-            {history.slice(1).map(value => React.createElement(type, { ...props, key: value.value }, value.value))}
-          </Paper>
+          <Menu className="inner-display">
+            {history.map(value => {
+              return <div key={value.value}>{React.createElement(type, { ...props }, value.value)}
+                <span className="weak-text">{value.date}</span>
+              </div>;
+            })
+            }
+          </Menu>
         </Popover>
       </div>
     );
   }
 }
 
-const TopSection = ({ ad }) => (
+const IntroSection = ({ adHistory }) => (
   <div>
-    <h3>{ad.tittel}</h3>
-    <h6>Sist oppdatert: {ad.pulled}</h6>
-    <p>{ad.adresse}</p>
+    <History type="h3" history={pullOutHistory(['tittel'], adHistory)} />
+    <div>Sist endret: {formatter.format(new Date(adHistory[0].pulled))} </div>
+    <History type="div" history={pullOutHistory(['adresse'], adHistory)}>Adresse/status:</History>
   </div>
+);
+
+const PriceSection = ({ adHistory }) => (
+  <dl className={style.descriptiveList}>
+    {Object.keys(adHistory[0].prisDetaljer).map(key => {
+      if (!adHistory[0].prisDetaljer[key] || typeof adHistory[0].prisDetaljer[key] !== 'object') return null;
+      const beskrivelse = adHistory[0].prisDetaljer[key].beskrivelse;
+      return (
+        <div key={beskrivelse}>
+          <dt>{beskrivelse}</dt>
+          <History type="dd" history={pullOutHistory(['prisDetaljer', key, 'verdi'], adHistory)} />
+        </div>
+      )
+    })}
+  </dl>
+);
+
+const ApartmentDetailsSection = ({ adHistory }) => (
+  <dl className={style.descriptiveList}>
+    {Object.keys(adHistory[0].leilighetsDetaljer).map(key => {
+      if (!adHistory[0].leilighetsDetaljer[key] || typeof adHistory[0].leilighetsDetaljer[key] !== 'object') return null;
+      const beskrivelse = adHistory[0].leilighetsDetaljer[key].beskrivelse;
+      return (
+        <div key={beskrivelse}>
+          <dt>{beskrivelse}</dt>
+          <History type="dd" history={pullOutHistory(['leilighetsDetaljer', key, 'verdi'], adHistory)} />
+        </div>
+      )
+    })}
+  </dl>
 );
 
 type Props = {
@@ -109,15 +145,15 @@ class Details extends React.Component<Props> {
     if (data.loading) {
       content = <Spinner />;
     } else {
-      //const test = pullOutHistory(['pris'], data.adHistory);
-      //const test2 = pullOutHistory(['prisDetaljer', 'fellesgjeld'], data.adHistory);
-      //console.log(test);
-      //console.log(test2);
       content = (
         <div>
-          <TopSection ad={data.adHistory[0]} />
-          Pris: <History type="h4" history={pullOutHistory(['pris'], data.adHistory)} />
-          Omkostninger: <History type="div" history={pullOutHistory(['omkostninger'], data.adHistory)} />
+          <IntroSection adHistory={data.adHistory} />
+          <h6>Prisdetaljer</h6>
+          <PriceSection adHistory={data.adHistory} />
+          <h6>Boligdetaljer</h6>
+          <ApartmentDetailsSection adHistory={data.adHistory} />
+          <h6>Annet</h6>
+          <History type="div" history={pullOutHistory(['omkostninger'], data.adHistory)} />
         </div>
       );
     }
