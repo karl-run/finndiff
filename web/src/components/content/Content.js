@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import classNames from 'classnames';
 import Paper from 'material-ui/Paper';
@@ -16,7 +16,7 @@ const InfoPoint = ({ className, text }) => (
   </Paper>
 );
 
-const GetStarted = props => {
+const GetStarted = () => {
   return (
     <div className={style.getStarted}>
       <h2>Kom i gang med finndiff</h2>
@@ -30,17 +30,23 @@ const GetStarted = props => {
   );
 };
 
-const NowFound = props => {
-  return <h2>Whops!!</h2>;
+const NoRoute = () => {
+  return (
+    <Fragment>
+      <h2>404</h2>
+      <p>Finner ikke hva du ser etter. :(</p>
+    </Fragment>
+  );
 };
-class Version extends React.Component {
+
+class Version extends Component<{}> {
   render() {
     return (
       <div className={style.root}>
         <Switch>
           <Route exact path="/" component={GetStarted} />
           <Route exact path="/diff/:finnCode" component={Details} />
-          <Route component={NowFound} />
+          <Route component={NoRoute} />
         </Switch>
       </div>
     );

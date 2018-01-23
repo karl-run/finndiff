@@ -1,5 +1,13 @@
 :local(.root) {
   max-width: 900px;
+
+  h1 {
+    display: flex;
+  }
+
+  .material-icons {
+    font-size: 24px !important;
+  }
 }
 
 :local(.history) {
@@ -10,10 +18,4 @@
   .material-icons {
     font-size: 16px !important;
   }
-  /* > div:last-child {
-    > :not(:first-child):not(.show) {
-      display: none;
-      background-color: hotpink;
-    }
-  }*/
 }

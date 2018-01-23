@@ -11,9 +11,21 @@ import { pullOutHistory } from '../../../utils/historyStructure';
 
 import style from './Details.css';
 
-class History extends React.Component {
+type HistoryProps = {
+  type: string,
+  children?: Node,
+  history: any,
+}
+
+type HistoryState = {
+  show: boolean,
+  item: ?Node,
+}
+
+class History extends React.Component<HistoryProps, HistoryState> {
   state = {
     show: false,
+    item: null,
   };
 
   toggleShow = event => {
@@ -79,6 +91,11 @@ type Props = {
     loading: boolean,
     adHistory: Array<any>,
   },
+  match: {
+    params: {
+      finnCode: string,
+    }
+  }
 };
 
 class Details extends React.Component<Props> {
@@ -104,7 +121,27 @@ class Details extends React.Component<Props> {
 
     return (
       <div className={style.root}>
-        <h1>Detaljer for ({this.props.match.params.finnCode})</h1>
+        <h1>
+          <span>Detaljer for {this.props.match.params.finnCode}</span>
+          <IconButton
+            href={`https://www.finn.no/realestate/homes/ad.html?finnkode=${this.props.match.params.finnCode}`}
+            target="_blank"
+            iconClassName="material-icons"
+            tooltip="Gå til originalannonse"
+            tooltipPosition="bottom-center"
+            iconStyle={{
+              width: 24,
+              height: 24,
+            }}
+            style={{
+              width: 36,
+              height: 36,
+              padding: 6,
+            }}
+          >
+            link
+          </IconButton>
+        </h1>
         {content}
       </div>
     );
