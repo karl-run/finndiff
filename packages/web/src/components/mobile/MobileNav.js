@@ -28,7 +28,9 @@ class MobileNav extends React.Component<Props> {
   render() {
     if (!this.props.isMobile) return null;
 
-    let navigatorProps = {};
+    let navigatorProps = {
+      iconElementRight: <CircularProgress />
+    };
     if (navigator.share) {
       navigatorProps = {
         iconElementRight: <IconButton iconClassName="material-icons">share</IconButton>,
