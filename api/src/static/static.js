@@ -13,6 +13,9 @@ const init = app => {
         maxage: '1y',
       }),
     );
+    app.get('*', (_, res) => {
+      res.sendfile(path.join(buildPath, '/index.html'));
+    });
   } else {
     log.warn('Env is not production, not serving any static files.');
   }
