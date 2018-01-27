@@ -1,6 +1,6 @@
 {
   "name": "finndiff",
-  "public": true,
+  "public": false,
   "env": {
     "MONGO_URL": "@finndiff-mongo-url"
   }

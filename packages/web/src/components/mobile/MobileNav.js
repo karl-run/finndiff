@@ -24,11 +24,16 @@ class MobileNav extends React.Component<Props> {
     if (!navigator.share) return;
 
     this.setState({ spinning: true });
-    navigator.share({
-      title: 'Finndiff',
-      text: 'Sjekk ut denne annonsen og om den har endret seg!',
-      url: window.location.href,
-    })
+    setTimeout(() => {
+      this.setState({ spinning: false });
+    }, 5000);
+
+    navigator
+      .share({
+        title: 'Finndiff',
+        text: 'Sjekk ut denne annonsen og om den har endret seg!',
+        url: window.location.href,
+      })
       .then(() => {
         this.setState({ spinning: false });
       })
@@ -47,15 +52,18 @@ class MobileNav extends React.Component<Props> {
     let navigatorProps = {};
     if (this.state.spinning) {
       navigatorProps = {
-        iconElementRight: <IconButton><CircularProgress color="#ffffff" size={30} /></IconButton>,
+        iconElementRight: (
+          <IconButton>
+            <CircularProgress color="#ffffff" size={30} />
+          </IconButton>
+        ),
       };
     } else if (navigator.share || true) {
       navigatorProps = {
         iconElementRight: <IconButton iconClassName="material-icons">share</IconButton>,
         onRightIconButtonClick: this.share,
-      }
+      };
     }
-
 
     return (
       <AppBar

@@ -1,0 +1,63 @@
+:local(.simpleHistory) {
+  .diff-block {
+    display: flex;
+
+    .material-icons {
+      font-size: 16px;
+      transform: scaleX(-1);
+      margin: 0 4px;
+    }
+
+    :nth-child(3) {
+      color: rgba(0, 0, 0, 0.54);
+    }
+
+    .date-stamp {
+      margin-left: 8px;
+      display: flex;
+      align-items: center;
+      line-height: 1;
+    }
+  }
+}
+
+:local(.complexHistory) {
+  .diff-block {
+    display: flex;
+  }
+
+  del {
+    background-color: rgba(255, 0, 0, 0.3);
+  }
+  ins {
+    background-color: rgba(96, 166, 95, 0.51);
+  }
+
+  h3 {
+    margin-bottom: 0;
+  }
+
+  .date-stamp {
+    line-height: 1;
+  }
+}
+
+:local(.expando) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 50px;
+
+  > div:last-child {
+    font-size: 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    line-height: 18px;
+    width: 18px;
+    height: 18px;
+    border-radius: 8px;
+    background-color: #60A65F;
+  }
+}

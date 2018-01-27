@@ -40,7 +40,7 @@ const scrapeDiffAndStore = (finnCode, i = 0) => {
 
       const cleanDiff = differ(freshAd, diffWith);
 
-      if (!cleanDiff) { 
+      if (!cleanDiff) {
         log.info(`${finnCode} has not changed.`);
       } else {
         log.info(`${finnCode} has changed, saving the new values.`);
@@ -62,9 +62,15 @@ const startPolling = () => {
   const interval = async () => {
     const watched = (await getAllWatched()).map(ad => ad.finnCode);
 
-    log.info(`Will update ${watched.length} different ads.`);
+    if (process.env.NODE_ENV !== 'production') {
+      log.warn(`Not in production!! Only polling one ad.`);
 
-    watched.forEach(scrapeDiffAndStore);
+      watched.slice(0, 1).forEach(scrapeDiffAndStore);
+    } else {
+      log.info(`Will update ${watched.length} different ads.`);
+
+      watched.forEach(scrapeDiffAndStore);
+    }
   };
 
   // Fire once immidiately
