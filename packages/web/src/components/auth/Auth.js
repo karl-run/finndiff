@@ -15,7 +15,6 @@ export default class Auth {
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
-    this.isAuthenticated = this.isAuthenticated.bind(this);
   }
 
   login() {
@@ -48,9 +47,9 @@ export default class Auth {
     localStorage.removeItem('expires_at');
     window.location.reload();
   }
-
-  isAuthenticated() {
-    let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    return new Date().getTime() < expiresAt;
-  }
 }
+
+export const isAuthenticated = () => {
+  let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+  return new Date().getTime() < expiresAt;
+};

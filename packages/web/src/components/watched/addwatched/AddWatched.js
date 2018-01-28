@@ -23,7 +23,13 @@ class AddWatched extends Component<Props> {
     loading: false,
   };
 
-  handleTextChange = event => {
+  handleKeyUp = (event, _) => {
+    if (event.keyCode === 13) {
+      this.handleTextChange(event, _, true);
+    }
+  };
+
+  handleTextChange = (event, _, hasEnter) => {
     const value = event.target.value;
 
     if (!value) {
@@ -31,18 +37,27 @@ class AddWatched extends Component<Props> {
       return;
     }
 
+    const matches = value.match(/\d+/g);
+
+    if (!matches || !matches.length) {
+      this.setState({ value });
+      return;
+    }
+
+    const [number] = matches;  // creates array from matches
+
     this.setState({ value });
 
-    if (value.length >= 9) {
+    if (number.length >= 9 || hasEnter) {
       this.setState({ loading: true, error: false });
       this.props
-        .mutate({ variables: { finnCode: value } })
+        .mutate({ variables: { finnCode: number } })
         .then(wath => {
           this.setState({ loading: false });
           this.setState({ value: '' });
         })
         .catch(error => {
-          this.setState({ loading: false });
+          this.setState({ value: number, loading: false });
           const [first] = error.graphQLErrors;
           this.setState({ error: first.message });
         });
@@ -55,6 +70,7 @@ class AddWatched extends Component<Props> {
         <TextField
           value={this.state.value}
           onChange={this.handleTextChange}
+          onKeyUp={this.handleKeyUp}
           style={{ width: '100%' }}
           floatingLabelText="Legg til ny finnkode"
           errorText={this.state.error}

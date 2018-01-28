@@ -9,6 +9,7 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import IconButton from 'material-ui/IconButton';
 
+import { isAuthenticated } from '../auth/Auth';
 import Auth from '../auth/AuthHandler';
 import Logo from '../animatedlogo/AnimatedLogoLoading';
 import Version from '../version/Version';
@@ -98,9 +99,9 @@ class Watched extends Component<Props> {
         <Drawer {...drawerProps} className={style.watched}>
           <LogoHeader toggleDrawer={toggleDrawer} />
           <AddWatched />
-          <Subheader>Favoritt-annonser</Subheader>
-          <ListItem disabled>Du har ingen favoritter.</ListItem>
-          <Subheader>Overvåkte annonser</Subheader>
+          <Subheader>Dine annonser</Subheader>
+          <ListItem disabled>{!isAuthenticated() ? 'Logg inn for å se dine annonser' : 'Du har ingen favoritter.'}</ListItem>
+          <Subheader>Alle overvåkte annonser</Subheader>
           <WatchedList toggleDrawer={toggleDrawer} loading={loading} watched={watched} />
           <Version />
         </Drawer>

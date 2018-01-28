@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import { userQuery } from '../../apollo/queries';
 
-import Auth from './Auth';
+import Auth, { isAuthenticated } from './Auth';
 import style from './AuthHandler.css';
 
 class AuthHandlerHandler extends Component<{}, {}> {
@@ -39,11 +39,11 @@ class AuthHandler extends Component<{}, {}> {
     return (
       <div className={style.authBox}>
         <Route path="/callback" render={(props) => <AuthHandlerHandler {...props} onLoad={this.handleAuthentication} />} />
-        {!this.auth.isAuthenticated() && <Fragment>
+        {!isAuthenticated() && <Fragment>
           <p>Finndiff gir deg mer kontroll når du er logget inn.</p>
           <RaisedButton label="Logg inn" secondary={true} onClick={() => { this.auth.login(); }} />
         </Fragment>}
-        {this.auth.isAuthenticated() && <Fragment>
+        {isAuthenticated() && <Fragment>
           <p>Du er logget inn</p>
           <RaisedButton label="Logg ut" onClick={() => { this.auth.logout(); }} />
         </Fragment>}
