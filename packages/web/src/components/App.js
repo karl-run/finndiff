@@ -43,6 +43,7 @@ class App extends Component<{}, State> {
     this.setState({ menuOpen: open });
   };
 
+
   render() {
     return (
       <ApolloProvider client={apolloClient}>

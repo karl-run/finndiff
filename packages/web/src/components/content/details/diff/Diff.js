@@ -65,7 +65,7 @@ class Diff extends Component<HistoryProps, HistoryState> {
   }
 
   renderSimple() {
-    const { type, history, ...props } = this.props;
+    const { type, history, simple, children, ...props } = this.props;
 
     if (history.length === 1) {
       return this.create(history[0]);

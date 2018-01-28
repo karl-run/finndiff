@@ -95,9 +95,15 @@ const typeDefs = `
     finnCode: String!
     description: String!
   }
+  
+  type User {
+    loggedIn: Boolean!
+    name: String,
+  }
 
   type Query {
     version: String
+    user: User
     watched: [WatchedAd]!
     adHistory(id: String!): [Ad]!
     rawAd(id: String!): Ad!

@@ -6,6 +6,15 @@ export const versionQuery = gql`
   }
 `;
 
+export const userQuery = gql`
+  query User {
+    user {
+      loggedIn
+      name
+    }
+  }
+`;
+
 export const watchedQuery = gql`
   query Watched {
     watched {

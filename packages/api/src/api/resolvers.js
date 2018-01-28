@@ -8,13 +8,19 @@ const rootQueryResolver = {
     version: () => {
       return version;
     },
+    user: (_, args, { loggedIn, user }) => {
+      return {
+        loggedIn,
+        name: null, // TODO get user info
+      };
+    },
     adHistory: (_, { id }) => {
       return getAdData(id);
     },
     rawAd: (_, { id }) => {
       return scraper.singleAd(id);
     },
-    watched: () => {
+    watched: (_, args, context) => {
       return getAllWatched();
     },
   },

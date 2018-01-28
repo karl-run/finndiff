@@ -8,6 +8,8 @@ import Drawer from 'material-ui/Drawer';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import IconButton from 'material-ui/IconButton';
+
+import Auth from '../auth/AuthHandler';
 import Logo from '../animatedlogo/AnimatedLogoLoading';
 import Version from '../version/Version';
 import AddWatched from './addwatched/AddWatched';
@@ -18,12 +20,17 @@ import logoTop from '../../img/logo_top.svg';
 import logoBottom from '../../img/logo_bottom.svg';
 import style from './Watched.css';
 
-const LogoHeader = ({ toggleDrawer }) => (
-  <IconButton onClick={toggleDrawer} containerElement={<Link to={`/`} />} className={style.logoHeader}>
-    <Logo alt="finndiff logo" delay={10} src={logoTop} />
-    <Logo alt="finndiff logo" delay={150} src={logoBottom} />
-  </IconButton>
-);
+const LogoHeader = ({ toggleDrawer }) => {
+  return (
+    <div className={style.logoHeader}>
+      <IconButton onClick={toggleDrawer} containerElement={<Link to={`/`} />} className={style.logoButton}>
+        <Logo alt="finndiff logo" delay={10} src={logoTop} />
+        <Logo alt="finndiff logo" delay={150} src={logoBottom} />
+      </IconButton>
+      <Auth />
+    </div>
+  );
+};
 
 const WatchedList = withRouter(({ toggleDrawer, loading, watched, location }) => {
   return (
@@ -89,7 +96,7 @@ class Watched extends Component<Props> {
     return (
       <Fragment>
         <Drawer {...drawerProps} className={style.watched}>
-          <LogoHeader toggleDrawer={toggleDrawer}/>
+          <LogoHeader toggleDrawer={toggleDrawer} />
           <AddWatched />
           <Subheader>Favoritt-annonser</Subheader>
           <ListItem disabled>Du har ingen favoritter.</ListItem>
