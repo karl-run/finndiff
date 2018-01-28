@@ -100,7 +100,7 @@ class Watched extends Component<Props> {
           <LogoHeader toggleDrawer={toggleDrawer} />
           <AddWatched />
           <Subheader>Dine annonser</Subheader>
-          <ListItem disabled>{!isAuthenticated() ? 'Logg inn for å se dine annonser' : 'Du har ingen favoritter.'}</ListItem>
+          <ListItem disabled>{!isAuthenticated() ? 'Logg inn for å se dine annonser' : 'Du har ikke lagt til noen annonser.'}</ListItem>
           <Subheader>Alle overvåkte annonser</Subheader>
           <WatchedList toggleDrawer={toggleDrawer} loading={loading} watched={watched} />
           <Version />
