@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "lerna bootstrap",
+    "tag": "lerna publish --skip-npm --yes --cd-version patch",
     "build": "cd packages/web && npm run build",
     "start": "cd packages/api && NODE_ENV=production npm run start",
     "dev-web": "cd packages/web && npm run dev",
