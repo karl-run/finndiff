@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
 import Spinner from 'react-nano-spinner';
 import IconButton from 'material-ui/IconButton';
@@ -36,57 +36,69 @@ const IntroSection = ({ adHistory }) => {
   );
 };
 
-const PriceSection = ({ adHistory }) => {
-  if (!adHistory.length) return null;
+const PriceSection = ({ adHistory }) => (
+  <Card>
+    <CardHeader title="Prisdetaljer" />
+    <CardText>
+      <dl className={style.descriptiveList}>
+        <div>
+          <dt>Pris</dt>
+          <Diff simple type="dd" history={pullOutHistory(['pris'], adHistory)} />
+        </div>
+        {Object.keys(adHistory[0].prisDetaljer).map(key => {
+          if (!adHistory[0].prisDetaljer[key] || typeof adHistory[0].prisDetaljer[key] !== 'object') return null;
+          const beskrivelse = adHistory[0].prisDetaljer[key].beskrivelse;
+          return (
+            <div key={beskrivelse}>
+              <dt>{beskrivelse}</dt>
+              <Diff simple type="dd" history={pullOutHistory(['prisDetaljer', key, 'verdi'], adHistory)} />
+            </div>
+          )
+        })}
+      </dl>
+    </CardText>
+  </Card>
+);
 
-  return (
-    <Card>
-      <CardHeader title="Prisdetaljer" />
-      <CardText>
-        <dl className={style.descriptiveList}>
-          <div>
-            <dt>Pris</dt>
-            <Diff simple type="dd" history={pullOutHistory(['pris'], adHistory)} />
-          </div>
-          {Object.keys(adHistory[0].prisDetaljer).map(key => {
-            if (!adHistory[0].prisDetaljer[key] || typeof adHistory[0].prisDetaljer[key] !== 'object') return null;
-            const beskrivelse = adHistory[0].prisDetaljer[key].beskrivelse;
-            return (
-              <div key={beskrivelse}>
-                <dt>{beskrivelse}</dt>
-                <Diff simple type="dd" history={pullOutHistory(['prisDetaljer', key, 'verdi'], adHistory)} />
-              </div>
-            )
-          })}
-        </dl>
-      </CardText>
-    </Card>
-  );
-};
+const ApartmentDetailsSection = ({ adHistory }) => (
+  <Card>
+    <CardHeader title="Boligdetaljer" />
+    <CardText>
+      <dl className={style.descriptiveList}>
+        {Object.keys(adHistory[0].leilighetsDetaljer).map(key => {
+          if (!adHistory[0].leilighetsDetaljer[key] || typeof adHistory[0].leilighetsDetaljer[key] !== 'object') return null;
+          const beskrivelse = adHistory[0].leilighetsDetaljer[key].beskrivelse;
+          return (
+            <div key={beskrivelse}>
+              <dt>{beskrivelse}</dt>
+              <Diff simple type="dd" history={pullOutHistory(['leilighetsDetaljer', key, 'verdi'], adHistory)} />
+            </div>
+          )
+        })}
+      </dl>
+    </CardText>
+  </Card>
+);
 
-const ApartmentDetailsSection = ({ adHistory }) => {
-  if (!adHistory.length) return null;
-
-  return (
-    <Card>
-      <CardHeader title="Boligdetaljer" />
-      <CardText>
-        <dl className={style.descriptiveList}>
-          {Object.keys(adHistory[0].leilighetsDetaljer).map(key => {
-            if (!adHistory[0].leilighetsDetaljer[key] || typeof adHistory[0].leilighetsDetaljer[key] !== 'object') return null;
-            const beskrivelse = adHistory[0].leilighetsDetaljer[key].beskrivelse;
-            return (
-              <div key={beskrivelse}>
-                <dt>{beskrivelse}</dt>
-                <Diff simple type="dd" history={pullOutHistory(['leilighetsDetaljer', key, 'verdi'], adHistory)} />
-              </div>
-            )
-          })}
-        </dl>
-      </CardText>
-    </Card>
-  );
-};
+const GeneralTextSections = ({ adHistory }) => (
+  <Card>
+    <CardHeader title="Andre detaljer" />
+    <CardText>
+      <Fragment>
+        {Object.keys(adHistory[0].generelleSeksjoner).map(key => {
+          if (!adHistory[0].generelleSeksjoner[key] || typeof adHistory[0].generelleSeksjoner[key] !== 'object') return null;
+          const beskrivelse = adHistory[0].generelleSeksjoner[key].beskrivelse;
+          return (
+            <div id={key} key={beskrivelse}>
+              <h6>{beskrivelse}</h6>
+              <Diff simple={false} type="p" history={pullOutHistory(['generelleSeksjoner', key, 'verdi'], adHistory)} />
+            </div>
+          )
+        })}
+      </Fragment>
+    </CardText>
+  </Card>
+);
 
 const OtherSection = ({ adHistory }) => {
   const omkostningerHistory = pullOutHistory(['omkostninger'], adHistory);
@@ -102,6 +114,18 @@ const OtherSection = ({ adHistory }) => {
     </Card>
   );
 };
+
+const WhopsSection = ({ match }) => (
+  <div>
+    <p>Ojda! Noe veldig rart har skjedd. Denne annonsen har blitt korrupt når den ble lagt til.</p>
+    <p>Send meg gjerne en mail på <a href="mailto:karl@karl.run">karl@karl.run</a> så kan jeg finne ut hva som har skjedd. :-)</p>
+    <p>Alternativt kan du opprette et issue på <a
+      href={`https://github.com/karl-run/finndiff/issues/new?title=Korrupt%20annonse:%20${match.params.finnCode}&body=Skriv%20gjerne%20litt%20mer`}>
+      Github
+    </a>
+    </p>
+  </div>
+);
 
 type Props = {
   ad: {
@@ -170,6 +194,18 @@ class Details extends React.Component<Props, State> {
         this.setState({ liked: false });
       }
     }
+
+    if (!nextProps.ad.loading) {
+      const { hash } = window.location;
+      console.log("hash", hash);
+      if (hash !== '') {
+        const id = hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          setTimeout(() => element.scrollIntoView(), 0);
+        }
+      }
+    }
   }
 
   render() {
@@ -179,19 +215,14 @@ class Details extends React.Component<Props, State> {
     if (ad.loading) {
       content = <Spinner />;
     } else if (!ad.adHistory.length) {
-      content = (
-        <div>
-          <p>Ojda! Noe veldig rart har skjedd. Denne annonsen har blitt korrupt når den ble lagt til.</p>
-          <p>Send meg gjerne en mail på <a href="mailto:karl@karl.run">karl@karl.run</a> så kan jeg finne ut hva som har skjedd. :-)</p>
-          <p>Alternativt kan du opprette et issue på <a href={`https://github.com/karl-run/finndiff/issues/new?title=Korrupt%20annonse:%20${this.props.match.params.finnCode}&body=Skriv%20gjerne%20litt%20mer`}>Github</a></p>
-        </div>
-      )
+      content = <WhopsSection match={this.props.match} />;
     } else {
       content = (
         <div>
           <IntroSection adHistory={ad.adHistory} />
           <PriceSection adHistory={ad.adHistory} />
           <ApartmentDetailsSection adHistory={ad.adHistory} />
+          <GeneralTextSections adHistory={ad.adHistory} />
           <OtherSection adHistory={ad.adHistory} />
         </div>
       );
