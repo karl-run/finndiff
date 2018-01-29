@@ -10,11 +10,12 @@ if (!url) {
 
 let db;
 let ads;
+let likes;
 let watched;
 
 const initialize = () => {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(url, function(err, client) {
+    MongoClient.connect(url, function (err, client) {
       if (err != null) {
         logError(err);
         return reject(err);
@@ -25,6 +26,7 @@ const initialize = () => {
       let connected = true;
       db = client.db('finndiff');
       ads = db.collection('ads');
+      likes = db.collection('likes');
       watched = db.collection('watched');
       return resolve();
     });
@@ -32,7 +34,7 @@ const initialize = () => {
 };
 
 const addWatchedAd = (finnCode, originalDescription) => {
-  if (!finnCode) return Promise.reject("Finn code can't be nothing");
+  if (!finnCode) return Promise.reject('Finn code can\'t be nothing');
 
   return new Promise((resolve, reject) => {
     return watched
@@ -61,7 +63,7 @@ const watchedExists = id => {
         resolve(result.length > 0);
       })
       .catch(err => {
-        log.debug(`Unable to add with id ${id}.`);
+        log.debug(`Unexpected error while checking if  ${id} exists.`);
         log.error(err);
         reject(false);
       });
@@ -86,6 +88,21 @@ const getAllWatched = async () => {
   });
 };
 
+const mapToWatchedItem = (items) => (items || []).map(item => ({ finnCode: item.finnCode, description: item.description }));
+
+const getAllLiked = async (userId) => {
+  const liked = await likes.findOne({ userId });
+
+  if (!liked || liked.likes.length === 0) {
+    return [];
+  }
+
+  return await watched
+    .find({ finnCode: { $in: liked.likes } })
+    .toArray()
+    .then(mapToWatchedItem);
+};
+
 const insertAdData = ad => {
   if (!ad || !ad.finnkode) {
     return Promise.reject('The ad is not good enough.');
@@ -96,6 +113,26 @@ const insertAdData = ad => {
     log.debug(`Inserted ad ${ad.finnkode} successfully.`);
     resolve();
   });
+};
+
+const likeAd = async (id, userId) => {
+  if (!id || !userId) {
+    return Promise.reject('Both id and user id are required');
+  }
+
+  const exists = await likes.findOne({ userId });
+
+  if (!exists) {
+    const insert = await likes.insert({ userId, likes: [id] });
+    return insert.result.ok;
+  } else if (exists.likes.includes(id)) {
+    throw Error(`${id} er allerede likt.`);
+  }
+
+  const updated = await likes.update({ userId }, { userId, likes: [...exists.likes, id] });
+
+  return updated.result.ok;
+
 };
 
 const getAdData = finnCode => {
@@ -134,8 +171,10 @@ module.exports = {
   initialize,
   insertAdData,
   getAllWatched,
+  getAllLiked,
   getAdData,
   findAllAds,
   addWatchedAd,
   watchedExists,
+  likeAd,
 };

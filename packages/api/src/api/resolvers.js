@@ -1,7 +1,15 @@
 const { version } = require('../../package.json');
 const scraper = require('../scraper/scraper');
 const { scrapeDiffAndStore } = require('../scraper/polling');
-const { insertAdData, watchedExists, addWatchedAd, getAllWatched, getAdData } = require('../mongo/mongo');
+const {
+  insertAdData,
+  watchedExists,
+  addWatchedAd,
+  getAllWatched,
+  getAllLiked,
+  getAdData,
+  likeAd,
+} = require('../mongo/mongo');
 
 const rootQueryResolver = {
   Query: {
@@ -20,12 +28,17 @@ const rootQueryResolver = {
     rawAd: (_, { id }) => {
       return scraper.singleAd(id);
     },
-    watched: (_, args, context) => {
+    watched: () => {
       return getAllWatched();
+    },
+    liked: (_, args, { loggedIn, user }) => {
+      if (!loggedIn) return [];
+
+      return getAllLiked(user.sub);
     },
   },
   Mutation: {
-    addWatched: async (_, { id }) => {
+    addWatched: async (_, { id }, { loggedIn, user }) => {
       const result = await scraper.singleAd(id);
 
       if (result.error) {
@@ -38,14 +51,38 @@ const rootQueryResolver = {
       if (exists) return new Error(`${id} er allerede lagt til.`);
 
       const added = await addWatchedAd(id, result.tittel)
-        .then(() => true)
-        .catch(() => new Error(`Det skjedde en uforvented feil i tileggingen av ${id}.`));
+        .then(async () => {
+          if (loggedIn) {
+            return await likeAd(id, user.sub);
+          } else {
+            return true;
+          }
+        })
+        .catch((err) => {
+          log.error(err);
+          new Error(`Det skjedde en uforvented feil i tileggingen av ${id}.`)
+        });
 
       if (added) {
         scrapeDiffAndStore(id);
       }
 
       return added;
+    },
+
+    like: async (_, { id }, { loggedIn, user }) => {
+      if (!loggedIn) {
+        throw Error('Du må være logget inn for å like annonser.');
+      }
+
+      const exists = await watchedExists(id);
+
+      if (!exists) {
+        return new Error(`${id} er ikke en annonse som finnes.`);
+      }
+
+      const result = await likeAd(id, user.sub);
+
     },
   },
 };

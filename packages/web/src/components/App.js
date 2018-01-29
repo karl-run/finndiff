@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { ApolloProvider } from 'react-apollo';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SizeListener from 'react-window-size-listener';
 
@@ -9,6 +9,7 @@ import apolloClient from '../apollo/apollo';
 import Watched from './watched/Watched';
 import Content from './content/Content';
 import MobileNav from './mobile/MobileNav';
+import AuthCallback from './auth/Callback';
 
 import './App.css';
 
@@ -43,23 +44,27 @@ class App extends Component<{}, State> {
     this.setState({ menuOpen: open });
   };
 
-
   render() {
     return (
       <ApolloProvider client={apolloClient}>
         <MuiThemeProvider muiTheme={customTheme}>
           <Router>
-            <Fragment>
-              <SizeListener onResize={this.onResize} />
-              <MobileNav toggle={this.toggleDrawer} isMobile={this.state.isMobile} />
-              <Watched
-                handleRequestChange={this.setDrawer}
-                toggleDrawer={this.toggleDrawer}
-                open={this.state.menuOpen}
-                isMobile={this.state.isMobile}
-              />
-              <Content />
-            </Fragment>
+            <Switch>
+              <Route exact path="/callback" component={AuthCallback} />
+              <Route path="/" render={() => (
+                <Fragment>
+                  <SizeListener onResize={this.onResize} />
+                  <MobileNav toggle={this.toggleDrawer} isMobile={this.state.isMobile} />
+                  <Watched
+                    handleRequestChange={this.setDrawer}
+                    toggleDrawer={this.toggleDrawer}
+                    open={this.state.menuOpen}
+                    isMobile={this.state.isMobile}
+                  />
+                  <Content />
+                </Fragment>
+              )} />
+            </Switch>
           </Router>
         </MuiThemeProvider>
       </ApolloProvider>

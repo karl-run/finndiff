@@ -5,3 +5,9 @@ export const addWatched = gql`
     addWatched(id: $finnCode)
   }
 `;
+
+export const likeMutation = gql`
+  mutation like($finnCode: String!) {
+    like(id: $finnCode)
+  }
+`;

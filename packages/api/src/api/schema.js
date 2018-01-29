@@ -105,12 +105,14 @@ const typeDefs = `
     version: String
     user: User
     watched: [WatchedAd]!
+    liked: [WatchedAd]!
     adHistory(id: String!): [Ad]!
     rawAd(id: String!): Ad!
   }
 
   type Mutation {
     addWatched(id: String!): Boolean
+    like(id: String!): Boolean
   }
 `;
 

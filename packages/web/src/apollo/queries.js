@@ -24,6 +24,15 @@ export const watchedQuery = gql`
   }
 `;
 
+export const likedQuery = gql`
+  query Liked {
+    liked {
+      finnCode
+      description
+    }
+  }
+`;
+
 const sections = {
   generelleSeksjoner: [
     'innhold',

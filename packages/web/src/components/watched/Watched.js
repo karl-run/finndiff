@@ -3,19 +3,19 @@
 import React, { Component, Fragment } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import Spinner from 'react-nano-spinner';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import Drawer from 'material-ui/Drawer';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import IconButton from 'material-ui/IconButton';
 
 import { isAuthenticated } from '../auth/Auth';
-import Auth from '../auth/AuthHandler';
+import LoginBox from '../auth/LoginBox';
 import Logo from '../animatedlogo/AnimatedLogoLoading';
 import Version from '../version/Version';
 import AddWatched from './addwatched/AddWatched';
 
-import { watchedQuery } from '../../apollo/queries';
+import { watchedQuery, likedQuery } from '../../apollo/queries';
 
 import logoTop from '../../img/logo_top.svg';
 import logoBottom from '../../img/logo_bottom.svg';
@@ -28,12 +28,12 @@ const LogoHeader = ({ toggleDrawer }) => {
         <Logo alt="finndiff logo" delay={10} src={logoTop} />
         <Logo alt="finndiff logo" delay={150} src={logoBottom} />
       </IconButton>
-      <Auth />
+      <LoginBox />
     </div>
   );
 };
 
-const WatchedList = withRouter(({ toggleDrawer, loading, watched, location }) => {
+const WatchedList = withRouter(({ toggleDrawer, loading, items, noFoundMessage, location }) => {
   return (
     <List className={style.watchedList}>
       {loading && (
@@ -42,8 +42,8 @@ const WatchedList = withRouter(({ toggleDrawer, loading, watched, location }) =>
         </ListItem>
       )}
       {!loading &&
-      watched &&
-      watched.map(ad => (
+      items &&
+      items.map(ad => (
         <ListItem
           className="watched-ad-item"
           innerDivStyle={listItemStyle}
@@ -55,8 +55,8 @@ const WatchedList = withRouter(({ toggleDrawer, loading, watched, location }) =>
           title={ad.description}
           rightIcon={location.pathname.indexOf(ad.finnCode) > 0 ? <i className="material-icons">play_arrow</i> : null}
         />
-      ))}
-      {!loading && !watched && <ListItem disabled>Fant ingen annonser</ListItem>}
+      )).reverse()}
+      {(!loading && items && items.length === 0) && <ListItem disabled>{noFoundMessage || 'Fant ingen annonser'}</ListItem>}
     </List>
   );
 });
@@ -79,7 +79,7 @@ const listItemStyle = {
 
 class Watched extends Component<Props> {
   render() {
-    const { isMobile, open, handleRequestChange, toggleDrawer, data: { loading, watched } } = this.props;
+    const { isMobile, open, handleRequestChange, toggleDrawer, watched, liked, } = this.props;
 
     let drawerProps;
     if (isMobile) {
@@ -94,15 +94,23 @@ class Watched extends Component<Props> {
       }
     }
 
+    const loggedIn = isAuthenticated();
+
     return (
       <Fragment>
         <Drawer {...drawerProps} className={style.watched}>
           <LogoHeader toggleDrawer={toggleDrawer} />
           <AddWatched />
           <Subheader>Dine annonser</Subheader>
-          <ListItem disabled>{!isAuthenticated() ? 'Logg inn for å se dine annonser' : 'Du har ikke lagt til noen annonser.'}</ListItem>
+          {loggedIn && (
+            <WatchedList
+              toggleDrawer={toggleDrawer} loading={liked.loading} items={liked.liked}
+              noFoundMessage="Du har ikke lagt til noen annonser."
+            />
+          )}
+          {!loggedIn && <ListItem disabled>{'Logg inn for å se dine annonser'}</ListItem>}
           <Subheader>Alle overvåkte annonser</Subheader>
-          <WatchedList toggleDrawer={toggleDrawer} loading={loading} watched={watched} />
+          <WatchedList toggleDrawer={toggleDrawer} loading={watched.loading} items={watched.watched} />
           <Version />
         </Drawer>
       </Fragment>
@@ -110,6 +118,12 @@ class Watched extends Component<Props> {
   }
 }
 
-const withApollo = graphql(watchedQuery);
-
+const withApollo = compose(
+  graphql(likedQuery, {
+    name: 'liked',
+  }),
+  graphql(watchedQuery, {
+    name: 'watched',
+  }),
+)
 export default withApollo(Watched);

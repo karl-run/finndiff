@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import { ListItem } from 'material-ui/List';
 import { addWatched } from '../../../apollo/mutations';
@@ -59,6 +60,11 @@ class AddWatched extends Component<Props> {
         .catch(error => {
           this.setState({ value: number, loading: false });
           const [first] = error.graphQLErrors;
+
+          if (first.message.indexOf('er allerede lagt til') >= 0) {
+            this.props.history.push(`/diff/${number}`)
+          }
+
           this.setState({ error: first.message });
         });
     }
@@ -83,8 +89,8 @@ class AddWatched extends Component<Props> {
 
 const withApollo = graphql(addWatched, {
   options: {
-    refetchQueries: ['Watched'],
+    refetchQueries: ['Liked', 'Watched'],
   },
 });
 
-export default withApollo(AddWatched);
+export default withApollo(withRouter(AddWatched));

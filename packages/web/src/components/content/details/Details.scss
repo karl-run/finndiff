@@ -1,8 +1,23 @@
 :local(.root) {
   max-width: 900px;
 
+  .snackbar-message {
+    display: flex;
+    align-items: center;
+
+    i {
+      margin-right: 8px;
+    }
+  }
+
   h1 {
     display: flex;
+    align-items: center;
+
+    > div:nth-child(1) {
+      flex: 0;
+      width: auto !important;
+    }
   }
 
   .nano-spinner-bounce {
