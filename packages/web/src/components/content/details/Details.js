@@ -197,7 +197,6 @@ class Details extends React.Component<Props, State> {
 
     if (!nextProps.ad.loading) {
       const { hash } = window.location;
-      console.log("hash", hash);
       if (hash !== '') {
         const id = hash.replace('#', '');
         const element = document.getElementById(id);

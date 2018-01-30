@@ -53,8 +53,7 @@ const scrapeDiffAndStore = (finnCode, i = 0) => {
         log.info(`${finnCode} has not changed.`);
       } else {
         log.info(`${finnCode} has changed, saving the new values.`);
-        console.log(cleanDiff)
-        //insertAdData(cleanDiff);
+        insertAdData(cleanDiff);
       }
 
       resolve();
