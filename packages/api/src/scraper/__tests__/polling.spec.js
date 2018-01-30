@@ -4,12 +4,17 @@ const listingFull = require('./ex_ad_root');
 const listingOneChanged = require('./ex_ad_root_changed_1');
 const listingOneAdded = require('./ex_ad_root_added_1');
 const listingOneRemoved = require('./ex_ad_root_removed_1');
+const listingFreshTruth = require('./ex_ad_root_fresh_truth');
 
 test('when a single value has changed it should return a correct truth object', () => {
   const result = polling.createTruth([listingFull, listingOneChanged]);
 
   expect(Object.keys(result).length).toEqual(Object.keys(listingFull).length);
-  expect(result.generelleSeksjoner.beliggenhet.verdi).toEqual(listingOneChanged.generelleSeksjoner.beliggenhet.verdi);
+  expect(result.generelleSeksjoner.beliggenhet).toEqual({
+      'beskrivelse': 'Beliggenhet',
+      'verdi': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. This has changed.',
+    },
+  );
 });
 
 test('when a single property has been added it should return a correct truth object', () => {
@@ -23,43 +28,59 @@ test('when a single property has been added it should return a correct truth obj
   });
 });
 
-// TODO fix: Currently fails because merging of removed props isn't implemented properly.
+test('when a property has been added and a property has been changed it should return a correct truth object', () => {
+  const result = polling.createTruth([listingFull, listingOneAdded, listingOneChanged]);
+
+  expect(Object.keys(result).length).toEqual(Object.keys(listingFull).length);
+  expect(Object.keys(result.leilighetsDetaljer).length).toEqual(2);
+  expect(result.leilighetsDetaljer.antallRom).toEqual({
+    beskrivelse: 'Antall rom',
+    verdi: 3,
+  });
+  expect(result.generelleSeksjoner.beliggenhet).toEqual({
+      'beskrivelse': 'Beliggenhet',
+      'verdi': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. This has changed.',
+    },
+  );
+});
+
 test('when a single property has been removed it should return a correct truth object', () => {
   const result = polling.createTruth([listingFull, listingOneRemoved]);
 
   expect(Object.keys(result).length).toEqual(Object.keys(listingFull).length);
-  expect(Object.keys(result.generelleSeksjoner).length).toEqual(1);
-  expect(result.leilighetsDetaljer).toEqual({
+  expect(Object.keys(result.generelleSeksjoner).length).toEqual(2);
+  expect(result.generelleSeksjoner).toEqual({
     'beliggenhet': {
       'beskrivelse': 'Beliggenhet',
       'verdi': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras laoreet.',
     },
+    byggemaate: null,
   });
 });
 
-/*
-const genesis = {
-  code: 1,
-  value: 10,
-  description: "Something",
-  otherValue: "Something else",
-};
+test('when a property has been added, a property has been changed and one has been removed it should return a correct truth object', () => {
+  const result = polling.createTruth([listingFull, listingOneAdded, listingOneChanged, listingOneRemoved]);
 
-const diffOne = {
-  code: 1,
-  description: null,
-};
+  expect(Object.keys(result).length).toEqual(Object.keys(listingFull).length);
+  expect(Object.keys(result.leilighetsDetaljer).length).toEqual(2);
+  expect(result.leilighetsDetaljer.antallRom).toEqual({
+    beskrivelse: 'Antall rom',
+    verdi: 3,
+  });
+  expect(Object.keys(result.generelleSeksjoner).length).toEqual(2);
+  expect(result.generelleSeksjoner).toEqual({
+    'beliggenhet': {
+      'beskrivelse': 'Beliggenhet',
+      'verdi': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. This has changed.',
+    },
+    byggemaate: null,
+  });
+});
 
-const diffTwo = {
-  code: 1,
-  otherValue: "Now this changed"
-};
+test('a created truth object cleaned of null values should have no diff with a correct fresh listing.', () => {
+  const result = polling.createTruth([listingFull, listingOneAdded, listingOneChanged, listingOneRemoved]);
 
-// genesis + diffOne + diffTwo =
-const truth = {
-  code: 1,
-  value: 10,
-  description: "This has changed",
-  otherValue: "Now this changed",
-};
-*/
+  polling.removeNullValues(result);
+
+  expect(result).toEqual(listingFreshTruth);
+});

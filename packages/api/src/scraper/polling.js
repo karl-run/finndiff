@@ -1,4 +1,5 @@
 const merge = require('deepmerge');
+const pickBy = require('lodash.pickby');
 
 const { getAllWatched, getAdData, insertAdData } = require('../mongo/mongo');
 const { singleAd } = require('./scraper');
@@ -27,6 +28,13 @@ const createTruth = (newestExisting) => {
   return diffWith;
 };
 
+const removeNullValues = (obj) => {
+  Object.keys(obj).forEach(key => {
+    if (obj[key] && typeof obj[key] === 'object') removeNullValues(obj[key]);
+    else if (obj[key] == null) delete obj[key];
+  });
+};
+
 const scrapeDiffAndStore = (finnCode, i = 0) => {
   return new Promise((resolve, reject) => {
     setTimeout(async () => {
@@ -44,8 +52,7 @@ const scrapeDiffAndStore = (finnCode, i = 0) => {
 
       let diffWith = createTruth(newestExisting);
 
-      log.debug(freshAd);
-      log.debug(diffWith);
+      removeNullValues(diffWith);
 
       const cleanDiff = differ(freshAd, diffWith);
 
@@ -89,4 +96,4 @@ const startPolling = () => {
   setInterval(interval, rate);
 };
 
-module.exports = { init: startPolling, scrapeDiffAndStore, createTruth };
+module.exports = { init: startPolling, scrapeDiffAndStore, createTruth, removeNullValues };

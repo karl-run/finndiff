@@ -14,16 +14,16 @@
     "primaerrom": {
       "beskrivelse": "Primærrom",
       "verdi": 71
+    },
+    "antallRom": {
+      "beskrivelse": "Antall rom",
+      "verdi": 3
     }
   },
   "generelleSeksjoner": {
     "beliggenhet": {
       "beskrivelse": "Beliggenhet",
-      "verdi": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras laoreet."
-    },
-    "byggemaate": {
-      "beskrivelse": "Byggemåte",
-      "verdi": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pulvinar."
+      "verdi": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. This has changed."
     }
   },
   "omkostninger": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nisi.",
