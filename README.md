@@ -30,12 +30,10 @@ This project has two modules, `api` and `web`, with backend and frontend respect
 This starts the api with nodemon, and the development build of the web project. The web project is proxied through CRA's [proxy](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#proxying-api-requests-in-development) functionality. Meaning that you should browse the application through `localhost:3000` and use graphiql through `localhost:4000/api/graphql`. This is not true for the production build, where the api module statically serves the web build.
 
 #### Run only api
-0. `cd api`
-1. `npm run dev`
+1. `npm run dev-api`
 
 #### Run only web
-1. `cd web`
-2. `npm run start`
+1. `npm run dev-web`
 
 #### Bump the version
 1. From root: `npm run tag`
