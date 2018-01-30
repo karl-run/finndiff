@@ -1,0 +1,36 @@
+{
+  "finnkode": "100200300",
+  "solgt": false,
+  "pulled": "2018-01-30T18:35:03.302Z",
+  "tittel": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tristique.",
+  "adresse": "Testetestetest 69, 0001 Oslo",
+  "pris": 3650000,
+  "prisDetaljer": {
+    "verditakst": {
+      "beskrivelse": "Verditakst",
+      "verdi": 3850000
+    }
+  },
+  "leilighetsDetaljer": {
+    "primaerrom": {
+      "beskrivelse": "Primærrom",
+      "verdi": 71
+    },
+    "antallRom": {
+      "beskrivelse": "Antall rom",
+      "verdi": 3
+    }
+  },
+  "generelleSeksjoner": {
+    "beliggenhet": {
+      "beskrivelse": "Beliggenhet",
+      "verdi": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. This has changed."
+    },
+    "byggemaate": {
+      "beskrivelse": "Byggemåte",
+      "verdi": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pulvinar."
+    }
+  },
+  "omkostninger": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nisi.",
+  "matrikkelinformasjon": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam et."
+}

@@ -1,4 +1,4 @@
-var merge = require('deepmerge');
+const merge = require('deepmerge');
 
 const { getAllWatched, getAdData, insertAdData } = require('../mongo/mongo');
 const { singleAd } = require('./scraper');
@@ -7,6 +7,25 @@ const differ = require('./differ');
 //process.env.POLL_RATE = 100000;
 const rate = process.env.POLL_RATE || 60 * 60 * 1000; // 1 hour
 const feedRate = process.env.FEED_RATE || 2000; // 2 seconds +/- 1 second
+
+const createTruth = (newestExisting) => {
+  let diffWith;
+  if (newestExisting.length >= 2) {
+    const [first, ...diffs] = newestExisting;
+
+    let truth = first;
+
+    diffs.forEach((diff) => {
+      truth = merge(truth, diff);
+    });
+
+    diffWith = truth;
+  } else {
+    diffWith = newestExisting[0];
+  }
+
+  return diffWith;
+};
 
 const scrapeDiffAndStore = (finnCode, i = 0) => {
   return new Promise((resolve, reject) => {
@@ -23,20 +42,10 @@ const scrapeDiffAndStore = (finnCode, i = 0) => {
         return resolve();
       }
 
-      let diffWith;
-      if (newestExisting.length >= 2) {
-        const [first, ...diffs] = newestExisting;
+      let diffWith = createTruth(newestExisting);
 
-        let truth = first;
-
-        diffs.forEach((diff, into) => {
-          truth = merge(truth, diff);
-        });
-
-        diffWith = truth;
-      } else {
-        diffWith = newestExisting[0];
-      }
+      log.debug(freshAd);
+      log.debug(diffWith);
 
       const cleanDiff = differ(freshAd, diffWith);
 
@@ -44,7 +53,8 @@ const scrapeDiffAndStore = (finnCode, i = 0) => {
         log.info(`${finnCode} has not changed.`);
       } else {
         log.info(`${finnCode} has changed, saving the new values.`);
-        insertAdData(cleanDiff);
+        console.log(cleanDiff)
+        //insertAdData(cleanDiff);
       }
 
       resolve();
@@ -55,8 +65,8 @@ const scrapeDiffAndStore = (finnCode, i = 0) => {
 const startPolling = () => {
   log.info(
     `Setting up polling at every ${rate / 1000} seconds (${rate /
-      1000 /
-      60} minutes), with a feedrate of ${feedRate}ms`,
+    1000 /
+    60} minutes), with a feedrate of ${feedRate}ms`,
   );
 
   const interval = async () => {
@@ -66,6 +76,8 @@ const startPolling = () => {
       log.warn(`Not in production!! Only polling one ad.`);
 
       watched.slice(0, 1).forEach(scrapeDiffAndStore);
+      // Problemannonser:
+      //['111931690', '109847212', '109004887'].forEach(scrapeDiffAndStore);
     } else {
       log.info(`Will update ${watched.length} different ads.`);
 
@@ -78,4 +90,4 @@ const startPolling = () => {
   setInterval(interval, rate);
 };
 
-module.exports = { init: startPolling, scrapeDiffAndStore };
+module.exports = { init: startPolling, scrapeDiffAndStore, createTruth };
