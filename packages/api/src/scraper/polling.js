@@ -1,5 +1,4 @@
 const merge = require('deepmerge');
-const pickBy = require('lodash.pickby');
 
 const { getAllWatched, getAdData, insertAdData } = require('../mongo/mongo');
 const { singleAd } = require('./scraper');
