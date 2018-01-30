@@ -15,7 +15,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) {
     console.log(`[Network error]: ${networkError}`);
 
-    if (networkError.statusCode === 403) {
+    if ([401, 402, 403].includes(networkError.statusCode)) {
       localStorage.removeItem('access_token');
       localStorage.removeItem('id_token');
       localStorage.removeItem('expires_at');

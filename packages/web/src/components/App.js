@@ -12,6 +12,7 @@ import MobileNav from './mobile/MobileNav';
 import AuthCallback from './auth/Callback';
 
 import './App.css';
+import ErrorBoundary from './error/ErrorBoundary';
 
 type State = {
   isMobile: boolean,
@@ -48,24 +49,26 @@ class App extends Component<{}, State> {
     return (
       <ApolloProvider client={apolloClient}>
         <MuiThemeProvider muiTheme={customTheme}>
-          <Router>
-            <Switch>
-              <Route exact path="/callback" component={AuthCallback} />
-              <Route path="/" render={() => (
-                <Fragment>
-                  <SizeListener onResize={this.onResize} />
-                  <MobileNav toggle={this.toggleDrawer} isMobile={this.state.isMobile} />
-                  <Watched
-                    handleRequestChange={this.setDrawer}
-                    toggleDrawer={this.toggleDrawer}
-                    open={this.state.menuOpen}
-                    isMobile={this.state.isMobile}
-                  />
-                  <Content />
-                </Fragment>
-              )} />
-            </Switch>
-          </Router>
+          <ErrorBoundary>
+            <Router>
+              <Switch>
+                <Route exact path="/callback" component={AuthCallback} />
+                <Route path="/" render={() => (
+                  <Fragment>
+                    <SizeListener onResize={this.onResize} />
+                    <MobileNav toggle={this.toggleDrawer} isMobile={this.state.isMobile} />
+                    <Watched
+                      handleRequestChange={this.setDrawer}
+                      toggleDrawer={this.toggleDrawer}
+                      open={this.state.menuOpen}
+                      isMobile={this.state.isMobile}
+                    />
+                    <Content />
+                  </Fragment>
+                )} />
+              </Switch>
+            </Router>
+          </ErrorBoundary>
         </MuiThemeProvider>
       </ApolloProvider>
     );

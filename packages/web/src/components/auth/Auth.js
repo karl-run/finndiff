@@ -42,12 +42,16 @@ export default class Auth {
   }
 
   logout() {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
+    silentLogout();
     window.location.reload();
   }
 }
+
+export const silentLogout = () => {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('id_token');
+  localStorage.removeItem('expires_at');
+};
 
 export const isAuthenticated = () => {
   let expiresAt = JSON.parse(localStorage.getItem('expires_at'));

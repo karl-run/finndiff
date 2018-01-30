@@ -31,6 +31,14 @@ const init = app => {
     },
   })));
   app.get('/api/graphiql', graphiqlExpress({ endpointURL: '/api/graphql' }));
+  app.post('/api/uh-oh', bodyParser.json(), (req, res) => {
+    log.error('Client reported error:');
+
+    log.error(req.body.message);
+    log.error(req.body.info);
+
+    res.send({ ok: '2k' });
+  })
 };
 
 module.exports = {
