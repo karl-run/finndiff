@@ -4,9 +4,6 @@ const { logError } = require('./mongoError');
 
 const url = process.env.MONGO_URL;
 
-if (!url) {
-  throw Error('No MONGO_URL environment variable set');
-}
 
 let db;
 let ads;
@@ -14,6 +11,10 @@ let likes;
 let watched;
 
 const initialize = () => {
+  if (!url) {
+    throw Error('No MONGO_URL environment variable set');
+  }
+
   return new Promise((resolve, reject) => {
     MongoClient.connect(url, function (err, client) {
       if (err != null) {
