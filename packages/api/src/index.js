@@ -1,22 +1,21 @@
-require('./globals');
-
 const express = require('express');
-const mongo = require('./mongo/mongo');
-const static = require('./static/static');
+const { mongo, initGlobals } = require('finndiff-api-core');
+
+const staticServe = require('./static/static');
 const polling = require('./scraper/polling');
 const api = require('./api/api');
-const logging = require('./logging/logger');
 
+initGlobals();
 const app = express();
 const DEFAULT_PORT = 4000;
 
-logging.level = 'debug';
+log.level = 'info';
 
 mongo
   .initialize()
   .then(() => {
     // Set up express
-    static.init(app);
+    staticServe.init(app);
     api.init(app);
     app.listen(process.env.PORT || DEFAULT_PORT, () => {
       log.info('Started server on port ' + (process.env.PORT || DEFAULT_PORT));

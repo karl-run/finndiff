@@ -1,15 +1,17 @@
+const {
+  mongo: {
+    watchedExists,
+    addWatchedAd,
+    getAllWatched,
+    getAllLiked,
+    getAdData,
+    likeAd,
+  },
+} = require('finndiff-api-core');
+
 const { version } = require('../../package.json');
 const scraper = require('../scraper/scraper');
 const { scrapeDiffAndStore } = require('../scraper/polling');
-const {
-  insertAdData,
-  watchedExists,
-  addWatchedAd,
-  getAllWatched,
-  getAllLiked,
-  getAdData,
-  likeAd,
-} = require('../mongo/mongo');
 
 const rootQueryResolver = {
   Query: {

@@ -1,4 +1,3 @@
-const mongo = require('../mongo/mongo');
 const {
   selectValue,
   selectSection,

@@ -1,9 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
 const { logError } = require('./mongoError');
 
 const url = process.env.MONGO_URL;
-
 
 let db;
 let ads;

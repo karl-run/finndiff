@@ -1,6 +1,5 @@
 {
   "name": "finndiff",
-  "version": "0.1.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,9 +10,7 @@
     "dev-web": "cd packages/web && npm run dev",
     "dev-api": "cd packages/api && npm run dev",
     "dev": "run-p dev-api dev-web",
-    "test-web": "cd packages/web && npm run build",
-    "test-api": "cd packages/api && npm run test",
-    "test": "run-p -l --aggregate-output test-web test-api"
+    "test": "CI=true lerna run test"
   },
   "repository": {
     "type": "git",

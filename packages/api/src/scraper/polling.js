@@ -1,10 +1,9 @@
+const { mongo: { getAllWatched, getAdData, insertAdData } } = require('finndiff-api-core');
 
-const { getAllWatched, getAdData, insertAdData } = require('../mongo/mongo');
 const { singleAd } = require('./scraper');
 const differ = require('./differ');
 const { createTruth, removeNullValuesExceptRoot } = require('./merger');
 
-//process.env.POLL_RATE = 100000;
 const rate = process.env.POLL_RATE || 60 * 60 * 1000; // 1 hour
 const feedRate = process.env.FEED_RATE || 2000; // 2 seconds +/- 1 second
 
