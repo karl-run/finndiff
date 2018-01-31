@@ -1,4 +1,4 @@
-const polling = require('../polling');
+const merger = require('../merger');
 
 const listingFull = require('./ex_ad_root');
 const listingOneChanged = require('./ex_ad_root_changed_1');
@@ -7,7 +7,7 @@ const listingOneRemoved = require('./ex_ad_root_removed_1');
 const listingFreshTruth = require('./ex_ad_root_fresh_truth');
 
 test('when a single value has changed it should return a correct truth object', () => {
-  const result = polling.createTruth([listingFull, listingOneChanged]);
+  const result = merger.createTruth([listingFull, listingOneChanged]);
 
   expect(Object.keys(result).length).toEqual(Object.keys(listingFull).length);
   expect(result.generelleSeksjoner.beliggenhet).toEqual({
@@ -18,7 +18,7 @@ test('when a single value has changed it should return a correct truth object', 
 });
 
 test('when a single property has been added it should return a correct truth object', () => {
-  const result = polling.createTruth([listingFull, listingOneAdded]);
+  const result = merger.createTruth([listingFull, listingOneAdded]);
 
   expect(Object.keys(result).length).toEqual(Object.keys(listingFull).length);
   expect(Object.keys(result.leilighetsDetaljer).length).toEqual(2);
@@ -29,7 +29,7 @@ test('when a single property has been added it should return a correct truth obj
 });
 
 test('when a property has been added and a property has been changed it should return a correct truth object', () => {
-  const result = polling.createTruth([listingFull, listingOneAdded, listingOneChanged]);
+  const result = merger.createTruth([listingFull, listingOneAdded, listingOneChanged]);
 
   expect(Object.keys(result).length).toEqual(Object.keys(listingFull).length);
   expect(Object.keys(result.leilighetsDetaljer).length).toEqual(2);
@@ -45,7 +45,7 @@ test('when a property has been added and a property has been changed it should r
 });
 
 test('when a single property has been removed it should return a correct truth object', () => {
-  const result = polling.createTruth([listingFull, listingOneRemoved]);
+  const result = merger.createTruth([listingFull, listingOneRemoved]);
 
   expect(Object.keys(result).length).toEqual(Object.keys(listingFull).length);
   expect(Object.keys(result.generelleSeksjoner).length).toEqual(2);
@@ -59,7 +59,7 @@ test('when a single property has been removed it should return a correct truth o
 });
 
 test('when a property has been added, a property has been changed and one has been removed it should return a correct truth object', () => {
-  const result = polling.createTruth([listingFull, listingOneAdded, listingOneChanged, listingOneRemoved]);
+  const result = merger.createTruth([listingFull, listingOneAdded, listingOneChanged, listingOneRemoved]);
 
   expect(Object.keys(result).length).toEqual(Object.keys(listingFull).length);
   expect(Object.keys(result.leilighetsDetaljer).length).toEqual(2);
@@ -78,9 +78,9 @@ test('when a property has been added, a property has been changed and one has be
 });
 
 test('a created truth object cleaned of null values should have no diff with a correct fresh listing.', () => {
-  const result = polling.createTruth([listingFull, listingOneAdded, listingOneChanged, listingOneRemoved]);
+  const result = merger.createTruth([listingFull, listingOneAdded, listingOneChanged, listingOneRemoved]);
 
-  polling.removeNullValues(result);
+  merger.removeNullValuesExceptRoot(result);
 
   expect(result).toEqual(listingFreshTruth);
 });

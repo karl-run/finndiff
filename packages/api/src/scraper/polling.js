@@ -1,38 +1,12 @@
-const merge = require('deepmerge');
 
 const { getAllWatched, getAdData, insertAdData } = require('../mongo/mongo');
 const { singleAd } = require('./scraper');
 const differ = require('./differ');
+const { createTruth, removeNullValuesExceptRoot } = require('./merger');
 
 //process.env.POLL_RATE = 100000;
 const rate = process.env.POLL_RATE || 60 * 60 * 1000; // 1 hour
 const feedRate = process.env.FEED_RATE || 2000; // 2 seconds +/- 1 second
-
-const createTruth = (newestExisting) => {
-  let diffWith;
-  if (newestExisting.length >= 2) {
-    const [first, ...diffs] = newestExisting;
-
-    let truth = first;
-
-    diffs.forEach((diff) => {
-      truth = merge(truth, diff);
-    });
-
-    diffWith = truth;
-  } else {
-    diffWith = newestExisting[0];
-  }
-
-  return diffWith;
-};
-
-const removeNullValues = (obj) => {
-  Object.keys(obj).forEach(key => {
-    if (obj[key] && typeof obj[key] === 'object') removeNullValues(obj[key]);
-    else if (obj[key] == null) delete obj[key];
-  });
-};
 
 const scrapeDiffAndStore = (finnCode, i = 0) => {
   return new Promise((resolve, reject) => {
