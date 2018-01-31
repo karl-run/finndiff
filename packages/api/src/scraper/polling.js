@@ -25,7 +25,7 @@ const scrapeDiffAndStore = (finnCode, i = 0) => {
 
       let diffWith = createTruth(newestExisting);
 
-      removeNullValues(diffWith);
+      removeNullValuesExceptRoot(diffWith);
 
       const cleanDiff = differ(freshAd, diffWith);
 
@@ -69,4 +69,4 @@ const startPolling = () => {
   setInterval(interval, rate);
 };
 
-module.exports = { init: startPolling, scrapeDiffAndStore, createTruth, removeNullValues };
+module.exports = { init: startPolling, scrapeDiffAndStore };
