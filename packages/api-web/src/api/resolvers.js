@@ -10,8 +10,6 @@ const {
 } = require('finndiff-api-core');
 
 const { version } = require('../../package.json');
-const scraper = require('../scraper/scraper');
-const { scrapeDiffAndStore } = require('../scraper/polling');
 
 const rootQueryResolver = {
   Query: {
@@ -27,9 +25,6 @@ const rootQueryResolver = {
     adHistory: (_, { id }) => {
       return getAdData(id);
     },
-    rawAd: (_, { id }) => {
-      return scraper.singleAd(id);
-    },
     watched: () => {
       return getAllWatched();
     },
@@ -41,6 +36,7 @@ const rootQueryResolver = {
   },
   Mutation: {
     addWatched: async (_, { id }, { loggedIn, user }) => {
+      // TODO Exists endpoint
       const result = await scraper.singleAd(id);
 
       if (result.error) {
@@ -66,7 +62,8 @@ const rootQueryResolver = {
         });
 
       if (added) {
-        scrapeDiffAndStore(id);
+        // TODO scrape diff and store endpoint
+        //scrapeDiffAndStore(id);
       }
 
       return added;
