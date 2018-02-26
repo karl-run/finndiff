@@ -18,14 +18,29 @@ class AuthHandler extends Component<{}, {}> {
   render() {
     return (
       <div className={style.authBox}>
-        {!isAuthenticated() && <Fragment>
-          <p>Logg inn for å kunne lage din egen liste av annonser.</p>
-          <RaisedButton label="Logg inn" secondary={true} onClick={() => { this.auth.login(); }} />
-        </Fragment>}
-        {isAuthenticated() && <Fragment>
-          <p>Du er logget inn</p>
-          <RaisedButton label="Logg ut" onClick={() => { this.auth.logout(); }} />
-        </Fragment>}
+        {!isAuthenticated() && (
+          <Fragment>
+            <p>Logg inn for å kunne lage din egen liste av annonser.</p>
+            <RaisedButton
+              label="Logg inn"
+              secondary={true}
+              onClick={() => {
+                this.auth.login();
+              }}
+            />
+          </Fragment>
+        )}
+        {isAuthenticated() && (
+          <Fragment>
+            <p>Du er logget inn</p>
+            <RaisedButton
+              label="Logg ut"
+              onClick={() => {
+                this.auth.logout();
+              }}
+            />
+          </Fragment>
+        )}
       </div>
     );
   }

@@ -42,21 +42,27 @@ const WatchedList = withRouter(({ toggleDrawer, loading, items, noFoundMessage, 
         </ListItem>
       )}
       {!loading &&
-      items &&
-      items.map(ad => (
-        <ListItem
-          className="watched-ad-item"
-          innerDivStyle={listItemStyle}
-          onClick={toggleDrawer}
-          containerElement={<Link to={`/diff/${ad.finnCode}`} />}
-          key={ad.finnCode}
-          primaryText={ad.finnCode}
-          secondaryText={ad.description}
-          title={ad.description}
-          rightIcon={location.pathname.indexOf(ad.finnCode) > 0 ? <i className="material-icons">play_arrow</i> : null}
-        />
-      )).reverse()}
-      {(!loading && items && items.length === 0) && <ListItem disabled>{noFoundMessage || 'Fant ingen annonser'}</ListItem>}
+        items &&
+        items
+          .map(ad => (
+            <ListItem
+              className="watched-ad-item"
+              innerDivStyle={listItemStyle}
+              onClick={toggleDrawer}
+              containerElement={<Link to={`/diff/${ad.finnCode}`} />}
+              key={ad.finnCode}
+              primaryText={ad.finnCode}
+              secondaryText={ad.description}
+              title={ad.description}
+              rightIcon={
+                location.pathname.indexOf(ad.finnCode) > 0 ? <i className="material-icons">play_arrow</i> : null
+              }
+            />
+          ))
+          .reverse()}
+      {!loading &&
+        items &&
+        items.length === 0 && <ListItem disabled>{noFoundMessage || 'Fant ingen annonser'}</ListItem>}
     </List>
   );
 });
@@ -79,7 +85,7 @@ const listItemStyle = {
 
 class Watched extends Component<Props> {
   render() {
-    const { isMobile, open, handleRequestChange, toggleDrawer, watched, liked, } = this.props;
+    const { isMobile, open, handleRequestChange, toggleDrawer, watched, liked } = this.props;
 
     let drawerProps;
     if (isMobile) {
@@ -87,11 +93,11 @@ class Watched extends Component<Props> {
         open,
         docked: false,
         onRequestChange: handleRequestChange,
-      }
+      };
     } else {
       drawerProps = {
         docked: true,
-      }
+      };
     }
 
     const loggedIn = isAuthenticated();
@@ -104,7 +110,9 @@ class Watched extends Component<Props> {
           <Subheader>Dine annonser</Subheader>
           {loggedIn && (
             <WatchedList
-              toggleDrawer={toggleDrawer} loading={liked.loading} items={liked.liked}
+              toggleDrawer={toggleDrawer}
+              loading={liked.loading}
+              items={liked.liked}
               noFoundMessage="Du har ikke lagt til noen annonser."
             />
           )}
@@ -125,5 +133,5 @@ const withApollo = compose(
   graphql(watchedQuery, {
     name: 'watched',
   }),
-)
+);
 export default withApollo(Watched);

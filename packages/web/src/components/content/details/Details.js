@@ -26,11 +26,14 @@ const IntroSection = ({ adHistory }) => {
 
   return (
     <Card>
-      <CardTitle title={
-        <Diff simple={false} type="h3" history={pullOutHistory(['tittel'], adHistory)} />
-      } subtitle={`Sist endret: ${formatter.format(new Date(adHistory[adHistory.length - 1].pulled))}`} />
+      <CardTitle
+        title={<Diff simple={false} type="h3" history={pullOutHistory(['tittel'], adHistory)} />}
+        subtitle={`Sist endret: ${formatter.format(new Date(adHistory[adHistory.length - 1].pulled))}`}
+      />
       <CardText>
-        <Diff simple type="div" history={pullOutHistory(['adresse'], adHistory)}>Adresse/status:</Diff>
+        <Diff simple type="div" history={pullOutHistory(['adresse'], adHistory)}>
+          Adresse/status:
+        </Diff>
       </CardText>
     </Card>
   );
@@ -53,7 +56,7 @@ const PriceSection = ({ adHistory }) => (
               <dt>{beskrivelse}</dt>
               <Diff simple type="dd" history={pullOutHistory(['prisDetaljer', key, 'verdi'], adHistory)} />
             </div>
-          )
+          );
         })}
       </dl>
     </CardText>
@@ -66,14 +69,15 @@ const ApartmentDetailsSection = ({ adHistory }) => (
     <CardText>
       <dl className={style.descriptiveList}>
         {Object.keys(adHistory[0].leilighetsDetaljer).map(key => {
-          if (!adHistory[0].leilighetsDetaljer[key] || typeof adHistory[0].leilighetsDetaljer[key] !== 'object') return null;
+          if (!adHistory[0].leilighetsDetaljer[key] || typeof adHistory[0].leilighetsDetaljer[key] !== 'object')
+            return null;
           const beskrivelse = adHistory[0].leilighetsDetaljer[key].beskrivelse;
           return (
             <div key={beskrivelse}>
               <dt>{beskrivelse}</dt>
               <Diff simple type="dd" history={pullOutHistory(['leilighetsDetaljer', key, 'verdi'], adHistory)} />
             </div>
-          )
+          );
         })}
       </dl>
     </CardText>
@@ -86,14 +90,15 @@ const GeneralTextSections = ({ adHistory }) => (
     <CardText>
       <Fragment>
         {Object.keys(adHistory[0].generelleSeksjoner).map(key => {
-          if (!adHistory[0].generelleSeksjoner[key] || typeof adHistory[0].generelleSeksjoner[key] !== 'object') return null;
+          if (!adHistory[0].generelleSeksjoner[key] || typeof adHistory[0].generelleSeksjoner[key] !== 'object')
+            return null;
           const beskrivelse = adHistory[0].generelleSeksjoner[key].beskrivelse;
           return (
             <div id={key} key={beskrivelse}>
               <h6>{beskrivelse}</h6>
               <Diff simple={false} type="p" history={pullOutHistory(['generelleSeksjoner', key, 'verdi'], adHistory)} />
             </div>
-          )
+          );
         })}
       </Fragment>
     </CardText>
@@ -118,11 +123,19 @@ const OtherSection = ({ adHistory }) => {
 const WhopsSection = ({ match }) => (
   <div>
     <p>Ojda! Noe veldig rart har skjedd. Denne annonsen har blitt korrupt når den ble lagt til.</p>
-    <p>Send meg gjerne en mail på <a href="mailto:karl@karl.run">karl@karl.run</a> så kan jeg finne ut hva som har skjedd. :-)</p>
-    <p>Alternativt kan du opprette et issue på <a
-      href={`https://github.com/karl-run/finndiff/issues/new?title=Korrupt%20annonse:%20${match.params.finnCode}&body=Skriv%20gjerne%20litt%20mer`}>
-      Github
-    </a>
+    <p>
+      Send meg gjerne en mail på <a href="mailto:karl@karl.run">karl@karl.run</a> så kan jeg finne ut hva som har
+      skjedd. :-)
+    </p>
+    <p>
+      Alternativt kan du opprette et issue på{' '}
+      <a
+        href={`https://github.com/karl-run/finndiff/issues/new?title=Korrupt%20annonse:%20${
+          match.params.finnCode
+        }&body=Skriv%20gjerne%20litt%20mer`}
+      >
+        Github
+      </a>
     </p>
   </div>
 );
@@ -139,15 +152,15 @@ type Props = {
   match: {
     params: {
       finnCode: string,
-    }
-  }
+    },
+  },
 };
 
 type State = {
   showLoginModal: boolean,
   liked: boolean,
   error: ?string,
-}
+};
 
 class Details extends React.Component<Props, State> {
   state = { showLoginModal: false, liked: false, error: null, success: null };
@@ -159,18 +172,18 @@ class Details extends React.Component<Props, State> {
 
   handleLike = (event, checked) => {
     if (!isAuthenticated()) {
-      this.setState({ showLoginModal: true })
+      this.setState({ showLoginModal: true });
     } else {
       this.setState({ liked: true });
-      this.props.like({ variables: { finnCode: this.props.match.params.finnCode } })
+      this.props
+        .like({ variables: { finnCode: this.props.match.params.finnCode } })
         .then(() => {
           this.setState({ success: 'Annonse lagt til i dine lister' });
         })
-        .catch((error) => {
+        .catch(error => {
           const [first] = error.graphQLErrors;
           this.setState({ liked: false, error: first.message });
-        })
-
+        });
     }
   };
 
@@ -188,7 +201,7 @@ class Details extends React.Component<Props, State> {
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.liked.loading) {
-      if (nextProps.liked.liked.some((like) => nextProps.match.params.finnCode === like.finnCode)) {
+      if (nextProps.liked.liked.some(like => nextProps.match.params.finnCode === like.finnCode)) {
         this.setState({ liked: true });
       } else {
         this.setState({ liked: false });
@@ -228,17 +241,8 @@ class Details extends React.Component<Props, State> {
     }
 
     const actions = [
-      <FlatButton
-        label="Lukk"
-        primary={true}
-        onClick={this.closeModal}
-      />,
-      <FlatButton
-        label="Logg inn"
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.handleLogin}
-      />,
+      <FlatButton label="Lukk" primary={true} onClick={this.closeModal} />,
+      <FlatButton label="Logg inn" primary={true} keyboardFocused={true} onClick={this.handleLogin} />,
     ];
 
     return (
@@ -282,17 +286,23 @@ class Details extends React.Component<Props, State> {
         </Dialog>
         <Snackbar
           open={!!this.state.error}
-          message={(
-            <div className="snackbar-message"><i className="material-icons white">error_outline</i>{this.state.error}</div>
-          )}
+          message={
+            <div className="snackbar-message">
+              <i className="material-icons white">error_outline</i>
+              {this.state.error}
+            </div>
+          }
           autoHideDuration={5000}
           onRequestClose={this.unerror}
         />
         <Snackbar
           open={!!this.state.success}
-          message={(
-            <div className="snackbar-message"><i className="material-icons white">done</i>{this.state.success}</div>
-          )}
+          message={
+            <div className="snackbar-message">
+              <i className="material-icons white">done</i>
+              {this.state.success}
+            </div>
+          }
           autoHideDuration={3000}
           onRequestClose={this.unsuccess}
         />

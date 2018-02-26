@@ -4,7 +4,6 @@ const { logError } = require('./mongoError');
 
 const url = process.env.MONGO_URL;
 
-
 let db;
 let ads;
 let likes;
@@ -16,7 +15,7 @@ const initialize = () => {
   }
 
   return new Promise((resolve, reject) => {
-    MongoClient.connect(url, function (err, client) {
+    MongoClient.connect(url, function(err, client) {
       if (err != null) {
         logError(err);
         return reject(err);
@@ -35,7 +34,7 @@ const initialize = () => {
 };
 
 const addWatchedAd = (finnCode, originalDescription) => {
-  if (!finnCode) return Promise.reject('Finn code can\'t be nothing');
+  if (!finnCode) return Promise.reject("Finn code can't be nothing");
 
   return new Promise((resolve, reject) => {
     return watched
@@ -89,9 +88,10 @@ const getAllWatched = async () => {
   });
 };
 
-const mapToWatchedItem = (items) => (items || []).map(item => ({ finnCode: item.finnCode, description: item.description }));
+const mapToWatchedItem = items =>
+  (items || []).map(item => ({ finnCode: item.finnCode, description: item.description }));
 
-const getAllLiked = async (userId) => {
+const getAllLiked = async userId => {
   const liked = await likes.findOne({ userId });
 
   if (!liked || liked.likes.length === 0) {
@@ -133,7 +133,6 @@ const likeAd = async (id, userId) => {
   const updated = await likes.update({ userId }, { userId, likes: [...exists.likes, id] });
 
   return updated.result.ok;
-
 };
 
 const getAdData = finnCode => {

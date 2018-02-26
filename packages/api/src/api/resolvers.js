@@ -58,9 +58,9 @@ const rootQueryResolver = {
             return true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           log.error(err);
-          new Error(`Det skjedde en uforvented feil i tileggingen av ${id}.`)
+          new Error(`Det skjedde en uforvented feil i tileggingen av ${id}.`);
         });
 
       if (added) {
@@ -82,7 +82,6 @@ const rootQueryResolver = {
       }
 
       const result = await likeAd(id, user.sub);
-
     },
   },
 };

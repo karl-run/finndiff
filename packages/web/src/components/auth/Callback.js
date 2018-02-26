@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Spinner from 'react-nano-spinner'
+import Spinner from 'react-nano-spinner';
 
 import Auth from './Auth';
 

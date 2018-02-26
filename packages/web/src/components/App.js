@@ -17,7 +17,7 @@ import ErrorBoundary from './error/ErrorBoundary';
 type State = {
   isMobile: boolean,
   menuOpen: boolean,
-}
+};
 
 class App extends Component<{}, State> {
   state = {
@@ -26,10 +26,10 @@ class App extends Component<{}, State> {
   };
 
   componentDidMount() {
-    this.setState({ isMobile: window.innerWidth <= 960 })
+    this.setState({ isMobile: window.innerWidth <= 960 });
   }
 
-  onResize = (size) => {
+  onResize = size => {
     if (size.windowWidth > 960 && this.state.isMobile) {
       this.setState({ isMobile: false });
     } else if (size.windowWidth <= 960 && !this.state.isMobile) {
@@ -41,7 +41,7 @@ class App extends Component<{}, State> {
     this.setState({ menuOpen: !this.state.menuOpen });
   };
 
-  setDrawer = (open) => {
+  setDrawer = open => {
     this.setState({ menuOpen: open });
   };
 
@@ -53,19 +53,22 @@ class App extends Component<{}, State> {
             <Router>
               <Switch>
                 <Route exact path="/callback" component={AuthCallback} />
-                <Route path="/" render={() => (
-                  <Fragment>
-                    <SizeListener onResize={this.onResize} />
-                    <MobileNav toggle={this.toggleDrawer} isMobile={this.state.isMobile} />
-                    <Watched
-                      handleRequestChange={this.setDrawer}
-                      toggleDrawer={this.toggleDrawer}
-                      open={this.state.menuOpen}
-                      isMobile={this.state.isMobile}
-                    />
-                    <Content />
-                  </Fragment>
-                )} />
+                <Route
+                  path="/"
+                  render={() => (
+                    <Fragment>
+                      <SizeListener onResize={this.onResize} />
+                      <MobileNav toggle={this.toggleDrawer} isMobile={this.state.isMobile} />
+                      <Watched
+                        handleRequestChange={this.setDrawer}
+                        toggleDrawer={this.toggleDrawer}
+                        open={this.state.menuOpen}
+                        isMobile={this.state.isMobile}
+                      />
+                      <Content />
+                    </Fragment>
+                  )}
+                />
               </Switch>
             </Router>
           </ErrorBoundary>

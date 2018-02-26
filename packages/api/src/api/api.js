@@ -23,13 +23,18 @@ const checkJwt = jwt({
 });
 
 const init = app => {
-  app.use('/api/graphql', checkJwt, bodyParser.json(), graphqlExpress(req => ({
-    schema,
-    context: {
-      loggedIn: !!req.user,
-      user: req.user,
-    },
-  })));
+  app.use(
+    '/api/graphql',
+    checkJwt,
+    bodyParser.json(),
+    graphqlExpress(req => ({
+      schema,
+      context: {
+        loggedIn: !!req.user,
+        user: req.user,
+      },
+    })),
+  );
   app.get('/api/graphiql', graphiqlExpress({ endpointURL: '/api/graphql' }));
   app.post('/api/uh-oh', bodyParser.json(), (req, res) => {
     log.error('Client reported error:');
@@ -38,7 +43,7 @@ const init = app => {
     log.error(req.body.info);
 
     res.send({ ok: '2k' });
-  })
+  });
 };
 
 module.exports = {

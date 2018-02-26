@@ -58,7 +58,7 @@ class Diff extends Component<HistoryProps, HistoryState> {
     this.setState({ show: false });
   };
 
-  create = (value) => {
+  create = value => {
     const { type, history, children, simple, ...props } = this.props;
 
     return React.createElement(type, { ...props }, value.value);
@@ -79,27 +79,32 @@ class Diff extends Component<HistoryProps, HistoryState> {
           {React.createElement(type, { ...props }, history[1].value)}
           <div className="date-stamp weak-text">{history[0].date}</div>
         </div>
-        {(history.length > 2 && this.state.show) && <div className="overflow-diff">
-          {history.map((value, i) => {
-            if (i < 2) return null;
+        {history.length > 2 &&
+          this.state.show && (
+            <div className="overflow-diff">
+              {history.map((value, i) => {
+                if (i < 2) return null;
 
-            let css = classNames('diff-block', { hidden: (i >= 2 && !this.state.show) });
+                let css = classNames('diff-block', { hidden: i >= 2 && !this.state.show });
 
-            return (
-              <div className={css} key={value.value}>
-                {React.createElement(type, { ...props }, history[i - 1].value)}
-                <i className="material-icons">trending_flat</i>
-                {React.createElement(type, { ...props }, history[i].value)}
-                <div className="date-stamp weak-text">{history[i].date}</div>
+                return (
+                  <div className={css} key={value.value}>
+                    {React.createElement(type, { ...props }, history[i - 1].value)}
+                    <i className="material-icons">trending_flat</i>
+                    {React.createElement(type, { ...props }, history[i].value)}
+                    <div className="date-stamp weak-text">{history[i].date}</div>
+                  </div>
+                );
+              })}
+              <div className="diff-block">
+                {React.createElement(type, { ...props }, history[history.length - 1].value)}
+                <div className="date-stamp weak-text">{history[history.length - 1].date}</div>
               </div>
-            );
-          })}
-          <div className="diff-block">
-            {React.createElement(type, { ...props }, history[history.length - 1].value)}
-            <div className="date-stamp weak-text">{history[history.length - 1].date}</div>
-          </div>
-        </div>}
-        {(history.length > 2) && <ExpandoButton count={history.length} onClick={this.toggleShow} expanded={this.state.show} />}
+            </div>
+          )}
+        {history.length > 2 && (
+          <ExpandoButton count={history.length} onClick={this.toggleShow} expanded={this.state.show} />
+        )}
       </div>
     );
   }
@@ -119,25 +124,35 @@ class Diff extends Component<HistoryProps, HistoryState> {
           <TextDiff elementType={type} inputA={history[0].value} inputB={history[1].value} type="words" />
           <div className="date-stamp weak-text">{history[0].date}</div>
         </div>
-        {(history.length > 2 && this.state.show) && <Divider />}
-        {(history.length > 2 && this.state.show) && <div className="overflow-diff">
-          {history.map((value, i) => {
-            if (i < 2) return null;
+        {history.length > 2 && this.state.show && <Divider />}
+        {history.length > 2 &&
+          this.state.show && (
+            <div className="overflow-diff">
+              {history.map((value, i) => {
+                if (i < 2) return null;
 
-            let css = classNames('diff-block', { hidden: (i >= 2 && !this.state.show) });
+                let css = classNames('diff-block', { hidden: i >= 2 && !this.state.show });
 
-            return (
-              <Fragment key={value.value}>
-                <div className={css}>
-                  <TextDiff elementType={type} inputA={history[i - 1].value} inputB={history[i].value} type="words" />
-                  <div className="date-stamp weak-text">{history[history.length - 1].date}</div>
-                </div>
-                {(i < history.length - 1) && <Divider />}
-              </Fragment>
-            );
-          })}
-        </div>}
-        {(history.length > 2) && <ExpandoButton count={history.length} onClick={this.toggleShow} expanded={this.state.show} />}
+                return (
+                  <Fragment key={value.value}>
+                    <div className={css}>
+                      <TextDiff
+                        elementType={type}
+                        inputA={history[i - 1].value}
+                        inputB={history[i].value}
+                        type="words"
+                      />
+                      <div className="date-stamp weak-text">{history[history.length - 1].date}</div>
+                    </div>
+                    {i < history.length - 1 && <Divider />}
+                  </Fragment>
+                );
+              })}
+            </div>
+          )}
+        {history.length > 2 && (
+          <ExpandoButton count={history.length} onClick={this.toggleShow} expanded={this.state.show} />
+        )}
       </div>
     );
   }

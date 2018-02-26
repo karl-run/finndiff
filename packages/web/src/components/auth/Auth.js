@@ -4,7 +4,9 @@ export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'finndiff.eu.auth0.com',
     clientID: '8FSU6cyuJQ0sHJsoJo3oQT7ZHJHv0D7B',
-    redirectUri: `${process.env.NODE_ENV === 'production' ? 'https://finndiff.no/callback' : 'http://localhost:3000/callback'}?redirect=${window.location.pathname}`,
+    redirectUri: `${
+      process.env.NODE_ENV === 'production' ? 'https://finndiff.no/callback' : 'http://localhost:3000/callback'
+    }?redirect=${window.location.pathname}`,
     audience: 'https://finndiff.eu.auth0.com/userinfo',
     responseType: 'token id_token',
     scope: 'openid',
@@ -34,7 +36,7 @@ export default class Auth {
   }
 
   setSession(authResult) {
-    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    let expiresAt = JSON.stringify(authResult.expiresIn * 1000 + new Date().getTime());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);

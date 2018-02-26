@@ -10,7 +10,7 @@ const jsdomOptions = {
   userAgent: 'Mozilla/5.0 (Windows NT 6.1) PlsÅpneAPIetForAlle (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
   includeNodeLocations: true,
   runScripts: 'dangerously',
-  virtualConsole
+  virtualConsole,
 };
 
 const singleAd = finnCode => {
@@ -25,5 +25,5 @@ const singleAd = finnCode => {
 };
 
 module.exports = {
-  singleAd
+  singleAd,
 };

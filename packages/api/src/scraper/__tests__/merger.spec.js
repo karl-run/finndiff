@@ -11,10 +11,9 @@ test('when a single value has changed it should return a correct truth object', 
 
   expect(Object.keys(result).length).toEqual(Object.keys(listingFull).length);
   expect(result.generelleSeksjoner.beliggenhet).toEqual({
-      'beskrivelse': 'Beliggenhet',
-      'verdi': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. This has changed.',
-    },
-  );
+    beskrivelse: 'Beliggenhet',
+    verdi: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. This has changed.',
+  });
 });
 
 test('when a single property has been added it should return a correct truth object', () => {
@@ -38,10 +37,9 @@ test('when a property has been added and a property has been changed it should r
     verdi: 3,
   });
   expect(result.generelleSeksjoner.beliggenhet).toEqual({
-      'beskrivelse': 'Beliggenhet',
-      'verdi': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. This has changed.',
-    },
-  );
+    beskrivelse: 'Beliggenhet',
+    verdi: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. This has changed.',
+  });
 });
 
 test('when a single property has been removed it should return a correct truth object', () => {
@@ -50,9 +48,9 @@ test('when a single property has been removed it should return a correct truth o
   expect(Object.keys(result).length).toEqual(Object.keys(listingFull).length);
   expect(Object.keys(result.generelleSeksjoner).length).toEqual(2);
   expect(result.generelleSeksjoner).toEqual({
-    'beliggenhet': {
-      'beskrivelse': 'Beliggenhet',
-      'verdi': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras laoreet.',
+    beliggenhet: {
+      beskrivelse: 'Beliggenhet',
+      verdi: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras laoreet.',
     },
     byggemaate: null,
   });
@@ -69,9 +67,9 @@ test('when a property has been added, a property has been changed and one has be
   });
   expect(Object.keys(result.generelleSeksjoner).length).toEqual(2);
   expect(result.generelleSeksjoner).toEqual({
-    'beliggenhet': {
-      'beskrivelse': 'Beliggenhet',
-      'verdi': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. This has changed.',
+    beliggenhet: {
+      beskrivelse: 'Beliggenhet',
+      verdi: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. This has changed.',
     },
     byggemaate: null,
   });

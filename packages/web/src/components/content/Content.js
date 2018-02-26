@@ -21,8 +21,8 @@ const GetStarted = () => {
     <div className={style.getStarted}>
       <h2>Kom i gang med finndiff</h2>
       <p>
-        Finndiff er et verktøy som lar deg <span className="pun-finn">finn</span>e <span className="pun-diff">diff</span>eranser
-        i annonser etter hvert som de ligger ute.
+        Finndiff er et verktøy som lar deg <span className="pun-finn">finn</span>e{' '}
+        <span className="pun-diff">diff</span>eranser i annonser etter hvert som de ligger ute.
       </p>
       <InfoPoint className="new-code" text="Legg til en ny annonse" />
       <InfoPoint className="existing-ad" text="Eller se detaljer om en allerede overvåket annonse" />
@@ -38,7 +38,6 @@ const NoRoute = () => {
     </Fragment>
   );
 };
-
 
 class Version extends Component<{}> {
   render() {

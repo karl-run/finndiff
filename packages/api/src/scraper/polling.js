@@ -1,4 +1,3 @@
-
 const { getAllWatched, getAdData, insertAdData } = require('../mongo/mongo');
 const { singleAd } = require('./scraper');
 const differ = require('./differ');
@@ -44,8 +43,8 @@ const scrapeDiffAndStore = (finnCode, i = 0) => {
 const startPolling = () => {
   log.info(
     `Setting up polling at every ${rate / 1000} seconds (${rate /
-    1000 /
-    60} minutes), with a feedrate of ${feedRate}ms`,
+      1000 /
+      60} minutes), with a feedrate of ${feedRate}ms`,
   );
 
   const interval = async () => {

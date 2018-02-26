@@ -103,22 +103,28 @@ export const getSpecificAdQuery = gql`
       omkostninger
       matrikkelinformasjon
       prisDetaljer {
-        ${sections.prisDetaljer.map(section => `${section} {
+        ${sections.prisDetaljer.map(
+          section => `${section} {
           beskrivelse
           verdi
-        }`)}
+        }`,
+        )}
       }
       leilighetsDetaljer {
-        ${sections.leilighetsDetaljer.map(section => `${section} {
+        ${sections.leilighetsDetaljer.map(
+          section => `${section} {
           beskrivelse
           verdi
-        }`)}
+        }`,
+        )}
       }
       generelleSeksjoner {
-        ${sections.generelleSeksjoner.map(section => `${section} {
+        ${sections.generelleSeksjoner.map(
+          section => `${section} {
           beskrivelse
           verdi
-        }`)}
+        }`,
+        )}
       }
     }
   }

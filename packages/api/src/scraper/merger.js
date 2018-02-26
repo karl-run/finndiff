@@ -1,13 +1,13 @@
 const merge = require('deepmerge');
 
-const createTruth = (newestExisting) => {
+const createTruth = newestExisting => {
   let diffWith;
   if (newestExisting.length >= 2) {
     const [first, ...diffs] = newestExisting;
 
     let truth = first;
 
-    diffs.forEach((diff) => {
+    diffs.forEach(diff => {
       truth = merge(truth, diff);
     });
 
@@ -19,10 +19,10 @@ const createTruth = (newestExisting) => {
   return diffWith;
 };
 
-const removeNullValuesExceptRoot = (obj) => {
+const removeNullValuesExceptRoot = obj => {
   const ignore = Object.keys(obj);
 
-  const removeNullValues = (obj) => {
+  const removeNullValues = obj => {
     Object.keys(obj).forEach(key => {
       if (obj[key] && typeof obj[key] === 'object') removeNullValues(obj[key]);
       else if (!ignore.includes(key) && obj[key] == null) delete obj[key];

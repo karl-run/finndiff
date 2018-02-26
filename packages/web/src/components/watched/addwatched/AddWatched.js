@@ -45,7 +45,7 @@ class AddWatched extends Component<Props> {
       return;
     }
 
-    const [number] = matches;  // creates array from matches
+    const [number] = matches; // creates array from matches
 
     this.setState({ value });
 
@@ -62,7 +62,7 @@ class AddWatched extends Component<Props> {
           const [first] = error.graphQLErrors;
 
           if (first.message.indexOf('er allerede lagt til') >= 0) {
-            this.props.history.push(`/diff/${number}`)
+            this.props.history.push(`/diff/${number}`);
           }
 
           this.setState({ error: first.message });

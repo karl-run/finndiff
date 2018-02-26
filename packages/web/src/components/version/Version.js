@@ -10,8 +10,8 @@ import style from './Version.css';
 
 type Props = {
   data: {
-    version: string
-  }
+    version: string,
+  },
 };
 
 class Version extends React.PureComponent<Props> {

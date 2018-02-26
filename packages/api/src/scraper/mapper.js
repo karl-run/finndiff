@@ -24,7 +24,10 @@ const mapSingleToResponse = (window, finnCode) => {
     adresse: selectValue(infoSection, 'p:nth-of-type(1)'),
     pris: selectValue(infoSection, 'dl:nth-of-type(1) dd', [cleanNumber]),
     prisDetaljer: mapDescriptiveListToMap(selectSection(infoSection, 'dl:nth-of-type(2)').children, 'prisDetaljer'),
-    leilighetsDetaljer: mapDescriptiveListToMap(selectSection(infoSection, 'dl:nth-of-type(3)').children, 'leilighetsDetaljer'),
+    leilighetsDetaljer: mapDescriptiveListToMap(
+      selectSection(infoSection, 'dl:nth-of-type(3)').children,
+      'leilighetsDetaljer',
+    ),
     generelleSeksjoner: pullOutAndMapGenericSections(selectAll(infoSection, 'div.object-description')),
     omkostninger: selectValue(infoSection, '#omkostninger'),
     matrikkelinformasjon: selectValue(infoSection, '#matrikkelinfo'),
