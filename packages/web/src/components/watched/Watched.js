@@ -6,7 +6,7 @@ import Spinner from 'react-nano-spinner';
 import { graphql, compose } from 'react-apollo';
 import Drawer from 'material-ui/Drawer';
 import { List, ListItem } from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
+import ListSubheader from 'material-ui/List/ListSubheader';
 import IconButton from 'material-ui/IconButton';
 
 import { isAuthenticated } from '../auth/Auth';
@@ -24,9 +24,11 @@ import style from './Watched.css';
 const LogoHeader = ({ toggleDrawer }) => {
   return (
     <div className={style.logoHeader}>
-      <IconButton onClick={toggleDrawer} containerElement={<Link to={`/`} />} className={style.logoButton}>
-        <Logo alt="finndiff logo" delay={10} src={logoTop} />
-        <Logo alt="finndiff logo" delay={150} src={logoBottom} />
+      <IconButton onClick={toggleDrawer}>
+        <Link to={`/`}>
+          <Logo alt="finndiff logo" delay={10} src={logoTop} />
+          <Logo alt="finndiff logo" delay={150} src={logoBottom} />
+        </Link>
       </IconButton>
       <LoginBox />
     </div>
@@ -35,9 +37,9 @@ const LogoHeader = ({ toggleDrawer }) => {
 
 const WatchedList = withRouter(({ toggleDrawer, loading, items, noFoundMessage, location }) => {
   return (
-    <List className={style.watchedList}>
+    <List component="nav">
       {loading && (
-        <ListItem disabled>
+        <ListItem button disabled>
           <Spinner />
         </ListItem>
       )}
@@ -45,18 +47,18 @@ const WatchedList = withRouter(({ toggleDrawer, loading, items, noFoundMessage, 
       items &&
       items.map(ad => (
         <ListItem
-          className="watched-ad-item"
+          button
           innerDivStyle={listItemStyle}
           onClick={toggleDrawer}
           containerElement={<Link to={`/diff/${ad.finnCode}`} />}
           key={ad.finnCode}
-          primaryText={ad.finnCode}
-          secondaryText={ad.description}
+          primaryText={ad.description}
+          secondaryText={ad.finnCode}
           title={ad.description}
           rightIcon={location.pathname.indexOf(ad.finnCode) > 0 ? <i className="material-icons">play_arrow</i> : null}
         />
       )).reverse()}
-      {(!loading && items && items.length === 0) && <ListItem disabled>{noFoundMessage || 'Fant ingen annonser'}</ListItem>}
+      {(!loading && items && items.length === 0) && <ListItem button disabled>{noFoundMessage || 'Fant ingen annonser'}</ListItem>}
     </List>
   );
 });
@@ -85,12 +87,14 @@ class Watched extends Component<Props> {
     if (isMobile) {
       drawerProps = {
         open,
-        docked: false,
-        onRequestChange: handleRequestChange,
+        anchor: 'left',
+        onClose: handleRequestChange,
       }
     } else {
       drawerProps = {
         docked: true,
+        type: 'permanent',
+        anchor: 'left',
       }
     }
 
@@ -98,10 +102,10 @@ class Watched extends Component<Props> {
 
     return (
       <Fragment>
-        <Drawer {...drawerProps} className={style.watched}>
+        <Drawer {...drawerProps}>
           <LogoHeader toggleDrawer={toggleDrawer} />
           <AddWatched />
-          <Subheader>Dine annonser</Subheader>
+          <ListSubheader>Dine annonser</ListSubheader>
           {loggedIn && (
             <WatchedList
               toggleDrawer={toggleDrawer} loading={liked.loading} items={liked.liked}
@@ -109,8 +113,7 @@ class Watched extends Component<Props> {
             />
           )}
           {!loggedIn && <ListItem disabled>{'Logg inn for å se dine annonser'}</ListItem>}
-          <Subheader>Alle overvåkte annonser</Subheader>
-          <WatchedList toggleDrawer={toggleDrawer} loading={watched.loading} items={watched.watched} />
+          <ListSubheader>Alle overvåkte annonser</ListSubheader>
           <Version />
         </Drawer>
       </Fragment>

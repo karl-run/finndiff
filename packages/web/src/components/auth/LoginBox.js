@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { graphql } from 'react-apollo';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 
 import { userQuery } from '../../apollo/queries';
 import Auth, { isAuthenticated } from './Auth';
@@ -20,11 +20,11 @@ class AuthHandler extends Component<{}, {}> {
       <div className={style.authBox}>
         {!isAuthenticated() && <Fragment>
           <p>Logg inn for å kunne lage din egen liste av annonser.</p>
-          <RaisedButton label="Logg inn" secondary={true} onClick={() => { this.auth.login(); }} />
+          <Button raised color="secondary" onClick={() => { this.auth.login(); }}>Logg inn</Button>
         </Fragment>}
         {isAuthenticated() && <Fragment>
           <p>Du er logget inn</p>
-          <RaisedButton label="Logg ut" onClick={() => { this.auth.logout(); }} />
+          <Button raised onClick={() => { this.auth.logout(); }}>Logg ut</Button>
         </Fragment>}
       </div>
     );

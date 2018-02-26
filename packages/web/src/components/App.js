@@ -48,7 +48,7 @@ class App extends Component<{}, State> {
   render() {
     return (
       <ApolloProvider client={apolloClient}>
-        <MuiThemeProvider muiTheme={customTheme}>
+        <MuiThemeProvider theme={customTheme}>
           <ErrorBoundary>
             <Router>
               <Switch>

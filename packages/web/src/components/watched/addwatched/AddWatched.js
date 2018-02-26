@@ -12,7 +12,7 @@ import style from './AddWatched.css';
 type Props = {
   data: {
     version: string,
-    error: boolean,
+    error: ?string,
     loading: boolean,
   },
 };
@@ -20,7 +20,7 @@ type Props = {
 class AddWatched extends Component<Props> {
   state = {
     value: '',
-    error: false,
+    error: null,
     loading: false,
   };
 
@@ -34,7 +34,7 @@ class AddWatched extends Component<Props> {
     const value = event.target.value;
 
     if (!value) {
-      this.setState({ value: '', error: false, loading: false });
+      this.setState({ value: '', error: null, loading: false });
       return;
     }
 
@@ -50,7 +50,7 @@ class AddWatched extends Component<Props> {
     this.setState({ value });
 
     if (number.length >= 9 || hasEnter) {
-      this.setState({ loading: true, error: false });
+      this.setState({ loading: true, error: null });
       this.props
         .mutate({ variables: { finnCode: number } })
         .then(wath => {
@@ -78,8 +78,8 @@ class AddWatched extends Component<Props> {
           onChange={this.handleTextChange}
           onKeyUp={this.handleKeyUp}
           style={{ width: '100%' }}
-          floatingLabelText="Legg til ny finnkode"
-          errorText={this.state.error}
+          placeholder="Legg til ny finnkode"
+          error={!!this.state.error}
           disabled={this.state.loading}
         />
       </ListItem>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import Dialog, { DialogActions, DialogTitle, DialogContent } from 'material-ui/Dialog';
+import Button from 'material-ui/Button';
 import { reportClientError } from '../../utils/errorReport';
 import { silentLogout } from '../auth/Auth';
 
@@ -32,36 +32,32 @@ class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      const actions = [
-        <FlatButton
-          label="Prøv igjen"
-          primary={true}
-          onClick={this.refresh}
-        />,
-      ];
-
       return (
         <Dialog
-          title="Noe uforventet gikk galt"
-          actions={actions}
-          modal={true}
           open={this.state.hasError}
         >
-          <p>Dersom problemet fortsetter ta kontakt.</p>
-          <p>Ta kontakt via en av knappene nedenfor for a automatisk generer en feilrapport.</p>
-          <FlatButton
-            href={`mailto:karl@karl.run?subject=Feilrapport for Finndiff&body=${this.state.errorMessage}%0A%0A${this.state.errorInfo}%0A%0ASkriv hva du gjorde:%0A`}
-            label="Send epost"
-            primary={true}
-            icon={<i className="material-icons">email</i>}
-          />
-          <FlatButton
-            href={`https://github.com/karl-run/finndiff/issues/new?title=Ukjent%20feil&body=\`${this.state.errorMessage}\`%0A%0A\`${this.state.errorInfo}\`%0A%0ADet siste du gjorde:%0A`}
-            target="_blank"
-            label="Nytt issue på Github"
-            primary={true}
-            icon={<i className="material-icons">code</i>}
-          />
+          <DialogTitle>Noe uforventet gikk galt</DialogTitle>
+          <DialogContent>
+            <p>Dersom problemet fortsetter ta kontakt.</p>
+            <p>Ta kontakt via en av knappene nedenfor for a automatisk generer en feilrapport.</p>
+            <Button
+              href={`mailto:karl@karl.run?subject=Feilrapport for Finndiff&body=${this.state.errorMessage}%0A%0A${this.state.errorInfo}%0A%0ASkriv hva du gjorde:%0A`}
+              color="primary"
+              icon={<i className="material-icons">email</i>}
+            >Send epost</Button>
+            <Button
+              href={`https://github.com/karl-run/finndiff/issues/new?title=Ukjent%20feil&body=\`${this.state.errorMessage}\`%0A%0A\`${this.state.errorInfo}\`%0A%0ADet siste du gjorde:%0A`}
+              target="_blank"
+              color="primary"
+              icon={<i className="material-icons">code</i>}
+            >Nytt issue på Github</Button>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              color="primary"
+              onClick={this.refresh}
+            >Prøv igjen</Button>,
+          </DialogActions>
         </Dialog>
       )
     }

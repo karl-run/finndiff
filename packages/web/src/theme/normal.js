@@ -1,6 +1,6 @@
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { createMuiTheme } from 'material-ui/styles';
 
-export const customTheme = getMuiTheme({
+export const customTheme = createMuiTheme({
   fontFamily: 'Lato, sans-serif',
   palette: {
     primary1Color: '#2B3D54',

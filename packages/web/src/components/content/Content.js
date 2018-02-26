@@ -10,7 +10,7 @@ import Details from './details/Details';
 import style from './Content.css';
 
 const InfoPoint = ({ className, text }) => (
-  <Paper className={classNames(style.infoPoint, className)} zDepth={1}>
+  <Paper className={classNames(style.infoPoint, className)} elevation={1}>
     <i className="material-icons">arrow_back</i>
     <span>{text}</span>
   </Paper>

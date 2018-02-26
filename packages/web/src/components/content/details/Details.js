@@ -5,11 +5,10 @@ import { graphql, compose } from 'react-apollo';
 import Spinner from 'react-nano-spinner';
 import IconButton from 'material-ui/IconButton';
 import Checkbox from 'material-ui/Checkbox';
-import FlatButton from 'material-ui/FlatButton';
+import FlatButton from 'material-ui/Button';
 import Dialog from 'material-ui/Dialog';
 import Snackbar from 'material-ui/Snackbar';
-import ActionFavorite from 'material-ui/svg-icons/action/favorite';
-import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import Icon from 'material-ui/Icon';
 import { Card, CardHeader, CardTitle, CardText } from 'material-ui/Card';
 
 import { getSpecificAdQuery, likedQuery } from '../../../apollo/queries';
@@ -230,12 +229,12 @@ class Details extends React.Component<Props, State> {
     const actions = [
       <FlatButton
         label="Lukk"
-        primary={true}
+        color="primary"
         onClick={this.closeModal}
       />,
       <FlatButton
         label="Logg inn"
-        primary={true}
+        color="primary"
         keyboardFocused={true}
         onClick={this.handleLogin}
       />,
@@ -245,8 +244,8 @@ class Details extends React.Component<Props, State> {
       <div className={style.root}>
         <h1>
           <Checkbox
-            checkedIcon={<ActionFavorite />}
-            uncheckedIcon={<ActionFavoriteBorder />}
+            checkedIcon={<Icon />}
+            uncheckedIcon={<Icon />}
             onCheck={this.handleLike}
             checked={this.state.liked}
           />
