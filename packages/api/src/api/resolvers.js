@@ -64,7 +64,7 @@ const rootQueryResolver = {
         });
 
       if (added) {
-        scrapeDiffAndStore(id);
+        await scrapeDiffAndStore({ finnCode: id, changes: -1 });
       }
 
       return added;

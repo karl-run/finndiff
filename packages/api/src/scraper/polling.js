@@ -19,6 +19,7 @@ const scrapeDiffAndStore = (watched, i = 0) => {
 
       if (!newestExisting.length) {
         log.info(`${finnCode} does not exist, inserting into db.`);
+        await updateWatchedMetadata(finnCode, 1);
         insertAdData(freshAd);
         return resolve();
       }
