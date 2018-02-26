@@ -92,7 +92,7 @@ class Diff extends Component<HistoryProps, HistoryState> {
                     {React.createElement(type, { ...props }, history[i - 1].value)}
                     <i className="material-icons">trending_flat</i>
                     {React.createElement(type, { ...props }, history[i].value)}
-                    <div className="date-stamp weak-text">{history[i].date}</div>
+                    <div className="date-stamp weak-text">{history[i - 1].date}</div>
                   </div>
                 );
               })}
