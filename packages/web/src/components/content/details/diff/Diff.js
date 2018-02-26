@@ -95,7 +95,8 @@ class Diff extends Component<HistoryProps, HistoryState> {
             );
           })}
           <div className="diff-block">
-            {React.createElement(type, { ...props }, history[history.length - 1].value)}<div className="date-stamp weak-text">{history[history.length - 1].date}</div>
+            {React.createElement(type, { ...props }, history[history.length - 1].value)}
+            <div className="date-stamp weak-text">{history[history.length - 1].date}</div>
           </div>
         </div>}
         {(history.length > 2) && <ExpandoButton count={history.length} onClick={this.toggleShow} expanded={this.state.show} />}
@@ -126,10 +127,10 @@ class Diff extends Component<HistoryProps, HistoryState> {
             let css = classNames('diff-block', { hidden: (i >= 2 && !this.state.show) });
 
             return (
-              <Fragment>
-                <div className={css} key={value.value}>
-                  <TextDiff elementType={type} inputA={history[i].value} inputB={history[i - 1].value} type="words" />
-                  <div className="date-stamp weak-text">{history[0].date}</div>
+              <Fragment key={value.value}>
+                <div className={css}>
+                  <TextDiff elementType={type} inputA={history[i - 1].value} inputB={history[i].value} type="words" />
+                  <div className="date-stamp weak-text">{history[history.length - 1].date}</div>
                 </div>
                 {(i < history.length - 1) && <Divider />}
               </Fragment>
