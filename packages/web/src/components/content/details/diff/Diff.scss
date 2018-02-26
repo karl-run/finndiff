@@ -2,6 +2,10 @@
   .diff-block {
     display: flex;
 
+    > dd {
+      flex: 1 0 auto;
+    }
+
     .material-icons {
       font-size: 16px;
       transform: scaleX(-1);

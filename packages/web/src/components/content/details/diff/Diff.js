@@ -62,7 +62,7 @@ class Diff extends Component<HistoryProps, HistoryState> {
     const { type, history, children, simple, ...props } = this.props;
 
     return React.createElement(type, { ...props }, value.value);
-  }
+  };
 
   renderSimple() {
     const { type, history, simple, children, ...props } = this.props;
@@ -87,13 +87,16 @@ class Diff extends Component<HistoryProps, HistoryState> {
 
             return (
               <div className={css} key={value.value}>
-                {React.createElement(type, { ...props }, history[i].value)}
-                <i className="material-icons">trending_flat</i>
                 {React.createElement(type, { ...props }, history[i - 1].value)}
+                <i className="material-icons">trending_flat</i>
+                {React.createElement(type, { ...props }, history[i].value)}
                 <div className="date-stamp weak-text">{history[i].date}</div>
               </div>
             );
           })}
+          <div className="diff-block">
+            {React.createElement(type, { ...props }, history[history.length - 1].value)}<div className="date-stamp weak-text">{history[history.length - 1].date}</div>
+          </div>
         </div>}
         {(history.length > 2) && <ExpandoButton count={history.length} onClick={this.toggleShow} expanded={this.state.show} />}
       </div>
