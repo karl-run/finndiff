@@ -28,13 +28,13 @@ const rootQueryResolver = {
     rawAd: (_, { id }) => {
       return scraper.singleAd(id);
     },
-    watched: () => {
-      return getAllWatched();
+    watched: async (_, { orderBy }) => {
+      return getAllWatched(orderBy);
     },
-    liked: (_, args, { loggedIn, user }) => {
+    liked: (_, { orderBy }, { loggedIn, user }) => {
       if (!loggedIn) return [];
 
-      return getAllLiked(user.sub);
+      return getAllLiked(user.sub, orderBy);
     },
   },
   Mutation: {

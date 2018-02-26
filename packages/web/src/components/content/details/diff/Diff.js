@@ -142,7 +142,7 @@ class Diff extends Component<HistoryProps, HistoryState> {
                         inputB={history[i].value}
                         type="words"
                       />
-                      <div className="date-stamp weak-text">{history[history.length - 1].date}</div>
+                      <div className="date-stamp weak-text">{history[i - 1].date}</div>
                     </div>
                     {i < history.length - 1 && <Divider />}
                   </Fragment>

@@ -1,5 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
+const orderBy = require('lodash.orderby');
 const { logError } = require('./mongoError');
 
 const url = process.env.MONGO_URL;
@@ -37,8 +38,16 @@ const addWatchedAd = (finnCode, originalDescription) => {
   if (!finnCode) return Promise.reject("Finn code can't be nothing");
 
   return new Promise((resolve, reject) => {
+    const nowIso = new Date().toISOString();
+
     return watched
-      .insert({ finnCode: finnCode, description: originalDescription, active: true, added: new Date().toISOString() })
+      .insert({
+        finnCode: finnCode,
+        description: originalDescription,
+        active: true,
+        added: nowIso,
+        lastChanged: nowIso,
+      })
       .then(result => {
         if (result.writeError) {
           reject(result.writeError);
@@ -51,6 +60,25 @@ const addWatchedAd = (finnCode, originalDescription) => {
         reject(err);
       });
   });
+};
+
+const updateWatchedMetadata = async (finnCode, changeCount) => {
+  if (!finnCode || !changeCount) {
+    return Promise.reject('Both finnCode and changeCount is required');
+  }
+
+  const exists = await watched.findOne({ finnCode });
+
+  if (!exists) {
+    throw Error('Unable to find watched ad with code: ' + finnCode);
+  }
+
+  log.debug(`Updating ${finnCode} from ${exists.changes} to ${changeCount} changes`);
+
+  const nowIso = new Date().toISOString();
+  const updated = await watched.update({ finnCode }, { ...exists, changes: changeCount, lastUpdated: nowIso });
+
+  return updated.result.ok;
 };
 
 const watchedExists = id => {
@@ -70,15 +98,22 @@ const watchedExists = id => {
   });
 };
 
-const getAllWatched = async () => {
+const mapToWatchedItem = items =>
+  (items || []).map(item => ({
+    finnCode: item.finnCode,
+    description: item.description,
+    changes: item.changes,
+    lastChanged: item.lastUpdated,
+  }));
+
+const getAllWatched = async sortBy => {
   return new Promise((resolve, reject) => {
-    const result = watched
+    watched
       .find({})
       .toArray()
-      .then(result => {
-        const mapped = (result || []).map(item => ({ finnCode: item.finnCode, description: item.description }));
-
-        resolve(mapped);
+      .then(mapToWatchedItem)
+      .then(mapped => {
+        resolve(orderBy(mapped, sortBy, 'desc'));
       })
       .catch(err => {
         log.debug(`Unable to find all watched ads.`);
@@ -88,10 +123,7 @@ const getAllWatched = async () => {
   });
 };
 
-const mapToWatchedItem = items =>
-  (items || []).map(item => ({ finnCode: item.finnCode, description: item.description }));
-
-const getAllLiked = async userId => {
+const getAllLiked = async (userId, sortBy) => {
   const liked = await likes.findOne({ userId });
 
   if (!liked || liked.likes.length === 0) {
@@ -101,7 +133,10 @@ const getAllLiked = async userId => {
   return await watched
     .find({ finnCode: { $in: liked.likes } })
     .toArray()
-    .then(mapToWatchedItem);
+    .then(mapToWatchedItem)
+    .then(mapped => {
+      return orderBy(mapped, sortBy, 'desc');
+    });
 };
 
 const insertAdData = ad => {
@@ -176,5 +211,6 @@ module.exports = {
   findAllAds,
   addWatchedAd,
   watchedExists,
+  updateWatchedMetadata,
   likeAd,
 };

@@ -28,6 +28,7 @@
     "graphql-tools": "^2.19.0",
     "jsdom": "^11.6.2",
     "jwks-rsa": "^1.2.1",
+    "lodash.orderby": "^4.6.0",
     "mongodb": "^3.0.2",
     "request": "^2.83.0",
     "winston": "^2.4.0"

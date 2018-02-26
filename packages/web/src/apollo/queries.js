@@ -17,18 +17,22 @@ export const userQuery = gql`
 
 export const watchedQuery = gql`
   query Watched {
-    watched {
+    watched(orderBy: "lastChanged") {
       finnCode
       description
+      lastChanged
+      changes
     }
   }
 `;
 
 export const likedQuery = gql`
   query Liked {
-    liked {
+    liked(orderBy: "lastChanged") {
       finnCode
       description
+      lastChanged
+      changes
     }
   }
 `;

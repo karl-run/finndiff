@@ -1,13 +1,14 @@
-const { getAllWatched, getAdData, insertAdData } = require('../mongo/mongo');
+const { getAllWatched, getAdData, insertAdData, updateWatchedMetadata } = require('../mongo/mongo');
 const { singleAd } = require('./scraper');
 const differ = require('./differ');
 const { createTruth, removeNullValuesExceptRoot } = require('./merger');
 
-//process.env.POLL_RATE = 100000;
 const rate = process.env.POLL_RATE || 60 * 60 * 1000; // 1 hour
 const feedRate = process.env.FEED_RATE || 2000; // 2 seconds +/- 1 second
 
-const scrapeDiffAndStore = (finnCode, i = 0) => {
+const scrapeDiffAndStore = (watched, i = 0) => {
+  const finnCode = watched.finnCode;
+
   return new Promise((resolve, reject) => {
     setTimeout(async () => {
       const promises = [singleAd(finnCode), getAdData(finnCode)];
@@ -33,6 +34,7 @@ const scrapeDiffAndStore = (finnCode, i = 0) => {
       } else {
         log.info(`${finnCode} has changed, saving the new values.`);
         insertAdData(cleanDiff);
+        updateWatchedMetadata(finnCode, newestExisting.length + 1);
       }
 
       resolve();
@@ -48,14 +50,12 @@ const startPolling = () => {
   );
 
   const interval = async () => {
-    const watched = (await getAllWatched()).map(ad => ad.finnCode);
+    const watched = await getAllWatched();
 
     if (process.env.NODE_ENV !== 'production') {
       log.warn(`Not in production!! Only polling one ad.`);
 
       watched.slice(0, 1).forEach(scrapeDiffAndStore);
-      // Problemannonser:
-      //['111931690', '109847212', '109004887'].forEach(scrapeDiffAndStore);
     } else {
       log.info(`Will update ${watched.length} different ads.`);
 

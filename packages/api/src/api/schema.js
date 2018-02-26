@@ -94,6 +94,8 @@ const typeDefs = `
   type WatchedAd {
     finnCode: String!
     description: String!
+    lastChanged: String
+    changes: Int
   }
   
   type User {
@@ -104,8 +106,8 @@ const typeDefs = `
   type Query {
     version: String
     user: User
-    watched: [WatchedAd]!
-    liked: [WatchedAd]!
+    watched(orderBy: String = "changes"): [WatchedAd]!
+    liked(orderBy: String = "changes"): [WatchedAd]!
     adHistory(id: String!): [Ad]!
     rawAd(id: String!): Ad!
   }

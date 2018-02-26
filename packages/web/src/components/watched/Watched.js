@@ -20,6 +20,7 @@ import { watchedQuery, likedQuery } from '../../apollo/queries';
 import logoTop from '../../img/logo_top.svg';
 import logoBottom from '../../img/logo_bottom.svg';
 import style from './Watched.css';
+import { daysSince } from '../../utils/display';
 
 const LogoHeader = ({ toggleDrawer }) => {
   return (
@@ -29,6 +30,24 @@ const LogoHeader = ({ toggleDrawer }) => {
         <Logo alt="finndiff logo" delay={150} src={logoBottom} />
       </IconButton>
       <LoginBox />
+    </div>
+  );
+};
+
+const PrimaryText = ({ ad }) => {
+  const days = daysSince(ad.lastChanged);
+
+  let daysContent;
+  if (days === 0) {
+    daysContent = <span>i dag</span>;
+  } else {
+    daysContent = <span>{days} dager</span>;
+  }
+
+  return (
+    <div className="primary-text-content">
+      <span>{ad.finnCode}</span>
+      {daysContent}
     </div>
   );
 };
@@ -43,23 +62,23 @@ const WatchedList = withRouter(({ toggleDrawer, loading, items, noFoundMessage, 
       )}
       {!loading &&
         items &&
-        items
-          .map(ad => (
-            <ListItem
-              className="watched-ad-item"
-              innerDivStyle={listItemStyle}
-              onClick={toggleDrawer}
-              containerElement={<Link to={`/diff/${ad.finnCode}`} />}
-              key={ad.finnCode}
-              primaryText={ad.finnCode}
-              secondaryText={ad.description}
-              title={ad.description}
-              rightIcon={
-                location.pathname.indexOf(ad.finnCode) > 0 ? <i className="material-icons">play_arrow</i> : null
-              }
-            />
-          ))
-          .reverse()}
+        items.map(ad => (
+          <ListItem
+            insetChildren
+            className="watched-ad-item"
+            innerDivStyle={listItemStyle}
+            onClick={toggleDrawer}
+            containerElement={<Link to={`/diff/${ad.finnCode}`} />}
+            key={ad.finnCode}
+            primaryText={<PrimaryText ad={ad} />}
+            secondaryText={ad.description}
+            secondaryTextLines={1}
+            title={ad.description}
+            rightIcon={location.pathname.indexOf(ad.finnCode) > 0 ? <i className="material-icons">play_arrow</i> : null}
+          >
+            <div className="watched-list-metadata">{ad.changes}</div>
+          </ListItem>
+        ))}
       {!loading &&
         items &&
         items.length === 0 && <ListItem disabled>{noFoundMessage || 'Fant ingen annonser'}</ListItem>}
@@ -96,6 +115,7 @@ class Watched extends Component<Props> {
       };
     } else {
       drawerProps = {
+        width: 320,
         docked: true,
       };
     }

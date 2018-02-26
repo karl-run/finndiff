@@ -21,6 +21,34 @@
     i.material-icons {
       top: 4px !important;
     }
+
+    .primary-text-content {
+      display: flex;
+
+      > span:first-of-type {
+        flex: 1 0 auto;
+      }
+
+      > span:last-of-type {
+        color: rgba(0, 0, 0, 0.54);
+        font-size: 0.8rem;
+      }
+    }
+
+    .watched-list-metadata {
+      position: absolute;
+      left: 16px;
+      top: 12px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      line-height: 18px;
+      border-radius: 16px;
+      background-color: #60A65F;
+    }
   }
 }
 
@@ -43,4 +71,5 @@
   }
 }
 
-:local(.logoHeader) {}
+:local(.logoHeader) {
+}
