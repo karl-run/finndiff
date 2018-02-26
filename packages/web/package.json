@@ -1,6 +1,6 @@
 {
   "name": "finndiff-web",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "private": true,
   "author": "Karl J. Overå",
   "license": "MIT",
@@ -39,8 +39,8 @@
     "flow": "flow"
   },
   "devDependencies": {
-    "lint-staged": "^7.0.0",
     "flow-bin": "^0.63.1",
+    "lint-staged": "^7.0.0",
     "npm-run-all": "^4.1.2",
     "react-scripts": "1.1.0",
     "source-map-explorer": "^1.5.0"

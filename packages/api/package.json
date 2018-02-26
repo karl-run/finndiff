@@ -1,6 +1,6 @@
 {
   "name": "finndiff-api",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "private": true,
   "author": "Karl J. Overå",
   "main": "src/index.js",
@@ -34,8 +34,8 @@
     "winston": "^2.4.0"
   },
   "devDependencies": {
-    "lint-staged": "^7.0.0",
     "jest": "^22.1.4",
+    "lint-staged": "^7.0.0",
     "nodemon": "^1.14.11"
   }
 }
