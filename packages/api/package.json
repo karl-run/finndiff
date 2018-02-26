@@ -5,6 +5,7 @@
   "author": "Karl J. Overå",
   "main": "src/index.js",
   "scripts": {
+    "precommit": "lint-staged",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "test": "jest",
@@ -32,6 +33,7 @@
     "winston": "^2.4.0"
   },
   "devDependencies": {
+    "lint-staged": "^7.0.0",
     "jest": "^22.1.4",
     "nodemon": "^1.14.11"
   }

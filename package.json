@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "precommit": "lerna run --concurrency 1 --stream precommit",
     "postinstall": "lerna bootstrap",
     "tag": "lerna publish --skip-npm --yes --cd-version patch",
     "build": "cd packages/web && npm run build",
@@ -25,8 +26,17 @@
     "url": "https://github.com/karl-run/finndiff/issues"
   },
   "homepage": "https://github.com/karl-run/finndiff#readme",
+  "lint-staged": {
+    "packages/**src/**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
   "devDependencies": {
     "lerna": "^2.8.0",
-    "npm-run-all": "^4.1.2"
+    "npm-run-all": "^4.1.2",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.0.0",
+    "prettier": "^1.10.2"
   }
 }

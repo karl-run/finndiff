@@ -25,6 +25,7 @@
     "react-window-size-listener": "^1.0.10"
   },
   "scripts": {
+    "precommit": "lint-staged",
     "analyze": "npm run build && source-map-explorer build/static/js/main.*",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
@@ -38,6 +39,7 @@
     "flow": "flow"
   },
   "devDependencies": {
+    "lint-staged": "^7.0.0",
     "flow-bin": "^0.63.1",
     "npm-run-all": "^4.1.2",
     "react-scripts": "1.1.0",
