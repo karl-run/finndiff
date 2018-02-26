@@ -24,6 +24,7 @@ const scrapeDiffAndStore = (watched, i = 0) => {
         return resolve();
       }
 
+      let diffCount = newestExisting.length;
       let diffWith = createTruth(newestExisting);
 
       removeNullValuesExceptRoot(diffWith);
@@ -35,10 +36,11 @@ const scrapeDiffAndStore = (watched, i = 0) => {
       } else {
         log.info(`${finnCode} has changed, saving the new values.`);
         insertAdData(cleanDiff);
+        diffCount += 1;
       }
 
-      if (watched.changes < newestExisting.length) {
-        updateWatchedMetadata(finnCode, newestExisting.length + 1);
+      if (watched.changes == null || watched.changes < newestExisting.length) {
+        updateWatchedMetadata(finnCode, diffCount);
       }
 
       resolve();
