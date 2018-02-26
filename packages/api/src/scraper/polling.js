@@ -35,6 +35,9 @@ const scrapeDiffAndStore = (watched, i = 0) => {
       } else {
         log.info(`${finnCode} has changed, saving the new values.`);
         insertAdData(cleanDiff);
+      }
+
+      if (watched.changes < newestExisting.length) {
         updateWatchedMetadata(finnCode, newestExisting.length + 1);
       }
 
