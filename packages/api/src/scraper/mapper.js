@@ -1,15 +1,12 @@
-const mongo = require('../mongo/mongo');
 const {
   selectValue,
   selectSection,
   selectAll,
   cleanNumber,
-  cleanCostString,
   mapDescriptiveListToMap,
   pullOutAndMapGenericSections,
 } = require('./mapHelpers');
-
-const util = require('util');
+const { normalizeWeirdExpiredValue } = require('./differ');
 
 const mapSingleToResponse = (window, finnCode) => {
   const infoSection = window.document.querySelector(
@@ -32,6 +29,8 @@ const mapSingleToResponse = (window, finnCode) => {
     omkostninger: selectValue(infoSection, '#omkostninger'),
     matrikkelinformasjon: selectValue(infoSection, '#matrikkelinfo'),
   };
+
+  adContent.adresse = normalizeWeirdExpiredValue(adContent.adresse);
 
   return adContent;
 };

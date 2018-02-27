@@ -1,6 +1,6 @@
 const { getAllWatched, getAdData, insertAdData, updateWatchedMetadata } = require('../mongo/mongo');
 const { singleAd } = require('./scraper');
-const differ = require('./differ');
+const { diffAds, normalizeWeirdExpiredValue } = require('./differ');
 const { createTruth, removeNullValuesExceptRoot } = require('./merger');
 
 const rate = process.env.POLL_RATE || 60 * 60 * 1000; // 1 hour
@@ -27,9 +27,12 @@ const scrapeDiffAndStore = (watched, i = 0) => {
       let diffCount = newestExisting.length;
       let diffWith = createTruth(newestExisting);
 
+      diffWith.addresse = normalizeWeirdExpiredValue(diffWith.address);
+      freshAd.addresse = normalizeWeirdExpiredValue(freshAd.address);
+
       removeNullValuesExceptRoot(diffWith);
 
-      const cleanDiff = differ(freshAd, diffWith);
+      const cleanDiff = diffAds(freshAd, diffWith);
 
       if (!cleanDiff) {
         log.info(`${finnCode} has not changed.`);
@@ -61,7 +64,8 @@ const startPolling = () => {
     if (process.env.NODE_ENV !== 'production') {
       log.warn(`Not in production!! Only polling one ad.`);
 
-      watched.slice(0, 1).forEach(scrapeDiffAndStore);
+      //watched.slice(0, 1).forEach(scrapeDiffAndStore);
+      watched.filter(w => w.finnCode === '100895008').forEach(scrapeDiffAndStore);
     } else {
       log.info(`Will update ${watched.length} different ads.`);
 

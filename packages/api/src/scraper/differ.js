@@ -1,4 +1,4 @@
-var deep = require('deep-diff');
+const deep = require('deep-diff');
 
 const setValue = (object, path, value) => {
   for (let i = 0; i < path.length - 1; i++) {
@@ -11,6 +11,12 @@ const setValue = (object, path, value) => {
     }
   }
   object[path[path.length - 1]] = value;
+};
+
+const normalizeWeirdExpiredValue = address => {
+  if (address === 'Utløpt' || address === 'Inaktiv') return 'Ikke aktiv';
+
+  return address;
 };
 
 const mapDiffToValues = (diff, finnCode) => {
@@ -45,4 +51,4 @@ const diffAds = (freshAd, existing) => {
   return mapDiffToValues(diff, freshAd.finnkode);
 };
 
-module.exports = diffAds;
+module.exports = { diffAds, normalizeWeirdExpiredValue };
