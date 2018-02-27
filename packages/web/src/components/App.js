@@ -27,7 +27,7 @@ class App extends Component<{}, State> {
   state = {
     isMobile: false,
     menuOpen: true,
-    hasUpdate: true,
+    hasUpdate: false,
   };
 
   componentWillMount() {
