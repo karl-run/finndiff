@@ -84,26 +84,32 @@ const ApartmentDetailsSection = ({ adHistory }) => (
   </Card>
 );
 
-const GeneralTextSections = ({ adHistory }) => (
-  <Card>
-    <CardHeader title="Andre detaljer" />
-    <CardText>
-      <Fragment>
-        {Object.keys(adHistory[0].generelleSeksjoner).map(key => {
-          if (!adHistory[0].generelleSeksjoner[key] || typeof adHistory[0].generelleSeksjoner[key] !== 'object')
-            return null;
-          const beskrivelse = adHistory[0].generelleSeksjoner[key].beskrivelse;
-          return (
-            <div id={key} key={beskrivelse}>
-              <h6>{beskrivelse}</h6>
-              <Diff simple={false} type="p" history={pullOutHistory(['generelleSeksjoner', key, 'verdi'], adHistory)} />
-            </div>
-          );
-        })}
-      </Fragment>
-    </CardText>
-  </Card>
-);
+const GeneralTextSections = ({ adHistory }) => {
+  return (
+    <Card>
+      <CardHeader title="Andre detaljer" />
+      <CardText>
+        <Fragment>
+          {Object.keys(adHistory[0].generelleSeksjoner).map(key => {
+            if (!adHistory[0].generelleSeksjoner[key] || typeof adHistory[0].generelleSeksjoner[key] !== 'object')
+              return null;
+            const beskrivelse = adHistory[0].generelleSeksjoner[key].beskrivelse;
+            return (
+              <div id={key} key={beskrivelse}>
+                <h6>{beskrivelse}</h6>
+                <Diff
+                  simple={false}
+                  type="p"
+                  history={pullOutHistory(['generelleSeksjoner', key, 'verdi'], adHistory)}
+                />
+              </div>
+            );
+          })}
+        </Fragment>
+      </CardText>
+    </Card>
+  );
+};
 
 const OtherSection = ({ adHistory }) => {
   const omkostningerHistory = pullOutHistory(['omkostninger'], adHistory);

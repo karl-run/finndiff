@@ -76,6 +76,7 @@ const sections = {
     'ferdigattestellermidlbrukstillatelse',
     'reguleringsforhold',
     'budgiving',
+    'kortomeiendommen',
   ],
   prisDetaljer: ['fellesgjeld', 'totalpris', 'formuesverdi', 'fellesformue', 'felleskost'],
   leilighetsDetaljer: [

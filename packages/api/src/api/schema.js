@@ -76,6 +76,7 @@ const typeDefs = `
     ferdigattestellermidlbrukstillatelse: DetailStringPair
     reguleringsforhold: DetailStringPair
     budgiving: DetailStringPair
+    kortomeiendommen: DetailStringPair
   }
 
   type Ad {
