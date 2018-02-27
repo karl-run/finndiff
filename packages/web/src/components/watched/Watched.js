@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component, Fragment } from 'react';
+import classNames from 'classnames';
 import { Link, withRouter } from 'react-router-dom';
 import Spinner from 'react-nano-spinner';
 import { graphql, compose } from 'react-apollo';
@@ -87,7 +88,9 @@ const WatchedList = withRouter(({ toggleDrawer, loading, items, noFoundMessage, 
             title={ad.description}
             rightIcon={location.pathname.indexOf(ad.finnCode) > 0 ? <i className="material-icons">play_arrow</i> : null}
           >
-            <div className="watched-list-metadata">{ad.changes}</div>
+            <div className={classNames('watched-list-metadata', { 'no-change': ad.changes - 1 === 0 })}>
+              {ad.changes - 1}
+            </div>
           </ListItem>
         ))}
       {!loading &&

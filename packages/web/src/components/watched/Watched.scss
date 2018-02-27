@@ -48,6 +48,10 @@
       line-height: 18px;
       border-radius: 16px;
       background-color: #60A65F;
+
+      &.no-change {
+        background-color: rgba(0, 0, 0, 0.19);
+      }
     }
   }
 }
