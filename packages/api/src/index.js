@@ -24,6 +24,8 @@ mongo
 
     // Set up other services
     polling.init();
+
+    //mongo.deleteAllForAd(['100895008', '109989035'])
   })
   .catch(error => {
     log.error('Unable to connect to mongodb, exiting application.');

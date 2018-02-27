@@ -202,6 +202,22 @@ const findAllAds = () => {
   });
 };
 
+const deleteAllForAd = async finnkodes => {
+  finnkodes.forEach(async finnkode => {
+    let result = await ads.find({ finnkode }).toArray();
+
+    log.warn('Ads before deletion: ' + result.length);
+
+    ads.deleteMany({ finnkode });
+
+    watched.deleteMany({ finnCode: finnkode });
+
+    result = await ads.find({ finnkode }).toArray();
+
+    log.warn('Ads after deletion: ' + result.length);
+  });
+};
+
 module.exports = {
   initialize,
   insertAdData,
@@ -213,4 +229,5 @@ module.exports = {
   watchedExists,
   updateWatchedMetadata,
   likeAd,
+  deleteAllForAd,
 };
