@@ -8,3 +8,10 @@ export const daysSince = isoDate => {
 
   return Math.round(end / (1000 * 60 * 60 * 24));
 };
+
+export const hoursSince = isoDate => {
+  const now = new Date();
+  const end = now - new Date(isoDate);
+
+  return Math.round(end / (1000 * 60 * 60));
+};

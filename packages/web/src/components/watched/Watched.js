@@ -20,7 +20,7 @@ import { watchedQuery, likedQuery } from '../../apollo/queries';
 import logoTop from '../../img/logo_top.svg';
 import logoBottom from '../../img/logo_bottom.svg';
 import style from './Watched.css';
-import { daysSince } from '../../utils/display';
+import { daysSince, hoursSince } from '../../utils/display';
 
 const LogoHeader = ({ toggleDrawer }) => {
   return (
@@ -39,7 +39,18 @@ const PrimaryText = ({ ad }) => {
 
   let daysContent;
   if (days === 0) {
-    daysContent = <span>i dag</span>;
+    const hours = hoursSince(ad.lastChanged);
+    if (hours === 0) {
+      daysContent = <span>nå</span>;
+    } else {
+      daysContent = (
+        <span>
+          {hours} time{hours > 1 ? 'r' : ''}
+        </span>
+      );
+    }
+  } else if (days === 1) {
+    daysContent = <span>i går</span>;
   } else {
     daysContent = <span>{days} dager</span>;
   }
