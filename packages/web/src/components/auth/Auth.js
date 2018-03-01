@@ -36,6 +36,7 @@ export default class Auth {
   }
 
   setSession(authResult) {
+    authResult.expiresIn = 604800; // Quick fix before I implement silent renewal
     let expiresAt = JSON.stringify(authResult.expiresIn * 1000 + new Date().getTime());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
