@@ -14,7 +14,7 @@ const init = app => {
       }),
     );
     app.get('*', (_, res) => {
-      res.sendfile(path.join(buildPath, '/index.html'));
+      res.sendFile(path.join(buildPath, '/index.html'));
     });
   } else {
     log.warn('Env is not production, not serving any static files.');
