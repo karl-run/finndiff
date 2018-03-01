@@ -7,6 +7,10 @@
   }
 
   .watched-ad-item {
+    &.selected {
+      background-color: rgba(0, 0, 0, 0.2) !important;
+    }
+
     .finnCode {
       font-weight: 700;
     }

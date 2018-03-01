@@ -77,7 +77,7 @@ const WatchedList = withRouter(({ toggleDrawer, loading, items, noFoundMessage, 
         items.map(ad => (
           <ListItem
             insetChildren
-            className="watched-ad-item"
+            className={classNames('watched-ad-item', { selected: location.pathname.indexOf(ad.finnCode) > 0 })}
             innerDivStyle={listItemStyle}
             onClick={toggleDrawer}
             containerElement={<Link to={`/diff/${ad.finnCode}`} />}
@@ -86,7 +86,6 @@ const WatchedList = withRouter(({ toggleDrawer, loading, items, noFoundMessage, 
             secondaryText={ad.description}
             secondaryTextLines={1}
             title={ad.description}
-            rightIcon={location.pathname.indexOf(ad.finnCode) > 0 ? <i className="material-icons">play_arrow</i> : null}
           >
             <div className={classNames('watched-list-metadata', { 'no-change': ad.changes - 1 === 0 })}>
               {ad.changes - 1}
