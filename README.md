@@ -1,6 +1,6 @@
 # finndiff [![Build Status](https://travis-ci.org/karl-run/finndiff.svg?branch=master)](https://travis-ci.org/karl-run/finndiff)
 
-<img src="packages/web/src/img/logo.png" alt="Finndiff logo" width="100px" height="100px">
+<img src="finndiff-web/src/img/logo.png" alt="Finndiff logo" width="100px" height="100px">
 
 Unofficial, not affiliated with Finn.no, Schibsted or Polaris Media.
 
