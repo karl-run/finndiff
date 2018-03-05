@@ -29,3 +29,5 @@
 # End of https://www.gitignore.io/api/webstorm
 
 node_modules
+yarn-error.log
+lerna-debug.log

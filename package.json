@@ -1,20 +1,18 @@
 {
   "name": "finndiff",
   "version": "0.1.5",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "finndiff-web",
+    "finndiff-api"
+  ],
   "scripts": {
     "precommit": "lerna run --concurrency 1 --stream precommit",
-    "postinstall": "lerna bootstrap",
     "tag": "lerna publish --skip-npm --yes --cd-version patch",
-    "build": "cd packages/web && npm run build",
-    "start": "cd packages/api && NODE_ENV=production npm run start",
-    "dev-web": "cd packages/web && npm run dev",
-    "dev-api": "cd packages/api && npm run dev",
-    "dev": "run-p dev-api dev-web",
-    "test-web": "cd packages/web && npm run build",
-    "test-api": "cd packages/api && npm run test",
-    "test": "run-p -l --aggregate-output test-web test-api"
+    "build": "lerna run --scope finndiff-web build",
+    "start": "lerna run --scope finndiff-api start --stream",
+    "dev": "lerna run dev --stream",
+    "test": "lerna run --parallel test:ci"
   },
   "repository": {
     "type": "git",
@@ -33,10 +31,9 @@
     ]
   },
   "devDependencies": {
-    "lerna": "^2.8.0",
-    "npm-run-all": "^4.1.2",
     "husky": "^0.14.3",
+    "lerna": "^2.9.0",
     "lint-staged": "^7.0.0",
-    "prettier": "^1.10.2"
+    "prettier": "^1.11.1"
   }
 }
