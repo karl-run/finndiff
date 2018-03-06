@@ -3,7 +3,7 @@ const path = require('path');
 
 const init = app => {
   if (process.env.NODE_ENV === 'production') {
-    const buildPath = path.join(__dirname + '/../../../web/build');
+    const buildPath = path.join(__dirname + '/../../../finndiff-web/build');
 
     log.info('Production, serving static files from ' + buildPath);
 

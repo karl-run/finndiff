@@ -9,6 +9,7 @@
   "scripts": {
     "precommit": "lerna run --concurrency 1 --stream precommit",
     "tag": "lerna publish --skip-npm --yes --cd-version patch",
+    "now-build": "lerna bootstrap && npm run build",
     "build": "lerna run --scope finndiff-web build",
     "start": "lerna run --scope finndiff-api start --stream",
     "dev": "lerna run dev --stream",
