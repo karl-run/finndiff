@@ -26,10 +26,13 @@ import { daysSince, hoursSince } from '../../utils/display';
 const LogoHeader = ({ toggleDrawer }) => {
   return (
     <div className={style.logoHeader}>
-      <IconButton onClick={toggleDrawer} containerElement={<Link to={`/`} />} className={style.logoButton}>
-        <Logo alt="finndiff logo" delay={10} src={logoTop} />
-        <Logo alt="finndiff logo" delay={150} src={logoBottom} />
-      </IconButton>
+      <div>
+        <IconButton onClick={toggleDrawer} containerElement={<Link to={`/`} />} className={style.logoButton}>
+          <Logo alt="finndiff logo" delay={10} src={logoTop} />
+          <Logo alt="finndiff logo" delay={150} src={logoBottom} />
+        </IconButton>
+        <Version />
+      </div>
       <LoginBox />
     </div>
   );
@@ -76,32 +79,27 @@ const WatchedList = withRouter(({ toggleDrawer, loading, items, noFoundMessage, 
       )}
       {!loading &&
         items &&
-        items.map(ad => {
-          console.log(ad);
-          return (
-            <ListItem
-              insetChildren
-              className={classNames('watched-ad-item', {
-                sold: ad.sold,
-                selected: location.pathname.indexOf(ad.finnCode) > 0,
-              })}
-              innerDivStyle={listItemStyle}
-              onClick={toggleDrawer}
-              containerElement={<Link to={`/diff/${ad.finnCode}`} />}
-              key={ad.finnCode}
-              primaryText={<PrimaryText ad={ad} />}
-              secondaryText={ad.description}
-              secondaryTextLines={1}
-              title={ad.description}
-            >
-              <div
-                className={classNames('watched-list-metadata', { sold: ad.sold, 'no-change': ad.changes - 1 === 0 })}
-              >
-                {ad.changes - 1}
-              </div>
-            </ListItem>
-          );
-        })}
+        items.map(ad => (
+          <ListItem
+            insetChildren
+            className={classNames('watched-ad-item', {
+              sold: ad.sold,
+              selected: location.pathname.indexOf(ad.finnCode) > 0,
+            })}
+            innerDivStyle={listItemStyle}
+            onClick={toggleDrawer}
+            containerElement={<Link to={`/diff/${ad.finnCode}`} />}
+            key={ad.finnCode}
+            primaryText={<PrimaryText ad={ad} />}
+            secondaryText={ad.description}
+            secondaryTextLines={1}
+            title={ad.description}
+          >
+            <div className={classNames('watched-list-metadata', { sold: ad.sold, 'no-change': ad.changes - 1 === 0 })}>
+              {ad.changes - 1}
+            </div>
+          </ListItem>
+        ))}
       {!loading &&
         items &&
         items.length === 0 && <ListItem disabled>{noFoundMessage || 'Fant ingen annonser'}</ListItem>}
@@ -162,7 +160,6 @@ class Watched extends Component<Props> {
           {!loggedIn && <ListItem disabled>{'Logg inn for å se dine annonser'}</ListItem>}
           <Subheader>Alle overvåkte annonser</Subheader>
           <WatchedList toggleDrawer={toggleDrawer} loading={watched.loading} items={watched.watched} />
-          <Version />
         </Drawer>
       </Fragment>
     );

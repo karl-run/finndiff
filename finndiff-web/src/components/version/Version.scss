@@ -2,7 +2,9 @@
   background: linear-gradient(rgba(255, 255, 255, 0), white);
   color: rgba(0, 0, 0, 0.54);
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  margin-top: 4px;
+  align-items: flex-end;
+  padding: 4px;
+  margin-right: 16px;
 }

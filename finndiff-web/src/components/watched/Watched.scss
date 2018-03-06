@@ -96,4 +96,11 @@
 }
 
 :local(.logoHeader) {
+  > div:first-of-type {
+    display: flex;
+
+    > div {
+      width: 100%;
+    }
+  }
 }
