@@ -22,6 +22,7 @@ export const watchedQuery = gql`
       description
       lastChanged
       changes
+      sold
     }
   }
 `;
@@ -33,6 +34,7 @@ export const likedQuery = gql`
       description
       lastChanged
       changes
+      sold
     }
   }
 `;

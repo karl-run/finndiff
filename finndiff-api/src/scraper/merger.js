@@ -1,5 +1,7 @@
 const merge = require('deepmerge');
 
+const { normalizeWeirdExpiredValue } = require('./differ');
+
 const createTruth = newestExisting => {
   let diffWith;
   if (newestExisting.length >= 2) {
@@ -15,6 +17,10 @@ const createTruth = newestExisting => {
   } else {
     diffWith = newestExisting[0];
   }
+
+  diffWith.adresse = normalizeWeirdExpiredValue(diffWith.adresse);
+
+  removeNullValuesExceptRoot(diffWith);
 
   return diffWith;
 };

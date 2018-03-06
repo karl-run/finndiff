@@ -96,6 +96,7 @@ const typeDefs = `
     finnCode: String!
     description: String!
     lastChanged: String
+    sold: Boolean
     changes: Int
   }
   

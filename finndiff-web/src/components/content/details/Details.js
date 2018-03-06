@@ -30,10 +30,8 @@ const IntroSection = ({ adHistory }) => {
         title={<Diff simple={false} type="h3" history={pullOutHistory(['tittel'], adHistory)} />}
         subtitle={`Sist endret: ${formatter.format(new Date(adHistory[adHistory.length - 1].pulled))}`}
       />
-      <CardText>
-        <Diff simple type="div" history={pullOutHistory(['adresse'], adHistory)}>
-          Adresse/status:
-        </Diff>
+      <CardText className="topkek">
+        <Diff simple type="div" history={pullOutHistory(['adresse'], adHistory)} />
       </CardText>
     </Card>
   );

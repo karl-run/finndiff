@@ -10,7 +10,6 @@
     &.selected {
       background-color: rgba(0, 0, 0, 0.2) !important;
     }
-
     .finnCode {
       font-weight: 700;
     }
@@ -24,6 +23,15 @@
 
     i.material-icons {
       top: 4px !important;
+    }
+
+    &.sold {
+      .primary-text-content {
+        &:before {
+          content: '✖';
+          color: rgba(139, 0, 0, 0.5);
+        }
+      }
     }
 
     .primary-text-content {
@@ -55,6 +63,14 @@
 
       &.no-change {
         background-color: rgba(0, 0, 0, 0.19);
+      }
+
+      &.sold {
+        background-color: rgba(139, 0, 0, 0.5);
+      }
+
+      &.sold.no-change {
+        background-color: rgba(139, 0, 0, 0.2);
       }
     }
   }

@@ -13,10 +13,10 @@ const setValue = (object, path, value) => {
   object[path[path.length - 1]] = value;
 };
 
-const normalizeWeirdExpiredValue = address => {
-  if (address === 'Utløpt' || address === 'Inaktiv') return 'Ikke aktiv';
+const normalizeWeirdExpiredValue = adresse => {
+  if (adresse === 'Utløpt' || adresse === 'Inaktiv') return 'Ikke aktiv';
 
-  return address;
+  return adresse;
 };
 
 const mapDiffToValues = (diff, finnCode) => {

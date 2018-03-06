@@ -62,7 +62,7 @@ const addWatchedAd = (finnCode, originalDescription) => {
   });
 };
 
-const updateWatchedMetadata = async (finnCode, changeCount) => {
+const updateWatchedMetadata = async (finnCode, changeCount, status, nowIso = new Date().toISOString()) => {
   if (!finnCode || !changeCount) {
     return Promise.reject('Both finnCode and changeCount is required');
   }
@@ -73,10 +73,12 @@ const updateWatchedMetadata = async (finnCode, changeCount) => {
     throw Error('Unable to find watched ad with code: ' + finnCode);
   }
 
-  log.debug(`Updating ${finnCode} from ${exists.changes} to ${changeCount} changes`);
+  log.debug(`Updating ${finnCode} from ${exists.changes} to ${changeCount} changes with sold == ${status === 'SOLGT'}`);
 
-  const nowIso = new Date().toISOString();
-  const updated = await watched.update({ finnCode }, { ...exists, changes: changeCount, lastUpdated: nowIso });
+  const updated = await watched.update(
+    { finnCode },
+    { ...exists, changes: changeCount, lastUpdated: nowIso, sold: status === 'SOLGT' },
+  );
 
   return updated.result.ok;
 };
@@ -104,6 +106,7 @@ const mapToWatchedItem = items =>
     description: item.description,
     changes: item.changes,
     lastChanged: item.lastUpdated,
+    sold: item.sold,
   }));
 
 const getAllWatched = async sortBy => {

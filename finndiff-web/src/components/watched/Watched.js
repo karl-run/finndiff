@@ -52,6 +52,8 @@ const PrimaryText = ({ ad }) => {
     }
   } else if (days === 1) {
     daysContent = <span>i går</span>;
+  } else if (days > 31) {
+    daysContent = <span>Lenge siden</span>;
   } else {
     daysContent = <span>{days} dager</span>;
   }
@@ -74,24 +76,32 @@ const WatchedList = withRouter(({ toggleDrawer, loading, items, noFoundMessage, 
       )}
       {!loading &&
         items &&
-        items.map(ad => (
-          <ListItem
-            insetChildren
-            className={classNames('watched-ad-item', { selected: location.pathname.indexOf(ad.finnCode) > 0 })}
-            innerDivStyle={listItemStyle}
-            onClick={toggleDrawer}
-            containerElement={<Link to={`/diff/${ad.finnCode}`} />}
-            key={ad.finnCode}
-            primaryText={<PrimaryText ad={ad} />}
-            secondaryText={ad.description}
-            secondaryTextLines={1}
-            title={ad.description}
-          >
-            <div className={classNames('watched-list-metadata', { 'no-change': ad.changes - 1 === 0 })}>
-              {ad.changes - 1}
-            </div>
-          </ListItem>
-        ))}
+        items.map(ad => {
+          console.log(ad);
+          return (
+            <ListItem
+              insetChildren
+              className={classNames('watched-ad-item', {
+                sold: ad.sold,
+                selected: location.pathname.indexOf(ad.finnCode) > 0,
+              })}
+              innerDivStyle={listItemStyle}
+              onClick={toggleDrawer}
+              containerElement={<Link to={`/diff/${ad.finnCode}`} />}
+              key={ad.finnCode}
+              primaryText={<PrimaryText ad={ad} />}
+              secondaryText={ad.description}
+              secondaryTextLines={1}
+              title={ad.description}
+            >
+              <div
+                className={classNames('watched-list-metadata', { sold: ad.sold, 'no-change': ad.changes - 1 === 0 })}
+              >
+                {ad.changes - 1}
+              </div>
+            </ListItem>
+          );
+        })}
       {!loading &&
         items &&
         items.length === 0 && <ListItem disabled>{noFoundMessage || 'Fant ingen annonser'}</ListItem>}

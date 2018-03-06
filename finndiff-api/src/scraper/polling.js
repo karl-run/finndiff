@@ -19,7 +19,7 @@ const scrapeDiffAndStore = (watched, i = 0) => {
 
       if (!newestExisting.length) {
         log.info(`${finnCode} does not exist, inserting into db.`);
-        await updateWatchedMetadata(finnCode, 1);
+        await updateWatchedMetadata(finnCode, 1, freshAd.adresse);
         insertAdData(freshAd);
         return resolve();
       }
@@ -27,10 +27,7 @@ const scrapeDiffAndStore = (watched, i = 0) => {
       let diffCount = newestExisting.length;
       let diffWith = createTruth(newestExisting);
 
-      diffWith.addresse = normalizeWeirdExpiredValue(diffWith.address);
-      freshAd.addresse = normalizeWeirdExpiredValue(freshAd.address);
-
-      removeNullValuesExceptRoot(diffWith);
+      freshAd.adresse = normalizeWeirdExpiredValue(freshAd.adresse);
 
       const cleanDiff = diffAds(freshAd, diffWith);
 
@@ -43,11 +40,32 @@ const scrapeDiffAndStore = (watched, i = 0) => {
       }
 
       if (watched.changes == null || watched.changes < newestExisting.length) {
-        updateWatchedMetadata(finnCode, diffCount);
+        updateWatchedMetadata(finnCode, diffCount, freshAd.adresse);
       }
 
       resolve();
     }, i * feedRate + Math.random() * (feedRate / 2));
+  });
+};
+
+const updateMetadata = async () => {
+  const watched = await getAllWatched();
+  log.info(`Updating metadata of ${watched.length} ads`);
+
+  watched.slice(2).forEach(async ad => {
+    const adData = await getAdData(ad.finnCode);
+    const truthObject = createTruth(adData);
+
+    if (ad.changes !== adData.length || ad.sold !== (truthObject.adresse === 'SOLGT')) {
+      log.info(
+        `${ad.finnCode} has changed, from ${ad.changes} to ${adData.length} changes or sold '${
+          ad.sold
+        }' to '${truthObject.adresse === 'SOLGT'}'`,
+      );
+      updateWatchedMetadata(ad.finnCode, adData.length, truthObject.adresse, truthObject.pulled);
+    } else {
+      log.debug(`${ad.finnCode} is has no changed metadata`);
+    }
   });
 };
 
@@ -78,4 +96,4 @@ const startPolling = () => {
   setInterval(interval, rate);
 };
 
-module.exports = { init: startPolling, scrapeDiffAndStore };
+module.exports = { init: startPolling, scrapeDiffAndStore, updateMetadata };
