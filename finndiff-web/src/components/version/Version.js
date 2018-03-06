@@ -2,13 +2,11 @@
 
 import React from 'react';
 import { graphql } from 'react-apollo';
-import IconButton from 'material-ui/IconButton';
 
 import { versionQuery } from '../../apollo/queries';
 import { version } from '../../../package.json';
 
 import style from './Version.css';
-import { unregister } from '../../registerServiceWorker';
 
 type Props = {
   data: {
@@ -19,13 +17,6 @@ type Props = {
 class Version extends React.PureComponent<Props> {
   render() {
     const { data } = this.props;
-
-    if (!data.loading) {
-      if (process.env.NODE_ENV === 'production' && version !== data.version) {
-        unregister();
-        window.location.reload();
-      }
-    }
 
     return (
       <div className={style.version}>
