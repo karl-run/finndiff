@@ -20,7 +20,7 @@ class AuthHandler extends Component<{}, {}> {
       <div className={style.authBox}>
         {!isAuthenticated() && (
           <Fragment>
-            <p>Logg inn for å kunne lage din egen liste av annonser.</p>
+            <p>Logg inn for din egen liste.</p>
             <RaisedButton
               label="Logg inn"
               secondary={true}
