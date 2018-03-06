@@ -27,7 +27,10 @@ const scrapeDiffAndStore = (watched, i = 0) => {
       let diffCount = newestExisting.length;
       let diffWith = createTruth(newestExisting);
 
+      diffWith.adresse = normalizeWeirdExpiredValue(diffWith.adresse);
       freshAd.adresse = normalizeWeirdExpiredValue(freshAd.adresse);
+
+      removeNullValuesExceptRoot(diffWith);
 
       const cleanDiff = diffAds(freshAd, diffWith);
 
@@ -55,6 +58,9 @@ const updateMetadata = async () => {
   watched.slice(2).forEach(async ad => {
     const adData = await getAdData(ad.finnCode);
     const truthObject = createTruth(adData);
+
+    truthObject.adresse = normalizeWeirdExpiredValue(truthObject.adresse);
+    removeNullValuesExceptRoot(truthObject);
 
     if (ad.changes !== adData.length || ad.sold !== (truthObject.adresse === 'SOLGT')) {
       log.info(
