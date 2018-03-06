@@ -1,6 +1,6 @@
 {
   "name": "finndiff-api",
-  "version": "0.2.8",
+  "version": "0.2.10",
   "private": true,
   "author": "Karl J. Overå",
   "main": "src/index.js",
